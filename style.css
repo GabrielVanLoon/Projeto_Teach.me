@@ -1,0 +1,152 @@
+/* Imports */
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Roboto:wght@300;400;700&display=swap');
+
+    /* font-family: 'Love Ya Like A Sister', cursive; */
+    /* font-family: 'Roboto', sans-serif; */
+
+/* Configurações Gerais */
+    body {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif; 
+    }
+
+    #body-wrapper {
+        display: flex;
+        flex-flow: column wrap;
+    }
+
+    img { max-width: 100%; }
+
+/* Helpers */
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+        background-color: #661FFF;
+        color: #eee;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: background-color .3s;
+    }
+    .btn:hover {
+        cursor: pointer;
+    }
+
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+
+
+/* Header */
+
+    #top-bar {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10pt 40pt;
+        background-color: #efefef;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        z-index: 3;
+    }
+
+    #top-bar h2 { 
+        margin: 0;
+        font-family: 'Love Ya Like A Sister', cursive;
+        font-size: 26pt;
+    }
+
+    #top-bar .sign-in .btn {
+       margin-right: 10pt;
+    }
+
+/* Footer */
+    #home-footer {
+        display: flex;
+        flex-flow: column wrap;
+        
+    }
+
+    #home-footer .content { 
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        padding: 40pt;
+        background-color: #4696af;
+    }
+
+    #home-footer .copyright {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 10pt;
+        background-color: #174e60;
+    }
+
+/* Pagina - Home page */
+
+    main.page-home {
+        display: flex;
+        flex-flow: column wrap;
+    }
+
+    /* Sessão Call to Action */
+        main.page-home #cta { 
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 40pt;
+            background-color: #37c2ce;
+        }
+
+        main.page-home #cta .cta-text {
+            width: 50%;
+        }
+
+        main.page-home #cta img {
+            max-width: 45%;
+        }
+
+    /* Sessão Vantagens */
+        main.page-home #vantagens { 
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            padding: 20pt 20pt;
+        }
+
+        main.page-home #vantagens article {
+            margin: 20pt;
+            max-width: 25%;
+            text-align: center;
+        }
+
+        main.page-home #vantagens img{
+            display: block;
+            margin: 0 auto;
+            max-width: 50%;
+        }
+
+    /* Sessão Faixa Call to Action */
+        main.page-home #faixa-cta { 
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30pt 40pt;
+            background-color: darkblue;
+        }
+
+        main.page-home #faixa-cta h4{ 
+            margin: 0;
+        }

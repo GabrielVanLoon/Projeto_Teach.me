@@ -4,6 +4,12 @@
     /* font-family: 'Love Ya Like A Sister', cursive; */
     /* font-family: 'Roboto', sans-serif; */
 
+/* Pontos de Quebra definidos */
+    @media screen and (max-width: 1280px){ }
+    @media screen and (max-width: 1024px){ }
+    @media screen and (max-width: 768px){ }
+    @media screen and (max-width: 576px){ } 
+
 /* Configurações Gerais */
     body {
         display: block;
@@ -69,6 +75,12 @@
        margin-right: 10px;
     }
 
+    @media screen and (max-width: 576px){ 
+        #top-bar .sign-in small {
+            display: none;
+        }
+    } 
+
 /* Footer */
     #home-footer {
         display: flex;
@@ -117,6 +129,27 @@
             max-width: 45%;
         }
 
+        @media screen and (max-width: 768px){ 
+            main.page-home #cta {
+                position: relative;
+            }
+            
+            main.page-home #cta .cta-text {
+                width: 100%;
+                z-index: 2;
+            }
+
+            main.page-home #cta img { 
+                position: absolute;
+                opacity: 0.1;
+                z-index: 1;
+                max-width: 100%;
+                max-height: 100%;
+                top: 0; right: 0%; bottom: 0;
+            }
+        }
+        
+
     /* Sessão Vantagens */
         main.page-home #vantagens { 
             display: flex;
@@ -128,6 +161,7 @@
         main.page-home #vantagens article {
             margin: 20px;
             max-width: 25%;
+            min-width: 180px;
             text-align: center;
         }
 
@@ -136,6 +170,37 @@
             margin: 0 auto;
             max-width: 50%;
         }
+
+        @media screen and (max-width: 576px){ 
+            main.page-home #vantagens { 
+                flex-flow: column nowrap;
+            }
+
+            main.page-home #vantagens article {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                max-width: 100%;
+                text-align: left;
+            }
+
+            main.page-home #vantagens article:nth-child(even) {
+                flex-flow: row-reverse nowrap;
+                text-align: right;
+            }
+
+            main.page-home #vantagens article img {
+                max-width: 80px;
+            }
+
+            main.page-home #vantagens article:nth-child(odd) img{
+                margin-right: 40px;
+            }
+
+            main.page-home #vantagens article:nth-child(even) img{
+                margin-left: 40px;
+            }
+        } 
 
     /* Sessão Faixa Call to Action */
         main.page-home #faixa-cta { 
@@ -147,6 +212,17 @@
             background-color: darkblue;
         }
 
-        main.page-home #faixa-cta h4{ 
+        main.page-home #faixa-cta h4 { 
             margin: 0;
+            color: #ccc;
+        }
+
+        @media screen and (max-width: 768px){ 
+            main.page-home #faixa-cta{
+                flex-flow: column;
+            }
+
+            main.page-home #faixa-cta h4 {
+                margin-bottom: 10px;
+            }
         }

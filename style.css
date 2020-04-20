@@ -36,7 +36,7 @@
         border: none;
         border-radius: 2px;
         box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-        background-color: #661FFF;
+        background-color: #0D47A1;
         color: #eee;
         text-decoration: none;
         text-transform: uppercase;
@@ -45,6 +45,10 @@
     }
     .btn:hover {
         cursor: pointer;
+    }
+
+    .btn.btn-secondary {
+        background-color: #FF9100;
     }
 
     .text-right { text-align: right; }
@@ -118,15 +122,25 @@
             align-items: center;
             justify-content: space-around;
             padding: 0 40px;
-            background-color: #37c2ce;
+            background-color: #BBDEFB;
         }
 
         main.page-home #cta .cta-text {
-            width: 50%;
+            width: 30%;
+        }
+
+        main.page-home #cta .cta-text h1{
+            font-size: 30px;
         }
 
         main.page-home #cta img {
             max-width: 45%;
+        }
+
+        @media screen and (max-width: 1280px){
+            main.page-home #cta .cta-text {
+                width: 50%;
+            }
         }
 
         @media screen and (max-width: 768px){ 

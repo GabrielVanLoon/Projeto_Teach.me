@@ -97,7 +97,8 @@
         flex-flow: row nowrap;
         justify-content: space-around;
         padding: 40px;
-        background-color: #4696af;
+        background-color: #1565c0;
+        border-top: solid 5px #5e92f3;
     }
 
     #home-footer .copyright {
@@ -105,7 +106,8 @@
         justify-content: center;
         margin: 0;
         padding: 20px;
-        background-color: #174e60;
+        background-color: #003c8f;
+        color: white;
     }
 
 /* Pagina - Home page */
@@ -223,7 +225,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 30px 40px;
-            background-color: darkblue;
+            background-color: #37474f;
         }
 
         main.page-home #faixa-cta h4 { 

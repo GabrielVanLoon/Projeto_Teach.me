@@ -29,6 +29,15 @@
 
     img { max-width: 100%; }
 
+    a { 
+        color: #FF9100; 
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
 /* Helpers */
     .btn {
         display: inline-block;
@@ -98,7 +107,7 @@
         justify-content: space-around;
         padding: 40px;
         background-color: #1565c0;
-        border-top: solid 5px #5e92f3;
+        
     }
 
     #home-footer .copyright {
@@ -108,137 +117,6 @@
         padding: 20px;
         background-color: #003c8f;
         color: white;
+        text-align: center;
     }
 
-/* Pagina - Home page */
-
-    main.page-home {
-        display: flex;
-        flex-flow: column wrap;
-    }
-
-    /* Sessão Call to Action */
-        main.page-home #cta { 
-            display: flex;
-            flex-flow: row nowrap;
-            align-items: center;
-            justify-content: space-around;
-            padding: 0 40px;
-            background-color: #BBDEFB;
-        }
-
-        main.page-home #cta .cta-text {
-            width: 30%;
-        }
-
-        main.page-home #cta .cta-text h1{
-            font-size: 30px;
-        }
-
-        main.page-home #cta img {
-            max-width: 45%;
-        }
-
-        @media screen and (max-width: 1280px){
-            main.page-home #cta .cta-text {
-                width: 50%;
-            }
-        }
-
-        @media screen and (max-width: 768px){ 
-            main.page-home #cta {
-                position: relative;
-            }
-            
-            main.page-home #cta .cta-text {
-                width: 100%;
-                z-index: 2;
-            }
-
-            main.page-home #cta img { 
-                position: absolute;
-                opacity: 0.1;
-                z-index: 1;
-                max-width: 100%;
-                max-height: 100%;
-                top: 0; right: 0%; bottom: 0;
-            }
-        }
-        
-
-    /* Sessão Vantagens */
-        main.page-home #vantagens { 
-            display: flex;
-            flex-flow: row wrap;
-            justify-content: center;
-            padding: 20px 20px;
-        }
-
-        main.page-home #vantagens article {
-            margin: 20px;
-            max-width: 25%;
-            min-width: 180px;
-            text-align: center;
-        }
-
-        main.page-home #vantagens img{
-            display: block;
-            margin: 0 auto;
-            max-width: 50%;
-        }
-
-        @media screen and (max-width: 576px){ 
-            main.page-home #vantagens { 
-                flex-flow: column nowrap;
-            }
-
-            main.page-home #vantagens article {
-                display: flex;
-                flex-flow: row nowrap;
-                justify-content: center;
-                max-width: 100%;
-                text-align: left;
-            }
-
-            main.page-home #vantagens article:nth-child(even) {
-                flex-flow: row-reverse nowrap;
-                text-align: right;
-            }
-
-            main.page-home #vantagens article img {
-                max-width: 80px;
-            }
-
-            main.page-home #vantagens article:nth-child(odd) img{
-                margin-right: 40px;
-            }
-
-            main.page-home #vantagens article:nth-child(even) img{
-                margin-left: 40px;
-            }
-        } 
-
-    /* Sessão Faixa Call to Action */
-        main.page-home #faixa-cta { 
-            display: flex;
-            flex-flow: row nowrap;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 40px;
-            background-color: #37474f;
-        }
-
-        main.page-home #faixa-cta h4 { 
-            margin: 0;
-            color: #ccc;
-        }
-
-        @media screen and (max-width: 768px){ 
-            main.page-home #faixa-cta{
-                flex-flow: column;
-            }
-
-            main.page-home #faixa-cta h4 {
-                margin-bottom: 10px;
-            }
-        }

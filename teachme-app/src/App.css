@@ -1,3 +1,7 @@
+/* References */
+    /* PX to EM Converter: http://pxtoem.com/ */
+    /* PX to PT Converter: http://www.endmemo.com/sconvert/pixelpoint.php */
+
 /* Imports */
     @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Roboto:wght@300;400;700&display=swap');
     /* font-family: 'Love Ya Like A Sister', cursive; */
@@ -16,21 +20,20 @@
     
 /* General Rules */
     * {
-        box-sizing: border-box;
+        box-sizing:  border-box;
         font-family: 'Roboto', sans-serif; 
     }
 
     body {
-        display: block;
-        margin: 0;
-        padding: 0;
+        display: block; margin: 0; padding: 0;
+        font-size: 12pt;
     }
 
     img { max-width: 100%; }
 
     a { 
-        color: #FF9100; 
         text-decoration: none;
+        color: #FF9100; 
     }
 
     a:hover {
@@ -43,13 +46,14 @@
     .text-center { text-align: center; }
 
     .btn {
-        display: inline-block; padding: 12px 24px;
+        display: inline-block; padding: 0.750em 1.500em;
         border: none; border-radius: 2px; 
         box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
         font-weight: bold;  text-decoration: none; text-transform: uppercase;
         transition: background-color .3s;
+        white-space: nowrap;
         background-color: #0D47A1;
-        color: #eee;
+        color: #fff;
     }
     .btn:hover {
         cursor: pointer;

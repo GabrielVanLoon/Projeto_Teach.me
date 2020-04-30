@@ -1,0 +1,24 @@
+#rodape {
+    display: flex;
+    flex-flow: column wrap;
+    
+}
+
+#rodape .content { 
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    padding: 40px;
+    background-color: #1565c0;
+    
+}
+
+#rodape .copyright {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #003c8f;
+    color: white;
+    text-align: center;
+}

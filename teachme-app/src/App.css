@@ -1,0 +1,67 @@
+/* Imports */
+    @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Roboto:wght@300;400;700&display=swap');
+    /* font-family: 'Love Ya Like A Sister', cursive; */
+    /* font-family: 'Roboto', sans-serif; */
+
+/* Breakpoints */
+    /* @media screen and (max-width: 1280px){ } */
+    /* @media screen and (max-width: 1024px){ } */
+    /* @media screen and (max-width: 768px){ } */
+    /* @media screen and (max-width: 576px){ }  */
+
+/* Colors */
+    .primary-color { color: #0D47A1; }
+    .secundary-color { color: #FF9100; }
+
+    
+/* General Rules */
+    * {
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif; 
+    }
+
+    body {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    img { max-width: 100%; }
+
+    a { 
+        color: #FF9100; 
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Helpers Classes */
+    .text-right  { text-align: right; }
+    .text-left   { text-align: left; }
+    .text-center { text-align: center; }
+
+    .btn {
+        display: inline-block; padding: 12px 24px;
+        border: none; border-radius: 2px; 
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+        font-weight: bold;  text-decoration: none; text-transform: uppercase;
+        transition: background-color .3s;
+        background-color: #0D47A1;
+        color: #eee;
+    }
+    .btn:hover {
+        cursor: pointer;
+    }
+
+    .btn.btn-secondary {
+        background-color: #FF9100;
+    }
+
+/* Body Wrapper */
+    #body-wrapper {
+        display: flex;
+        flex-flow: column wrap;
+    }
+

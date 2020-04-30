@@ -1,0 +1,26 @@
+#header {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    background-color: #efefef;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    z-index: 3;
+}
+
+#header h2 { 
+    margin: 0;
+    font-family: 'Love Ya Like A Sister', cursive;
+    font-size: 26px;
+}
+
+#header .sign-in .btn {
+   margin-right: 10px;
+}
+
+@media screen and (max-width: 576px){ 
+    #header .sign-in small {
+        display: none;
+    }
+} 

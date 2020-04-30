@@ -1,0 +1,178 @@
+/* Pagina - Home page */
+
+main.page-home {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+/* Sessão Call to Action */
+    main.page-home #cta { 
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-around;
+        min-height: 80vh;
+        padding: 0 40px;
+        background-color: #BBDEFB;
+    }
+
+    main.page-home #cta .cta-text {
+        padding: 40px 0;
+        max-width: 45%;
+    }
+
+    main.page-home #cta .cta-text h1 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 42px;
+    }
+
+    main.page-home #cta .cta-text p {
+        font-size: 18px;
+    }
+
+    main.page-home #cta .cta-text .btn {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+
+    main.page-home #cta img {
+        max-width: 45%;
+    }
+
+    @media screen and (max-width: 1280px){
+        main.page-home #cta .cta-text {
+            max-width: 50%;
+        }
+    }
+
+    @media screen and (max-width: 1024px){
+        main.page-home #cta { 
+            min-height: 60vh;
+        }
+
+        main.page-home #cta .cta-text {
+            max-width: 55%;
+        }
+
+        main.page-home #cta .cta-text h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+    
+        main.page-home #cta .cta-text p {
+            font-size: 16px;
+        }
+    
+        main.page-home #cta .cta-text .btn {
+            font-size: 16px;
+        }
+    }
+
+    @media screen and (max-width: 768px){ 
+        main.page-home #cta {
+            position: relative;
+        }
+        
+        main.page-home #cta .cta-text {
+            max-width: 100%;
+            z-index: 2;
+        }
+
+        main.page-home #cta img { 
+            position: absolute;
+            opacity: 0.1;
+            z-index: 1;
+            max-width: 100%;
+            max-height: 100%;
+            top: 0; right: 0%; bottom: 0;
+        }
+    }
+    
+
+/* Sessão Vantagens */
+    main.page-home #vantagens { 
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        padding: 20px 20px;
+    }
+
+    main.page-home #vantagens article {
+        margin: 20px;
+        max-width: 25%;
+        min-width: 180px;
+        text-align: center;
+    }
+
+    main.page-home #vantagens img {
+        display: block;
+        margin: 0 auto;
+        max-width: 50%;
+        max-height: 120px;
+    }
+
+    @media screen and (max-width: 576px){ 
+        main.page-home #vantagens { 
+            flex-flow: column nowrap;
+        }
+
+        main.page-home #vantagens article {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            max-width: 100%;
+            text-align: left;
+        }
+
+        main.page-home #vantagens article:nth-child(even) {
+            flex-flow: row-reverse nowrap;
+            text-align: right;
+        }
+
+        main.page-home #vantagens article img {
+            max-width: 80px;
+        }
+
+        main.page-home #vantagens article:nth-child(odd) img{
+            margin-right: 40px;
+        }
+
+        main.page-home #vantagens article:nth-child(even) img{
+            margin-left: 40px;
+        }
+    } 
+
+/* Sessão Faixa Call to Action */
+    main.page-home #faixa-cta { 
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 40px;
+        background-color: #1565c0;
+        border-top: solid 5px #5e92f3;
+    }
+
+    main.page-home #faixa-cta h4 { 
+        margin: 0;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    @media screen and (max-width: 768px){ 
+        main.page-home #faixa-cta{
+            flex-flow: column;
+        }
+
+        main.page-home #faixa-cta h4 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    }
+
+    @media screen and (max-width: 576px){ 
+        main.page-home #faixa-cta h4 {
+            font-size: 16px;
+        }
+    } 

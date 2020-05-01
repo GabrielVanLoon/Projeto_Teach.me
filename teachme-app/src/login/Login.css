@@ -1,0 +1,8 @@
+#body-wrapper {
+    justify-content: space-between;
+}
+
+#page-login {
+    display: flex;
+    flex-flow: column wrap;
+}

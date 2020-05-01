@@ -11,8 +11,16 @@
 
 #header h2 { 
     margin: 0;
-    font-family: 'Love Ya Like A Sister', cursive;
     font-size: 24pt;
+}
+
+#header h2 a {
+    color: #333 !important;
+    font-family: 'Love Ya Like A Sister', cursive !important;
+}
+
+#header h2 a:hover{
+    text-decoration: none;
 }
 
 #header .sign-in .btn {

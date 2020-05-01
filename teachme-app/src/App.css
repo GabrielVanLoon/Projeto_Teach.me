@@ -67,5 +67,6 @@
     #body-wrapper {
         display: flex;
         flex-flow: column wrap;
+        min-height: 100vh;
     }
 

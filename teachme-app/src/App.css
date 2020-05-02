@@ -63,10 +63,44 @@
         background-color: #FF9100;
     }
 
+/* Formulários */
+    .form-group {
+        display: block;
+        margin:  0;
+        padding: 10px;
+    }
+
+    .form-group > * {
+        display: block;
+        width: 100%;
+        margin-top: 2px;
+    }
+
+    .form-group > *:first-child {
+        margin-top: 0;
+    }
+
+    .form-line {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+    
+    .form-line > * {
+        flex-grow: 1;
+    }
+
 /* Body Wrapper */
     #body-wrapper {
         display: flex;
         flex-flow: column wrap;
         min-height: 100vh;
+        background-color: #efefef;
     }
 
+    #body-wrapper .body-card {
+        max-width: 60%;
+        margin: 3.750em auto;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        background-color: #fff;
+    }

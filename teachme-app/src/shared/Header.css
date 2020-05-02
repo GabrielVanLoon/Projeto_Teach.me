@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.625em 3.750em; /* 10px 60px */
-    background-color: #efefef;
+    background-color: #002171;
     box-shadow: 0 0.625em 1.250em rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); /*10px 20px*/
     z-index: 3;
 }
@@ -15,12 +15,17 @@
 }
 
 #header h2 a {
-    color: #333 !important;
+    color: #fff !important;
     font-family: 'Love Ya Like A Sister', cursive !important;
 }
 
 #header h2 a:hover{
     text-decoration: none;
+}
+
+#header .sign-in { 
+    color: #fff;
+    font-weight: bold;
 }
 
 #header .sign-in .btn {

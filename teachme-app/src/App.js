@@ -15,6 +15,8 @@ import MeuPerfil from './painel/meu-perfil/MeuPerfil'
 import MinhasTurmas from './painel/turmas/MinhasTurmas'
 import CriarTurma from './painel/turmas/CriarTurma'
 
+import Buscar from './instrutor/Buscar'
+
 function App() {
   return (
     <React.Fragment>
@@ -31,6 +33,8 @@ function App() {
           <MinhasTurmas path='painel/turma/minhas-turmas'/>
           <CriarTurma   path="painel/turma/criar"/>
 
+          <Buscar  path="instrutor/buscar" />
+          
         </Router>
 
         <Footer/>

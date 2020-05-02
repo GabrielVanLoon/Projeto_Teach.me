@@ -3,6 +3,23 @@
 }
 
 #page-cadastro {
+    display: block;
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+#form-cadastro {
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
+    font-size: 18px;
+}
+
+#form-cadastro fieldset {
+    margin: 20px;
+}
+
+#form-cadastro fieldset .btn-line {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }

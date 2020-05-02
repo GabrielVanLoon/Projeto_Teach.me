@@ -55,6 +55,12 @@
         background-color: #0D47A1;
         color: #fff;
     }
+    .btn-inverse {
+        border: solid 2px #0D47A1;
+        background: transparent;
+        color: #0D47A1;
+        box-shadow: none;
+    }
     .btn:hover {
         cursor: pointer;
     }

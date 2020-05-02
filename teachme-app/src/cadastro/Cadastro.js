@@ -73,7 +73,7 @@ function Cadastro() {
                 </div>
 
                 <p class="btn-line">
-                    <button type="button" class="btn" name="btn-cadastro-proximo">Próximo</button>
+                    <button type="button" class="btn btn-inverse" name="btn-cadastro-proximo">Próximo</button>
                     <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
                 </p>
             </fieldset>
@@ -92,7 +92,7 @@ function Cadastro() {
                 </div>
 
                 <p class="btn-line">
-                    <button type="button" class="btn" name="btn-cadastro-voltar">Voltar</button>
+                    <button type="button" class="btn btn-inverse" name="btn-cadastro-voltar">Voltar</button>
                     <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
                 </p>
             </fieldset>

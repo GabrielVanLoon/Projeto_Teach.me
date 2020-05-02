@@ -21,5 +21,9 @@
 #form-cadastro fieldset .btn-line {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: flex-end;
+}
+
+#form-cadastro fieldset .btn-line .btn-inverse{
+    margin-right: 20px;
 }

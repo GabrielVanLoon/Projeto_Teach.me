@@ -3,10 +3,15 @@
     
 }
 
+#page-login.body-card {
+    max-width: 400px;
+}
+
+
 #page-login {
     display: flex;
     flex-flow: column wrap;
-    max-width: 400px;
+    
     margin: 0 auto;
 }
 

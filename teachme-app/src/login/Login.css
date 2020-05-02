@@ -1,8 +1,23 @@
 #body-wrapper {
     justify-content: space-between;
+    
 }
 
 #page-login {
     display: flex;
     flex-flow: column wrap;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#page-login .text-center{
+    text-align: center;
+}
+
+#page-login #text-name{
+    display: block;
+}
+
+#page-login .right-btn{
+    text-align: right;
 }

@@ -5,65 +5,96 @@ import { Router, Link } from "@reach/router"
 
 function Cadastro() {
   return (
-    <main id="page-cadastro">
+    <main id="page-cadastro" class="body-card">
         <h1>Cadastro</h1>
         <form id="form-cadastro">
             <fieldset>
                 <legend>Dados pessoais</legend>
 
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome"/>
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome"/>
+                </div>
 
-                <label for="sobrenome">Sobrenome</label>
-                <input type="text" id="sobrenome" name="sobrenome"/>
+                <div class="form-group">
+                    <label for="sobrenome">Sobrenome</label>
+                    <input type="text" id="sobrenome" name="sobrenome"/>
+                </div>
 
-                <label for="cidade">Cidade</label>
-                <input type="text" id="cidade" name="cidade"/>
+                <div class="form-line">
+                    <div class="form-group">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" name="cidade"/>
+                    </div>
+            
 
-                <label for="uf">uf</label>
-                <select id="uf" name="uf">
-                    <option value="SP">São Paulo</option>
-                    <option value="RJ">Rio de Janeiro</option>
-                </select>
+                    <div class="form-group">
+                        <label for="uf">UF</label>
+                        <select id="uf" name="uf">
+                            <option value="SP">São Paulo</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                        </select>
+                    </div>
+                </div>
 
-                <label for='dt-nascimento'>Data de nascimento</label>
-                <input type="date" id="dt-nascimento" name="dt-nascimento"/>
+                <div class="form-group">
+                    <label for='dt-nascimento'>Data de nascimento</label>
+                    <input type="date" id="dt-nascimento" name="dt-nascimento"/>
+                </div>
 
             </fieldset>
             
             <fieldset>
                 <legend>Dados de acesso</legend>
                 
-                <label for="email">E-mail</label>
-                <input type="mail" id="email" name="email"/>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="mail" id="email" name="email"/>
+                </div>
 
-                <label for="username">Nome de usuário</label>
-                <input type="text" id="username" name="username"/>
+                <div class="form-group">
+                    <label for="username">Nome de usuário</label>
+                    <input type="text" id="username" name="username"/>
+                </div>
 
-                <label for='password'>Senha</label>
-                <input type="password" id="password" name="password"/>
+                <div class="form-group">
+                    <label for='password'>Senha</label>
+                    <input type="password" id="password" name="password"/>
+                </div>
 
-                <label for='password-repeat'>Repetir Senha</label>
-                <input type="password" id="password-repeat" name="password-repeat"/>
+                <div class="form-group">
+                    <label for='password-repeat'>Repetir Senha</label>
+                    <input type="password" id="password-repeat" name="password-repeat"/>
+                </div>
 
-                <input type="checkbox" id="instrutor" name="instrutor"/>
-                <label for='instrutor'><small>Quero ser um instrutor Teach.me</small></label>
+                <div>
+                    <input type="checkbox" id="instrutor" name="instrutor"/>
+                    <label for='instrutor'><small>Quero ser um instrutor Teach.me</small></label>
+                </div>
 
-                <button type="button" class="btn" name="btn-cadastro-proximo">Próximo</button>
-                <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
+                <p class="btn-line">
+                    <button type="button" class="btn" name="btn-cadastro-proximo">Próximo</button>
+                    <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
+                </p>
             </fieldset>
 
             <fieldset>
                 <legend>Dados de instrutor</legend>
 
-                <label for="formacao">Formação</label>
-                <input type="text" id="formacao" name="formacao"/>
+                <div class="form-group">
+                    <label for="formacao">Formação</label>
+                    <input type="text" id="formacao" name="formacao"/>
+                </div>
 
-                <label for="sobre-mim">Sobre mim</label>
-                <textarea id="sobre-mim" name="sobre-mim"></textarea>
+                <div class="form-group">
+                    <label for="sobre-mim">Sobre mim</label>
+                    <textarea id="sobre-mim" name="sobre-mim"></textarea>
+                </div>
 
-                <button type="button" class="btn" name="btn-cadastro-voltar">Voltar</button>
-                <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
+                <p class="btn-line">
+                    <button type="button" class="btn" name="btn-cadastro-voltar">Voltar</button>
+                    <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
+                </p>
             </fieldset>
         </form>
         

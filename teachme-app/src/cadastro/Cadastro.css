@@ -1,0 +1,8 @@
+#body-wrapper {
+    justify-content: space-between;
+}
+
+#page-cadastro {
+    display: flex;
+    flex-flow: column wrap;
+}

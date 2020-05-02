@@ -1,0 +1,39 @@
+.faixa-cta { 
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.875em 2.500em; /*30px 40px base 16*/
+    background-color: #1565c0;
+    border-top: solid 5px #5e92f3;
+}
+
+.faixa-cta h4 { 
+    margin: 0;
+    color: #fff;
+    font-size: 15pt;
+}
+
+@media screen and (max-width: 1024px){ 
+    .faixa-cta h4 { 
+        font-size: 14pt;
+    }
+    
+}
+
+@media screen and (max-width: 768px){ 
+    .faixa-cta{
+        flex-flow: column;
+    }
+
+    .faixa-cta h4 {
+        margin-bottom: 1.000em;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 576px){ 
+    .faixa-cta h4 {
+        font-size: 12pt;
+    }
+} 

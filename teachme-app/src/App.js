@@ -35,9 +35,6 @@ function App() {
           <CriarTurma   path="painel/turma/criar"/>
 
           <Buscar  path="instrutor/buscar" />
-
-          <PerfilInstrutor  path="instrutor/perfil" />
-          
         </Router>
 
         <Footer/>

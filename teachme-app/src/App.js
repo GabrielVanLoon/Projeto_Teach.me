@@ -5,6 +5,7 @@ import { Router, Link } from "@reach/router"
 
 import Header from './shared/Header';
 import Footer from './shared/Footer';
+import Menu from './shared/Menu';
 
 import Home from      './home/Home';
 import Login from     './login/Login';
@@ -21,7 +22,9 @@ import PerfilInstrutor from './instrutor/perfil/PerfilInstrutor'
 function App() {
   return (
     <React.Fragment>
+      
       <div id="body-wrapper">
+        
         <Header/>
         
         <Router>
@@ -38,7 +41,11 @@ function App() {
         </Router>
 
         <Footer/>
+        
       </div>
+
+      <Menu/>
+      
     </React.Fragment>
   );
 }

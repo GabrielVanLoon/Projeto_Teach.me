@@ -1,47 +1,27 @@
 import React from 'react';
+import  { useState } from 'react'
 import './App.css';
 
-import { Router, Link } from "@reach/router"
-
+// Componentes de Alta Ordem.
 import Header from './shared/Header';
 import Footer from './shared/Footer';
 import Menu from './shared/Menu';
+import MainContent from './MainContent'
 
 import Home from      './home/Home';
 import Login from     './login/Login';
 import Cadastro from  './cadastro/Cadastro';
 
-import Painel from './painel/Painel';
-import MeuPerfil from './painel/meu-perfil/MeuPerfil'
-import MinhasTurmas from './painel/turmas/MinhasTurmas'
-import CriarTurma from './painel/turmas/CriarTurma'
-
-import Buscar from './instrutor/Buscar'
-import PerfilInstrutor from './instrutor/perfil/PerfilInstrutor'
+// Estados utilizados
 
 function App() {
   return (
     <React.Fragment>
       
       <div id="body-wrapper">
-        
         <Header/>
-        
-        <Router>
-          <Home     path='/' default/>
-          <Login    path='login'/>
-          <Cadastro path='cadastro'/>
-          
-          <Painel       path='painel'/>
-          <MeuPerfil    path='painel/meu-perfil'/>
-          <MinhasTurmas path='painel/turma/minhas-turmas'/>
-          <CriarTurma   path="painel/turma/criar"/>
-
-          <Buscar  path="instrutor/buscar" />
-        </Router>
-
+        <MainContent/>    
         <Footer/>
-        
       </div>
 
       <Menu/>

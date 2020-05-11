@@ -1,21 +1,28 @@
 #menu-shadow {
-    display: block;
+    display: none;
     position: fixed;
     top: 0; right: 0; bottom: 0;left: 0;
     background-color: rgba(0,0,0,0.9);
     z-index: 998;
-    display: none;
+    /* display: none; */
+}
+#menu-shadow.visible {
+    display: block;
 }
 
 #menu-sidebar {
-    display: block;
+    display: none;
     position: fixed;
     top: 0; left: 0; bottom: 0;
     width: 300px;
     z-index: 999;
     background: #002171;
-    display: none;
+    /* display: none; */
 }
+#menu-sidebar.visible {
+    display: block;
+}
+
 
 #menu-sidebar > * {
     display: block;
@@ -35,14 +42,14 @@
         color: #fff;
     }
 /* Navs */
-    nav {
+    #menu-sidebar nav {
         border-bottom: solid 2px #0d47a1;
     }
-    nav li {
+    #menu-sidebar nav li {
         padding: 0;
         list-style: none;
     }
-    nav li a {
+    #menu-sidebar nav li a {
         padding: 20px;
         display: block;
         width: 100%;
@@ -50,23 +57,23 @@
         color: #fff;
 
     }
-    nav li a:hover{
+    #menu-sidebar nav li a:hover{
         text-decoration: none;
     }
 
-    nav ul {
+    #menu-sidebar nav ul {
         margin: 0;
         padding: 0;
         background-color: #efefef;
     }
-    nav ul li { 
+    #menu-sidebar nav ul li { 
         padding-left: 60px;
         border-bottom: solid 2px #dedede;
     }
-    nav ul li a {
+    #menu-sidebar nav ul li a {
         color: #333;
     }
 
-    nav i {
+    #menu-sidebar nav i {
         margin-right: 5px;
     }

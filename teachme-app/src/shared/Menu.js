@@ -29,7 +29,7 @@ function Menu() {
 
 
             </div>
-            <div id="menu-shadow">&nbsp;</div>
+            <div id="menu-shadow" >&nbsp;</div>
         </React.Fragment>
     );
 }

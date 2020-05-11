@@ -25,6 +25,9 @@
         color: #fff;
         font-size: 18pt;
     }
+    #btn-menu:hover{
+        cursor: pointer;
+    }
 
     #header .logo h2 { 
         margin: 0;

@@ -24,7 +24,7 @@ function MainContent() {
             <MinhasTurmas path='painel/turma/minhas-turmas'/>
             <CriarTurma   path="painel/turma/criar"/>
 
-            <Buscar  path="instrutor/buscar" />
+            <Buscar  path="instrutores" />
         </Router>
     );
 }

@@ -15,16 +15,20 @@ import Cadastro from  './cadastro/Cadastro';
 // Estados utilizados
 
 function App() {
+
+  // Definindo os estados da aplicação
+  const [menu, setMenu] = useState(false);
+
   return (
     <React.Fragment>
       
       <div id="body-wrapper">
-        <Header/>
+        <Header menuState={menu} setMenuState={setMenu} />
         <MainContent/>    
         <Footer/>
       </div>
 
-      <Menu/>
+      <Menu menuState={menu} setMenuState={setMenu} />
       
     </React.Fragment>
   );

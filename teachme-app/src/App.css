@@ -55,6 +55,10 @@
         background-color: #0D47A1;
         color: #fff;
     }
+    .btn-small {
+        padding: 0.550em;
+        font-size: 10pt;
+    }
     .btn-inverse {
         border: solid 2px #0D47A1;
         background: transparent;
@@ -98,7 +102,7 @@
 /* Body Wrapper */
     #body-wrapper {
         display: flex;
-        flex-flow: column wrap;
+        flex-flow: column nowrap;
         min-height: 100vh;
         background-color: #efefef;
     }

@@ -1,0 +1,78 @@
+#menu-shadow {
+    display: none;
+    position: fixed;
+    top: 0; right: 0; bottom: 0;left: 0;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 998;
+    cursor: pointer;
+}
+#menu-shadow.visible {
+    display: block;
+}
+
+#menu-sidebar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 300px;
+    z-index: 999;
+    background: #002171;
+}
+#menu-sidebar.visible {
+    display: block;
+}
+
+
+#menu-sidebar > * {
+    display: block;
+    width: 100%;
+}
+
+/* Área Logo */
+    #menu-sidebar .logo {
+        padding: 12px;
+        border-bottom: solid 2px #0d47a1;
+    } 
+
+    #menu-sidebar .logo h2 {
+        margin: 0;
+        font-size: 24pt;
+        font-family: 'Love Ya Like A Sister', cursive;
+        color: #fff;
+    }
+/* Navs */
+    #menu-sidebar nav {
+        border-bottom: solid 2px #0d47a1;
+    }
+    #menu-sidebar nav li {
+        padding: 0;
+        list-style: none;
+    }
+    #menu-sidebar nav li a {
+        padding: 20px;
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        color: #fff;
+
+    }
+    #menu-sidebar nav li a:hover{
+        text-decoration: none;
+    }
+
+    #menu-sidebar nav ul {
+        margin: 0;
+        padding: 0;
+        background-color: #efefef;
+    }
+    #menu-sidebar nav ul li { 
+        padding-left: 60px;
+        border-bottom: solid 2px #dedede;
+    }
+    #menu-sidebar nav ul li a {
+        color: #333;
+    }
+
+    #menu-sidebar nav i {
+        margin-right: 5px;
+    }

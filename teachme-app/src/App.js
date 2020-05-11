@@ -1,47 +1,35 @@
 import React from 'react';
+import  { useState } from 'react'
 import './App.css';
 
-import { Router, Link } from "@reach/router"
-
+// Componentes de Alta Ordem.
 import Header from './shared/Header';
 import Footer from './shared/Footer';
+import Menu from './shared/Menu';
+import MainContent from './MainContent'
 
 import Home from      './home/Home';
 import Login from     './login/Login';
 import Cadastro from  './cadastro/Cadastro';
 
-import Painel from './painel/Painel';
-import MeuPerfil from './painel/meu-perfil/MeuPerfil'
-import MinhasTurmas from './painel/turmas/MinhasTurmas'
-import CriarTurma from './painel/turmas/CriarTurma'
-
-import Buscar from './instrutor/Buscar'
-import PerfilInstrutor from './instrutor/perfil/PerfilInstrutor'
+// Estados utilizados
 
 function App() {
+
+  // Definindo os estados da aplicação
+  const [menu, setMenu] = useState(false);
+
   return (
     <React.Fragment>
+      
       <div id="body-wrapper">
-        <Header/>
-        
-        <Router>
-          <Home     path='/' default/>
-          <Login    path='login'/>
-          <Cadastro path='cadastro'/>
-          
-          <Painel       path='painel'/>
-          <MeuPerfil    path='painel/meu-perfil'/>
-          <MinhasTurmas path='painel/turma/minhas-turmas'/>
-          <CriarTurma   path="painel/turma/criar"/>
-
-          <Buscar  path="instrutor/buscar" />
-
-          <PerfilInstrutor  path="instrutor/perfil" />
-          
-        </Router>
-
+        <Header menuState={menu} setMenuState={setMenu} />
+        <MainContent/>    
         <Footer/>
       </div>
+
+      <Menu menuState={menu} setMenuState={setMenu} />
+      
     </React.Fragment>
   );
 }

@@ -16,6 +16,7 @@ import MinhasTurmas from './painel/turmas/MinhasTurmas'
 import CriarTurma from './painel/turmas/CriarTurma'
 
 import Buscar from './instrutor/Buscar'
+import PerfilInstrutor from './instrutor/perfil/PerfilInstrutor'
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
           <CriarTurma   path="painel/turma/criar"/>
 
           <Buscar  path="instrutor/buscar" />
+
+          <PerfilInstrutor  path="instrutor/perfil" />
           
         </Router>
 

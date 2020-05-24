@@ -1,0 +1,44 @@
+.card-turma {
+    padding: 20px;
+    margin-top: 20px;
+    border: solid 1px #ccc;
+    border-radius: 2px;
+}
+
+/* Header */
+.card-turma .turma-header {
+    display: flex;
+    padding-bottom: 10px;
+    flex-flow: row nowrap;
+    align-items: center;
+    border-bottom: solid 1px #ccc;
+}
+
+.card-turma .turma-header img {
+    display: block;
+    width:  40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-right: 10px;
+}
+
+.card-turma .turma-header a{
+    /* color: #333; */
+    color: #0D47A1;
+}
+
+.card-turma .turma-header p {
+    font-weight: bold;
+}
+
+.card-turma .turma-header .title > * {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Body */
+.card-turma .turma-body p {
+    margin-bottom: 0;
+    margin-top: 10px;
+    line-height: 1.5em;
+}

@@ -1,0 +1,34 @@
+/* SECTION FILTROS */
+    #page-minhas-turmas .filtros {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: start;
+        align-items: flex-end;
+    }
+
+    #page-minhas-turmas .filtros > * {
+        margin: 0;
+        margin-left: 10px;
+    }
+
+    #page-minhas-turmas .filtros > *:first-child {
+        margin-left: 0;
+    }
+
+
+/* SECTION TURMAS */
+    #page-minhas-turmas .turmas > *:first-child {
+        margin-top: 5px;
+    }
+
+/* SECTION CRIAR-TURMA */
+    #page-minhas-turmas .criar-turma {
+        padding: 10px;
+        margin-top: 20px;
+        border: solid 1px #ccc;
+        border-radius: 2px;
+    }
+
+    #page-minhas-turmas .criar-turma p {
+        margin: 0;
+    }

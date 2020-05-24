@@ -27,6 +27,9 @@ function MainContent() {
             <MeuPerfil    path='/painel/minha-conta'/>
             <MinhasTurmas path='/painel/minhas-turmas'/>
             
+            <MinhasTurmas path='/painel-instrutor/minhas-turmas' painelInstrutor={true} />
+
+
             <Buscar  path="/instrutor" />
         </Router>
     );

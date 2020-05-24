@@ -7,7 +7,7 @@ function FaixaCTA() {
   return (
     <section class="faixa-cta">
         <h4>Compartilhe seus conhecimentos, conheça novas pessoas e ainda ganhe um dinheiro extra.</h4>
-        <Link to="/cadastro" class="btn btn-secondary">TORNE-SE UM INTRUTOR</Link>
+        <Link to="/criar-conta" class="btn btn-secondary">TORNE-SE UM INTRUTOR</Link>
     </section>
   );
 }

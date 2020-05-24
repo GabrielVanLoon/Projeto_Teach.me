@@ -10,7 +10,6 @@ import Cadastro from './cadastro/Cadastro';
 import Painel       from './painel/Painel';
 import MeuPerfil    from './painel/meu-perfil/MeuPerfil'
 import MinhasTurmas from './painel/turmas/MinhasTurmas'
-import CriarTurma   from './painel/turmas/CriarTurma'
 
 // Painel Instrutor
 
@@ -27,7 +26,6 @@ function MainContent() {
             <Painel       path='/painel'/>
             <MeuPerfil    path='/painel/minha-conta'/>
             <MinhasTurmas path='/painel/minhas-turmas'/>
-            <CriarTurma   path="/painel/aulas-e-propostas"/>
             
             <Buscar  path="/instrutor" />
         </Router>

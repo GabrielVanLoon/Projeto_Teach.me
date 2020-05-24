@@ -27,7 +27,7 @@ function Painel() {
                 </article>
             </section>
             
-            <nav>
+            {/* <nav>
                 <h3>O que deseja fazer?</h3>
                 <p class="text-center">
                     <a href="#" class="btn btn-secondary">Buscar Instrutor</a>
@@ -35,7 +35,7 @@ function Painel() {
                     <a href="#" class="btn">Minhas Turmas</a>
                     <a href="#" class="btn">Chat</a>
                 </p>
-            </nav>
+            </nav> */}
 
         </main>
     );

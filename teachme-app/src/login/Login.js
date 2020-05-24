@@ -26,7 +26,7 @@ function Login() {
           </p>
         </form>
         
-        <p><small>Ainda não possui uma conta? Clique aqui e <Link to="/cadastro">cadastre-se.</Link></small></p>
+        <p><small>Ainda não possui uma conta? Clique aqui e <Link to="/criar-conta">cadastre-se.</Link></small></p>
     </main>
   );
 }

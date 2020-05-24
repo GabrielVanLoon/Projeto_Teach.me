@@ -9,6 +9,13 @@
 #menu-shadow.visible {
     display: block;
 }
+#menu-shadow button{
+    float: right;
+    margin: 10px;
+    color: #fff;
+    border-color: transparent;
+}
+
 
 #menu-sidebar {
     display: none;
@@ -49,7 +56,7 @@
         list-style: none;
     }
     #menu-sidebar nav li a {
-        padding: 20px;
+        padding: 14px;
         display: block;
         width: 100%;
         font-weight: bold;
@@ -66,7 +73,7 @@
         background-color: #efefef;
     }
     #menu-sidebar nav ul li { 
-        padding-left: 60px;
+        padding-left: 45px;
         border-bottom: solid 2px #dedede;
     }
     #menu-sidebar nav ul li a {

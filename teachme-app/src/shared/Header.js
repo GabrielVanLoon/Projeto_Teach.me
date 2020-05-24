@@ -16,8 +16,8 @@ function Header(props) {
         <h2><Link to="/">Teach.me</Link></h2>
       </div>
       <div class="sign-in">
-          <Link to="login" className="btn">Entrar</Link>
-          <small>Ainda não possui conta? <Link to="cadastro">Clique aqui.</Link></small>
+          <Link to="/login" className="btn">Entrar</Link>
+          <small>Ainda não possui conta? <Link to="/criar-conta">Clique aqui.</Link></small>
       </div>
     </header>
   );

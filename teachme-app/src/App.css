@@ -55,24 +55,40 @@
         background-color: #0D47A1;
         color: #fff;
     }
-    .btn-small {
-        padding: 0.550em;
-        font-size: 10pt;
+    .btn:hover {
+        background-color: #04398C;
+        cursor: pointer;
     }
+
     .btn-inverse {
         border: solid 2px #0D47A1;
         background: transparent;
         color: #0D47A1;
         box-shadow: none;
     }
-    .btn:hover {
-        cursor: pointer;
+    .btn-inverse:hover{
+        background-color: transparent;
+        border: solid 2px #04398C;
+        color: #04398C;
     }
 
-    .btn.btn-secondary {
-        background-color: #FF9100;
+    .btn-small {
+        padding: 0.550em;
+        font-size: 10pt;
     }
 
+    .btn.btn-secondary { background-color: #FF9100; }
+    .btn.btn-secondary:hover { background-color: #EA8501; }
+    
+
+    .btn.btn-success { background-color: #28a745; }
+    .btn.btn-success:hover { background-color: #218838; }
+    .btn.btn-danger { background-color: #dc3545;}
+    .btn.btn-danger:hover { background-color: #c82333; }
+    .btn.btn-warning { background-color: #ffc107; color: #333; }
+    .btn.btn-warning:hover { background-color: #e0a800 }
+
+    
 /* Formulários */
     .form-group {
         display: block;

@@ -15,15 +15,15 @@ function Painel() {
                 <h4><i class="fa-fw fas fa-bell"></i> Últimas Notificações</h4>
                 <article>
                     <p>Lorem ipsum dolor sit amet</p>
-                    <p><button class="btn btn-small"><i class="fa-fw fas fa-times"></i></button></p>
+                    <p><button class="btn btn-small btn-warning"><i class="fa-fw fas fa-times"></i></button></p>
                 </article>
                 <article>
                     <p>Lorem ipsum dolor sit amet</p>
-                    <p><button class="btn btn-small"><i class="fa-fw fas fa-times"></i></button></p>
+                    <p><button class="btn btn-small btn-danger"><i class="fa-fw fas fa-times"></i></button></p>
                 </article>
                 <article>
                     <p>Lorem ipsum dolor sit amet</p>
-                    <p><button class="btn btn-small"><i class="fa-fw fas fa-times"></i></button></p>
+                    <p><button class="btn btn-small btn-success"><i class="fa-fw fas fa-times"></i></button></p>
                 </article>
             </section>
             

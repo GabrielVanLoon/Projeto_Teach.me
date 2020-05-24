@@ -23,7 +23,7 @@ function Menu(props) {
                 <nav>
                     <li><Link to="instrutor" onClick={closeMenu}><i class="fa-fw fas fa-search"/> Buscar Instrutor</Link></li>
                 </nav>
-                
+
                 <nav>
                     <li><Link to="/painel" onClick={closeMenu}><i class="fa-fw fas fa-user"/> Painel</Link></li>
                     <ul>
@@ -44,7 +44,9 @@ function Menu(props) {
                 
             </div>
 
-            <div id="menu-shadow" class={props.menuState && 'visible'} onClick={closeMenu}>&nbsp;</div>
+            <div id="menu-shadow" class={props.menuState && 'visible'} onClick={closeMenu}>
+                <button class="btn btn-inverse">Fechar Menu <i class="fa-fw fas fa-times"/> </button>    
+            </div>
         </React.Fragment>
     );
 }

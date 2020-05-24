@@ -9,6 +9,13 @@
 #menu-shadow.visible {
     display: block;
 }
+#menu-shadow button{
+    float: right;
+    margin: 10px;
+    color: #fff;
+    border-color: transparent;
+}
+
 
 #menu-sidebar {
     display: none;

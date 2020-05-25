@@ -14,16 +14,16 @@ function Painel() {
             <section class="notifications">
                 <h4><i class="fa-fw fas fa-bell"></i> Últimas Notificações</h4>
                 <article>
-                    <p>Lorem ipsum dolor sit amet</p>
-                    <p><button class="btn btn-small btn-warning"><i class="fa-fw fas fa-times"></i></button></p>
+                    <p><small>24/05/2020 19:33</small><br/>Uma nova <strong>proposta</strong> aguarda sua aprovação na turma <strong><a href="#">Grupo Cálculo 3 - Federson 2019</a>.</strong></p>
+                    <p><button class="btn btn-small btn-warning"><i class="fa-fw fas fa-times"></i> Fechar</button></p>
                 </article>
                 <article>
-                    <p>Lorem ipsum dolor sit amet</p>
-                    <p><button class="btn btn-small btn-danger"><i class="fa-fw fas fa-times"></i></button></p>
+                    <p><small>15/05/2020 14:23</small><br/>Você foi convidado para participar na turma <strong>Grupo Cálculo 3 - Federson 2019</strong>. <strong><a href="#">Clique aqui para aceitar o convite.</a></strong></p>
+                    <p><button class="btn btn-small btn-danger"><i class="fa-fw fas fa-times"></i> Fechar</button></p>
                 </article>
                 <article>
-                    <p>Lorem ipsum dolor sit amet</p>
-                    <p><button class="btn btn-small btn-success"><i class="fa-fw fas fa-times"></i></button></p>
+                    <p><small>03/05/2020 16:59</small><br/>Sua proposta com o instrutor <strong>João da Silva</strong> para a Disciplina de Cálculo foi aceita. Fique atento para os horários e locais combinados.</p>
+                    <p><button class="btn btn-small btn-success"><i class="fa-fw fas fa-times"></i> Fechar</button></p>
                 </article>
             </section>
             

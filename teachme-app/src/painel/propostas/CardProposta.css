@@ -1,0 +1,61 @@
+/* Configurações Gerais */
+    .card-proposta {
+        margin-top: 20px;
+        padding: 10px;
+        border: solid 1px #ccc;
+        border-radius: 2px;
+    }
+    .card-proposta:first-child {
+        margin-top: 10px;
+    }
+ 
+    .card-proposta table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .card-proposta table td,
+    .card-proposta table th {
+        padding: 14px;
+        text-align: center;
+    }
+    .card-proposta table th {
+        text-transform: uppercase;
+    }
+
+    .card-proposta table thead th {
+        border-bottom: solid 1px #ccc;
+    }
+
+/* Tabela dados proposta */
+
+/* Tabela dados aulas */
+
+/* Tabelas iterações */
+
+    .card-proposta .iteracoes td {
+        text-align: right;
+    }
+    .card-proposta .iteracoes td .btn {
+        margin-left: 20px;
+    }
+
+
+/* Collapse effect */
+    .card-proposta .collapse {
+        overflow: hidden;
+        transition: linear 0.2s;
+    }
+    .card-proposta .collapse.hidden {
+        height: 0px;
+    }
+    
+
+    .card-proposta .btn-collapse {
+        padding: 0; border: none; background-color: transparent;
+        font-size: 30px;
+        color: #636363;
+    }
+    .card-proposta .btn-collapse:hover {
+        cursor: pointer;
+        color: #333;
+    }

@@ -1,4 +1,4 @@
-Usuario
+Usuario (Gabriel)
     nome_usuario
     email
     senha
@@ -7,13 +7,13 @@ Usuario
     foto
     eh_instrutor
 
-Instrutor 
+Instrutor (Tamiris)
     nome_usuario 
     resumo 
     sobre_mim 
     formacao 
 
-Turma 
+Turma (Alberto)
     nome_turma 
     titulo 
     descricao 
@@ -22,27 +22,27 @@ Turma
     max_participantes 
     situação 
 
-Participante 
+Participante (Gabriel)
     aluno 
     turma 
     eh_lider
 
-Recomenda 
+Recomenda (Tamiris)
     aluno 
     instrutor 
     texto 
 
-Disciplina 
+Disciplina (Alberto)
     nome 
     disciplina_pai 
 
-Oferecimento 
+Oferecimento (Gabriel)
     instrutor 
     disciplina 
     precoBase 
     metodologia 
 
-Proposta 
+Proposta (Tamiris)
     id 
     turma 
     instrutor 
@@ -52,12 +52,12 @@ Proposta
     dataCriacao 
     preco_total 
 
-Aceita 
+Aceita (Alberto)
     aluno 
     turma 
     proposta 
 
-Local 
+Local (Gabriel)
     instrutor 
     nome 
     capacidade 
@@ -66,12 +66,12 @@ Local
     cidade 
     uf 
 
-HorarioDisponivel
+HorarioDisponivel (Tamiris)
     instrutor 
     diaSemana
     Horario 
 
-Aula 
+Aula (Alberto)
     proposta 
     numero 
     instrutor 
@@ -82,21 +82,21 @@ Aula
     data_fim 
     nota_instrutor 
 
-AvaliacaoParticipante
+AvaliacaoParticipante (Gabriel)
     aluno 
     turma 
     proposta 
     numero 
     nota 
 
-Chat 
+Chat (TODO)
     turma 
     codigo 
     nome 
     status 
     instrutor 
 
-Mensagem 
+Mensagem (TODO)
     turma 
     codigo 
     numero 

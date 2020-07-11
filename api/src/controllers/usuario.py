@@ -2,6 +2,11 @@ from django.http import JsonResponse
 
 from src.models.usuario import *
 
+# Controller: Lida com a requisição
+# - Tipos de validação: verificar método da requisição
+# - Conversa com os Models
+# - Retorno: JSON + Código de Retorno (200 - SUCCESS, 400 - Erro na requisição)
+# - Obs: em caso de erro deve retornar um JSON contendo 'erro': 'error message'. 
 
 class UsuarioController: 
 

@@ -1,10 +1,10 @@
 EntidadeController 
-    POST cadastrar(request)
-    POST atualizar(request)
-    GET  buscar(request)
+    POST cadastrar(request) register(request)
+    POST atualizar(request) update(request)
+    GET  buscar(request)    search(request)
 
 EntidadeModel
-    cadastrar(dados..., Classe x)
+    cadastrar(dados..., Classe x) register
 
 EntidadeDAO
     select()

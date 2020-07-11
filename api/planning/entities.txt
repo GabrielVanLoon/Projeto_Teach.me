@@ -89,14 +89,14 @@ AvaliacaoParticipante (Gabriel)
     numero 
     nota 
 
-Chat (TODO)
+Chat (tamiris)
     turma 
     codigo 
     nome 
     status 
     instrutor 
 
-Mensagem (TODO)
+Mensagem (Alberto)
     turma 
     codigo 
     numero 

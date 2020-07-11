@@ -1,11 +1,11 @@
 
 class Lesson:
-    def __init__(self, proposal = None, lesson_number = None, instructor = None, local = None, final_price = None, status = None, start = None, end = None, instructor_rate = None):
+    def __init__(self, proposal = None, lesson_number = None, instructor = None, place = None, full_price = None, status = None, start = None, end = None, instructor_rate = None):
         self.proposta = proposal 
         self.lesson_number = lesson_number 
         self.instructor = instructor 
-        self.local = local 
-        self.final_price = final_price 
+        self.place = place 
+        self.full_price = full_price 
         self.status = status 
         self.start = start 
         self.end = end 

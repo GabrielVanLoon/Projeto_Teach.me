@@ -1,0 +1,16 @@
+/* SECTION FILTROS */
+    #page-minhas-propostas .filtros {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: start;
+        align-items: flex-end;
+    }
+
+    #page-minhas-propostas .filtros > * {
+        margin: 0;
+        margin-left: 10px;
+    }
+
+    #page-minhas-propostas .filtros > *:first-child {
+        margin-left: 0;
+    }

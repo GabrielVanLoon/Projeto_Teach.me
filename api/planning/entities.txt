@@ -1,0 +1,105 @@
+Usuario
+    nome_usuario
+    email
+    senha
+    nome 
+    sobrenome
+    foto
+    eh_instrutor
+
+Instrutor 
+    nome_usuario 
+    resumo 
+    sobre_mim 
+    formacao 
+
+Turma 
+    nome_turma 
+    titulo 
+    descricao 
+    imagem 
+    qtd_participantes 
+    max_participantes 
+    situação 
+
+Participante 
+    aluno 
+    turma 
+    eh_lider
+
+Recomenda 
+    aluno 
+    instrutor 
+    texto 
+
+Disciplina 
+    nome 
+    disciplina_pai 
+
+Oferecimento 
+    instrutor 
+    disciplina 
+    precoBase 
+    metodologia 
+
+Proposta 
+    id 
+    turma 
+    instrutor 
+    disciplina 
+    codigo 
+    status 
+    dataCriacao 
+    preco_total 
+
+Aceita 
+    aluno 
+    turma 
+    proposta 
+
+Local 
+    instrutor 
+    nome 
+    capacidade 
+    endereco 
+    complemento 
+    cidade 
+    uf 
+
+HorarioDisponivel
+    instrutor 
+    diaSemana
+    Horario 
+
+Aula 
+    proposta 
+    numero 
+    instrutor 
+    local 
+    preco_final 
+    status 
+    data_inicio 
+    data_fim 
+    nota_instrutor 
+
+AvaliacaoParticipante
+    aluno 
+    turma 
+    proposta 
+    numero 
+    nota 
+
+Chat 
+    turma 
+    codigo 
+    nome 
+    status 
+    instrutor 
+
+Mensagem 
+    turma 
+    codigo 
+    numero 
+    usuario 
+    data_envio
+    conteudo

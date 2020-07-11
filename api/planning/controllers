@@ -1,0 +1,14 @@
+EntidadeController 
+    POST cadastrar(request)
+    POST atualizar(request)
+    GET  buscar(request)
+
+EntidadeModel
+    cadastrar(dados..., Classe x)
+
+EntidadeDAO
+    select()
+    insert()
+    update()
+
+

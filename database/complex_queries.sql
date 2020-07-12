@@ -1,0 +1,4 @@
+-- Script:      muckup_data.sql
+-- Descrição:   Consultas de dificuldade média ou alta para entrega.
+-- Data:        10/06/2020 
+-- Versão:      1.0.0

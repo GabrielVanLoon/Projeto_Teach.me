@@ -1,6 +1,6 @@
 -- Script:      teachme_db.sql
--- Descrição:   Script contendo os comandos SQL para a criação do banco
---              de dados Postgresql do projeto Teach.me
+-- Descrição:   Script contendo os comandos SQL para a criação das tabelas 
+--              do banco de dados Postgresql do projeto Teach.me
 -- Data:        10/06/2020 
 -- Versão:      1.0.0
 
@@ -80,7 +80,7 @@ CREATE TABLE disciplina(                                -- Estrutura: OK, Normal
         ON DELETE SET NULL
 );
 
---REAL 6 DECIMAL PRECISION
+
 CREATE TABLE oferecimento(                              -- Estrutura: @TODO, Normalização: TODO
     INSTRUTOR   VARCHAR(30),
     DISCIPLINA  VARCHAR(30),                    
@@ -97,7 +97,6 @@ CREATE TABLE oferecimento(                              -- Estrutura: @TODO, Nor
     CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0)
 );
 
---BIGSERIAL 1 to 9223372036854775807
 CREATE TABLE proposta(                                  -- Estrutura: @TODO, Normalização: TODO
     ID            BIGSERIAL,                            -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
     TURMA         VARCHAR(30) NOT NULL,
@@ -224,4 +223,3 @@ CREATE TABLE mensagem(                  -- Estrutura: TODO, Normalização: TODO
         REFERENCES usuario (NOME_USUARIO) 
         ON DELETE SET NULL
 );
-

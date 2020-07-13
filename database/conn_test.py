@@ -118,10 +118,10 @@ def example_select(id = 1):
 def main():
     try: 
         print(' [+]  Teach.me Database + Psycopg2...')
-        # example_connection()
-        # example_insertion()
-        #example_update(1)
-        # example_update(33) 
+        example_connection()
+        example_insertion()
+        example_update(1)
+        example_update(33) 
         example_select_all()
         example_select(1)
         example_select(33)

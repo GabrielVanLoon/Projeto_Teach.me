@@ -61,7 +61,9 @@ Local (Gabriel)
     instrutor 
     nome 
     capacidade 
-    endereco 
+    rua
+    numero
+    bairro 
     complemento 
     cidade 
     uf 

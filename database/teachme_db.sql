@@ -43,7 +43,7 @@ CREATE TABLE turma(                                     -- Estrutura: OK, Normal
     CONSTRAINT CK_QTD_PARTICIPANTES  CHECK (QTD_PARTICIPANTES >= 1),
     CONSTRAINT CK_MAX_PARTICIPANTES  CHECK (QTD_PARTICIPANTES >= 1 AND QTD_PARTICIPANTES <= 50),
     CONSTRAINT CK_PARTICIPANTES  CHECK (QTD_PARTICIPANTES <= QTD_PARTICIPANTES),
-    CONSTRAINT CK_SITUACAO_TURMA  CHECK (SITUACAO in ('PARTICULAR', 'BUSCANDO INSTRUTOR', 'EM AULAS', 'ENCERRADA')),
+    CONSTRAINT CK_SITUACAO_TURMA  CHECK (SITUACAO in ('PARTICULAR', 'BUSCANDO INSTRUTOR', 'EM AULAS', 'ENCERRADA'))
 );
     
 CREATE TABLE participante(                              -- Estrutura: OK, Normalização: TODO
@@ -59,7 +59,7 @@ CREATE TABLE participante(                              -- Estrutura: OK, Normal
     CONSTRAINT FK_PARTICIPANTE_TURMA    FOREIGN KEY (TURMA) 
         REFERENCES turma(NOME) 
         ON DELETE CASCADE
-        ON UPDATE_CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE recomenda(                                 -- Estrutura: OK, Normalização: TODO
@@ -76,16 +76,17 @@ CREATE TABLE recomenda(                                 -- Estrutura: OK, Normal
         REFERENCES instrutor(NOME_USUARIO) 
         ON DELETE CASCADE
         ON UPDATE CASCADE
-    );
+);
 
 CREATE TABLE disciplina(                                -- Estrutura: OK, Normalização: TODO
     NOME            VARCHAR(30),
     DISCIPLINA_PAI  VARCHAR(30),
     
-    CONSTRAINT PK_DISCIPLINA PRIMARY KEY(NOME)
-    CONSTRAINT FK_DISCIPLINA_DISCIPLINA FOREIGN KEY (DISCIPLINA)
+    CONSTRAINT PK_DISCIPLINA PRIMARY KEY(NOME),
+    CONSTRAINT FK_DISCIPLINA_DISCIPLINA FOREIGN KEY (DISCIPLINA_PAI)
         REFERENCES disciplina(NOME)
         ON DELETE SET NULL
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE oferecimento(                              -- Estrutura: OK, Normalização: TODO
@@ -128,7 +129,6 @@ CREATE TABLE proposta(                                  -- Estrutura: @TODO, Nor
         ON UPDATE CASCADE,
     CONSTRAINT CK_PRECO_PROPOSTA        CHECK (PRECO_TOTAL >= 0),
     CONSTRAINT CK_STATUS_PROPOSTA CHECK (STATUS in ('EM APROVAÇÃO', 'RECUSADA', 'APROVADA', 'FINALIZADA'))
-    
 );
 
 CREATE TABLE aceita(                        -- Estrutura: OK, Normalização: TODO 
@@ -233,7 +233,7 @@ CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
     CONSTRAINT FK_CHAT_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor (NOME_USUARIO) 
         ON DELETE CASCADE 
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
     -- @TODO: lembrar quais eram os status do chat da turma e.e
 );
 

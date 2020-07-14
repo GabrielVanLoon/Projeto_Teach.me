@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls    import path
 
-from .controllers.usuario import UsuarioController
+from src.controllers.user import UserController
 
 urlpatterns = [
-    path('', UsuarioController().cadastrar),
+    path('', UserController().register),
 ]

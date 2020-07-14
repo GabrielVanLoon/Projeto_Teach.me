@@ -82,12 +82,11 @@ CREATE TABLE disciplina(                                -- Estrutura: OK, Normal
         ON DELETE SET NULL
 );
 
-
-CREATE TABLE oferecimento(                              -- Estrutura: @TODO, Normalização: TODO
+CREATE TABLE oferecimento(                              -- Estrutura: OK, Normalização: TODO
     INSTRUTOR   VARCHAR(30),
     DISCIPLINA  VARCHAR(30),                    
-    PRECO_BASE  REAL NOT NULL,                          -- @TODO: Real é de precisão flutuante, arrumar
-    METODOLOGIA VARCHAR(100),
+    PRECO_BASE  NUMERIC(2) NOT NULL,                    
+    METODOLOGIA VARCHAR(300),
     
     CONSTRAINT PK_OFERECIMENTO            PRIMARY KEY (INSTRUTOR, DISCIPLINA),
     CONSTRAINT FK_OFERECIMENTO_INSTRUTOR  FOREIGN KEY (INSTRUTOR) 
@@ -96,18 +95,18 @@ CREATE TABLE oferecimento(                              -- Estrutura: @TODO, Nor
     CONSTRAINT FK_OFERECIMENTO_DISCIPLINA FOREIGN KEY (DISCIPLINA) 
         REFERENCES disciplina(NOME) 
         ON DELETE CASCADE,
-    CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0)
+    CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0.00)
 );
 
 CREATE TABLE proposta(                                  -- Estrutura: @TODO, Normalização: TODO
-    ID            BIGSERIAL,                            -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
+    ID            SERIAL,                            
     TURMA         VARCHAR(30) NOT NULL,
     INSTRUTOR     VARCHAR(30) NOT NULL,
     DISCIPLINA    VARCHAR(30) NOT NULL,
-    CODIGO        BIGSERIAL   NOT NULL,                 -- @TODO: O código tem que ser no máximo 3 caracteres pra ser user friendly
+    CODIGO        SMALLINT    NOT NULL,                 
     STATUS        VARCHAR(10) NOT NULL,
     DATA_CRIACAO  TIMESTAMP   NOT NULL,
-    PRECO_TOTAL   REAL        NOT NULL,                 -- @TODO: Real é de precisão flutuante, arrumar
+    PRECO_TOTAL   NUMERIC(2)  NOT NULL,                
 
     CONSTRAINT PK_PROPOSTA              PRIMARY KEY (ID),
     CONSTRAINT SK_PROPOSTA              UNIQUE(TURMA, INSTRUTOR, DISCIPLINA, CODIGO), --SECONDARY KEY (SK)
@@ -120,10 +119,10 @@ CREATE TABLE proposta(                                  -- Estrutura: @TODO, Nor
     CONSTRAINT CK_PRECO_PROPOSTA        CHECK (PRECO_TOTAL >= 0)
 );
 
-CREATE TABLE aceita(                        -- Estrutura: @TODO, Normalização: TODO 
+CREATE TABLE aceita(                        -- Estrutura: OK, Normalização: TODO 
     ALUNO     VARCHAR(30),
     TURMA     VARCHAR(30),
-    PROPOSTA  BIGSERIAL,                    -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
+    PROPOSTA  SERIAL,                    
 
     CONSTRAINT PK_ACEITA              PRIMARY KEY(ALUNO, TURMA, PROPOSTA),
     CONSTRAINT FK_ACEITA_PARTICIPANTE FOREIGN KEY (ALUNO, TURMA) 
@@ -145,7 +144,7 @@ CREATE TABLE local(                         -- Estrutura: OK, Normalização: TO
     CONSTRAINT FK_LOCAL_INSTRUTOR   FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor(NOME_USUARIO) 
         ON DELETE CASCADE,
-    CONSTRAINT CK_CAPACIDADE_LOCAL  CHECK (CAPACIDADE >= 0)
+    CONSTRAINT CK_CAPACIDADE_LOCAL  CHECK (CAPACIDADE > 0)
 );
 
 CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TODO 
@@ -155,21 +154,20 @@ CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TOD
     CONSTRAINT PK_HORARIO           PRIMARY KEY (INSTRUTOR, DIA_SEMANA, HORARIO),
     CONSTRAINT FK_HORARIO_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor (NOME_USUARIO) 
-        ON DELETE CASCADE                   
-                                            -- @TODO: Se quiser dá pra fazer um check do tipo
-                                            -- DIA_SEMANA in ('DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB')
+        ON DELETE CASCADE,
+    CONSTRAINT CK_DIA_SEMANA  CHECK (DIA_SEMANA in ('DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'))
 );
 
 CREATE TABLE aula(                              -- Estrutura: TODO, Normalização: TODO
-    PROPOSTA        BIGSERIAL,                  -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
-    NUMERO          SMALLINT,                   -- @TODO: Não faz sentido ser BIGSERIAL, o cara vai marcar 1 trilhão de aulas? SMALLINT
+    PROPOSTA        SERIAL,                 
+    NUMERO          SMALLINT,                   
     INSTRUTOR       VARCHAR(30) NOT NULL,
     LOCAL           VARCHAR(100),
-    PRECO_FINAL     REAL        NOT NULL,       -- @TODO: Real é de precisão flutuante, arrumar
+    PRECO_FINAL     NUMERIC(2)  NOT NULL,       
     STATUS          VARCHAR(10) NOT NULL,
     DATA_INICIO     TIMESTAMP   NOT NULL,
     DATA_FIM        TIMESTAMP   NOT NULL,
-    NOTA_INSTRUTOR  SMALLINT,                   -- @TODO: Nota é valor inteiro de 0 À 5 (vide documentação)
+    NOTA_INSTRUTOR  SMALLINT,                   
 
     CONSTRAINT PK_AULA          PRIMARY KEY (PROPOSTA, NUMERO),
     CONSTRAINT FK_AULA_PROPOSTA FOREIGN KEY (PROPOSTA) 
@@ -182,7 +180,7 @@ CREATE TABLE aula(                              -- Estrutura: TODO, Normalizaç�
 CREATE TABLE avaliacao_participante(    -- Estrutura: TODO, Normalização: TODO
     ALUNO     VARCHAR(30),
     TURMA     VARCHAR(30),
-    PROPOSTA  BIGSERIAL,                -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
+    PROPOSTA  SERIAL,                   
     NUMERO    SMALLINT,
     NOTA      SMALLINT NOT NULL,
 
@@ -195,7 +193,7 @@ CREATE TABLE avaliacao_participante(    -- Estrutura: TODO, Normalização: TODO
 
 CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
     TURMA     VARCHAR(30),
-    CODIGO    BIGSERIAL,                -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
+    CODIGO    SERIAL,                
     NOME      VARCHAR(30) NOT NULL,
     STATUS    VARCHAR(10) NOT NULL,
     INSTRUTOR VARCHAR(30),
@@ -209,10 +207,10 @@ CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
         ON DELETE CASCADE
 );
 
-CREATE TABLE mensagem(                  -- Estrutura: TODO, Normalização: TODO
+CREATE TABLE mensagem(                  -- Estrutura: OK, Normalização: TODO
     TURMA     VARCHAR(30),
-    CODIGO    BIGSERIAL,                -- @TODO: https://www.postgresqltutorial.com/postgresql-uuid/
-    NUMERO    INTEGER,                  -- @TODO: Verificar se existe AUTO INCREMENT em chave composta
+    CODIGO    SERIAL,                
+    NUMERO    INTEGER,                  
     USUARIO   VARCHAR(30),
     DATA_ENVIO TIMESTAMP NOT NULL,
     CONTEUDO  VARCHAR(140),

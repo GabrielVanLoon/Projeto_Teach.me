@@ -34,12 +34,14 @@ CREATE TABLE turma(                                     -- Estrutura: OK, Normal
     TITULO            VARCHAR(60) NOT NULL,
     DESCRICAO         VARCHAR(300),
     IMAGEM            VARCHAR(100),
-    QTD_PARTICIAPNTES SMALLINT,
-    MAX_PARTICIPANTES SMALLINT    NOT NULL,
+    QTD_PARTICIPANTES SMALLINT NOT NULL,
+    MAX_PARTICIPANTES SMALLINT NOT NULL,
     SITUACAO          VARCHAR(10),
 
-    CONSTRAINT PK_TURMA PRIMARY KEY (NOME)              -- @TODO: Se quiser fazer o CHECK qtd <= max pode
-                                                        -- @TODO: Se quiser fazer max >= 0 e qtd >= pode tbm
+    CONSTRAINT PK_TURMA PRIMARY KEY (NOME),
+    CONSTRAINT CK_QTD_PARTICIPANTES  CHECK (QTD_PARTICIPANTES >= 1),
+    CONSTRAINT CK_MAX_PARTICIPANTES  CHECK (QTD_PARTICIPANTES >= 1 AND QTD_PARTICIPANTES <= 50),
+    CONSTRAINT CK_PARTICIPANTES  CHECK (QTD_PARTICIPANTES <= QTD_PARTICIPANTES)
 );
     
 CREATE TABLE participante(                              -- Estrutura: OK, Normalização: TODO

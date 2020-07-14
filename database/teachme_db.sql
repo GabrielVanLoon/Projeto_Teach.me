@@ -26,7 +26,8 @@ CREATE TABLE instrutor(                                 -- Estrutura: OK, Normal
     CONSTRAINT PK_INSTRUTOR         PRIMARY KEY (NOME_USUARIO),
     CONSTRAINT FK_INSTRUTOR_USUARIO FOREIGN KEY(NOME_USUARIO) 
         REFERENCES usuario(NOME_USUARIO) 
-        ON DELETE CASCADE
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
 );
     
 CREATE TABLE turma(                                     -- Estrutura: OK, Normalização: TODO
@@ -53,10 +54,12 @@ CREATE TABLE participante(                              -- Estrutura: OK, Normal
     CONSTRAINT PK_PARTICIPANTE          PRIMARY KEY(ALUNO, TURMA),
     CONSTRAINT FK_PARTICIPANTE_USUARIO  FOREIGN KEY (ALUNO) 
         REFERENCES usuario(NOME_USUARIO)    
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_PARTICIPANTE_TURMA    FOREIGN KEY (TURMA) 
         REFERENCES turma(NOME) 
         ON DELETE CASCADE
+        ON UPDATE_CASCADE
 );
 
 CREATE TABLE recomenda(                                 -- Estrutura: OK, Normalização: TODO
@@ -67,10 +70,12 @@ CREATE TABLE recomenda(                                 -- Estrutura: OK, Normal
     CONSTRAINT PK_RECOMENDA         PRIMARY KEY(ALUNO, INSTRUTOR),
     CONSTRAINT FK_RECOMENDA_USUARIO FOREIGN KEY (ALUNO) 
         REFERENCES usuario(NOME_USUARIO) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_RECOMENDA_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor(NOME_USUARIO) 
         ON DELETE CASCADE
+        ON UPDATE CASCADE
     );
 
 CREATE TABLE disciplina(                                -- Estrutura: OK, Normalização: TODO
@@ -92,10 +97,12 @@ CREATE TABLE oferecimento(                              -- Estrutura: OK, Normal
     CONSTRAINT PK_OFERECIMENTO            PRIMARY KEY (INSTRUTOR, DISCIPLINA),
     CONSTRAINT FK_OFERECIMENTO_INSTRUTOR  FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor(NOME_USUARIO) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_OFERECIMENTO_DISCIPLINA FOREIGN KEY (DISCIPLINA) 
         REFERENCES disciplina(NOME) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0.00)
 );
 
@@ -113,10 +120,12 @@ CREATE TABLE proposta(                                  -- Estrutura: @TODO, Nor
     CONSTRAINT SK_PROPOSTA              UNIQUE(TURMA, INSTRUTOR, DISCIPLINA, CODIGO), --SECONDARY KEY (SK)
     CONSTRAINT FK_PROPOSTA_TURMA        FOREIGN KEY (TURMA) 
         REFERENCES turma(NOME) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_PROPOSTA_OFERECIMENTO FOREIGN KEY(INSTRUTOR, DISCIPLINA) 
         REFERENCES oferecimento(INSTRUTOR, DISCIPLINA) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT CK_PRECO_PROPOSTA        CHECK (PRECO_TOTAL >= 0),
     CONSTRAINT CK_STATUS_PROPOSTA CHECK (STATUS in ('EM APROVAÇÃO', 'RECUSADA', 'APROVADA', 'FINALIZADA'))
     
@@ -129,9 +138,13 @@ CREATE TABLE aceita(                        -- Estrutura: OK, Normalização: TO
 
     CONSTRAINT PK_ACEITA              PRIMARY KEY(ALUNO, TURMA, PROPOSTA),
     CONSTRAINT FK_ACEITA_PARTICIPANTE FOREIGN KEY (ALUNO, TURMA) 
-        REFERENCES participante (ALUNO, TURMA),
+        REFERENCES participante (ALUNO, TURMA)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_ACEITA_PROPOSTA     FOREIGN KEY (PROPOSTA) 
         REFERENCES proposta(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE local(                         -- Estrutura: OK, Normalização: TODO 
@@ -146,7 +159,8 @@ CREATE TABLE local(                         -- Estrutura: OK, Normalização: TO
     CONSTRAINT PK_LOCAL             PRIMARY KEY (INSTRUTOR, NOME),
     CONSTRAINT FK_LOCAL_INSTRUTOR   FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor(NOME_USUARIO) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT CK_CAPACIDADE_LOCAL  CHECK (CAPACIDADE > 0)
 );
 
@@ -157,14 +171,15 @@ CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TOD
     CONSTRAINT PK_HORARIO           PRIMARY KEY (INSTRUTOR, DIA_SEMANA, HORARIO),
     CONSTRAINT FK_HORARIO_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor (NOME_USUARIO) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT CK_DIA_SEMANA  CHECK (DIA_SEMANA in ('DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'))
 );
 
 CREATE TABLE aula(                              -- Estrutura: TODO, Normalização: TODO
     PROPOSTA        SERIAL,                 
     NUMERO          SMALLINT,                   
-    INSTRUTOR       VARCHAR(30) NOT NULL,
+    INSTRUTOR       VARCHAR(30),
     LOCAL           VARCHAR(100),
     PRECO_FINAL     NUMERIC(2)  NOT NULL,       
     STATUS          VARCHAR(16) NOT NULL,
@@ -174,9 +189,13 @@ CREATE TABLE aula(                              -- Estrutura: TODO, Normalizaç�
 
     CONSTRAINT PK_AULA          PRIMARY KEY (PROPOSTA, NUMERO),
     CONSTRAINT FK_AULA_PROPOSTA FOREIGN KEY (PROPOSTA) 
-        REFERENCES proposta(ID),
+        REFERENCES proposta(ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_AULA_LOCAL    FOREIGN KEY (INSTRUTOR, LOCAL) 
-        REFERENCES local(INSTRUTOR, NOME),
+        REFERENCES local(INSTRUTOR, NOME)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
     CONSTRAINT CK_NOTA_VALIDA   CHECK (NOTA_INSTRUTOR >= 0 AND NOTA_INSTRUTOR <= 5),
     CONSTRAINT CK_STATUS_AULA CHECK (STATUS in ('EM APROVAÇÃO', 'AGENDADA', 'FINALIZADA', 'CANCELADA'))
 );
@@ -190,9 +209,13 @@ CREATE TABLE avaliacao_participante(    -- Estrutura: TODO, Normalização: TODO
 
     CONSTRAINT PK_AVALIACAO               PRIMARY KEY (ALUNO, TURMA, PROPOSTA, NUMERO),
     CONSTRAINT FK_AVALIACAO_PARTICIPANTE  FOREIGN KEY (ALUNO, TURMA) 
-        REFERENCES participante(ALUNO, TURMA),
+        REFERENCES participante(ALUNO, TURMA)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_AVALIACAO_AULA          FOREIGN KEY (PROPOSTA, NUMERO) 
         REFERENCES aula (PROPOSTA, NUMERO)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
@@ -205,10 +228,12 @@ CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
     CONSTRAINT PK_CHAT           PRIMARY KEY (TURMA, CODIGO),
     CONSTRAINT FK_CHAT_TURMA     FOREIGN KEY (TURMA) 
         REFERENCES turma (NOME) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_CHAT_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor (NOME_USUARIO) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE,
     -- @TODO: lembrar quais eram os status do chat da turma e.e
 );
 
@@ -223,8 +248,10 @@ CREATE TABLE mensagem(                  -- Estrutura: OK, Normalização: TODO
     CONSTRAINT PK_MENSAGEM          PRIMARY KEY (TURMA, CODIGO, NUMERO),
     CONSTRAINT FK_MENSAGEM_CHAT     FOREIGN KEY (TURMA, CODIGO)
         REFERENCES CHAT (TURMA, CODIGO) 
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     CONSTRAINT FK_MENSAGEM_USUARIO  FOREIGN KEY (USUARIO)
         REFERENCES usuario (NOME_USUARIO) 
         ON DELETE SET NULL
+        ON UPDATE CASCADE
 );

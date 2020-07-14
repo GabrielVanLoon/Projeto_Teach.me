@@ -1,4 +1,4 @@
-from src.dao.usuario import *
+from src.dao.usuario import UsuarioDAO
 
 # Model: lida com as regras de negócio e validações
 # - Tipos de validação: valores obrigatórios, tipos de dados, formatos válidos ou

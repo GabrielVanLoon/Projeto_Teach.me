@@ -1,6 +1,5 @@
 from django.http import JsonResponse
-
-from src.models.usuario import *
+from src.models.usuario import UsuarioModel
 
 # Controller: Lida com a requisição
 # - Tipos de validação: verificar método da requisição

@@ -19,5 +19,7 @@ from django.urls    import path
 from src.controllers.user import UserController
 
 urlpatterns = [
-    path('', UserController().register),
+    path('user/register',  UserController().register),
+    path('user/update',    UserController().update),
+    path('user/',          UserController().search),
 ]

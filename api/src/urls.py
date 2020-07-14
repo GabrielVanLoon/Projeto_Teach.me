@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls    import path
 
 from src.controllers.user import UserController
+from src.controllers.class_ import ClassController
+
 
 urlpatterns = [
-    path('', UserController().register),
+    path('', ClassController().register),
 ]

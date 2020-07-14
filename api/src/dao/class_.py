@@ -1,7 +1,7 @@
 from src.dao.connector import Connector
-from src.entities.class import Class
+from src.entities.class_ import Class
 
-class ClassDAO:
+class ClassDAO(Connector):
 
     def __init__(self):
         super().__init__()

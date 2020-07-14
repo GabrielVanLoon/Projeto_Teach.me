@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from rest_framework import status
 
-from src.models.class import *
+from src.models.class_ import *
 
 class ClassController: 
 
@@ -13,7 +13,7 @@ class ClassController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().register(request.POST)
+            ClassModel().register(request.POST)
             data = { 'message': 'successfully registered class.'}
             http_status = status.HTTP_200_OK
 

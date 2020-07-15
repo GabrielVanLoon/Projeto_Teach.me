@@ -8,3 +8,10 @@ class Message:
         self.date           = date 
         self.content        = content
         
+    def __iter__(self):
+        yield classname,        classname
+        yield chat_code,        chat_code
+        yield message_number,   message_number
+        yield username,         username 
+        yield date,             date 
+        yield content,          content

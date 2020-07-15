@@ -4,7 +4,7 @@ def is_valid_mail(param:str = ''):
     return re.search('^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$', param)
 
 def is_integer(param:str = ''):
-    return re.search('^[0-9.]{1,}$', param)
+    return re.search('^[0-9]{1,}$', param)
 
 def is_numeric(param:str = ''):
     return re.search('^[0-9.]{1,}$', param)

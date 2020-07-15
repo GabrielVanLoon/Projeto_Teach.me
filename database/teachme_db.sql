@@ -34,7 +34,7 @@ CREATE TABLE turma(                                     -- Estrutura: OK, Normal
     TITULO            VARCHAR(60) NOT NULL,
     DESCRICAO         VARCHAR(300),
     IMAGEM            VARCHAR(100),
-    QTD_PARTICIAPNTES SMALLINT,
+    QTD_PARTICIPANTES SMALLINT,
     MAX_PARTICIPANTES SMALLINT    NOT NULL,
     SITUACAO          VARCHAR(10),
 

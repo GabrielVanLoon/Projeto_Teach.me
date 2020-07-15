@@ -1,9 +1,9 @@
 from django.http import JsonResponse
 from rest_framework import status
 
-from src.models.class_ import ClassModel
+from src.models.subject import SubjectModel
 
-class ClassController: 
+class SubjectController: 
 
     def register(self, request):
         (data, http_status)   = ({ }, status.HTTP_400_BAD_REQUEST)
@@ -13,8 +13,8 @@ class ClassController:
             return JsonResponse(data, status=http_status)
 
         try:
-            ClassModel().register(request.POST)
-            data = { 'message': 'successfully registered class.'}
+            SubjectModel().register(request.POST)
+            data = { 'message': 'successfully registered subject.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:  
@@ -30,8 +30,8 @@ class ClassController:
             return JsonResponse(data, status=http_status)
 
         try:
-            ClassModel().update(request.POST)
-            data = { 'message': 'successfully updated class.'}
+            SubjectModel().update(request.POST)
+            data = { 'message': 'successfully updated subject.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:
@@ -48,8 +48,8 @@ class ClassController:
             return JsonResponse(data, status=http_status)
 
         try:
-            class_ = ClassModel().search(request.GET)
-            data = { 'class': class_ }
+            subject = SubjectModel().search(request.GET)
+            data = { 'subject': subject }
             http_status = status.HTTP_200_OK
 
         except Exception as e:

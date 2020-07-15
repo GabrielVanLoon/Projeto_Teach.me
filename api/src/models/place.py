@@ -94,9 +94,9 @@ class PlaceModel:
         # 3º Buscando o usuario
         try:
             place = PlaceDAO().select(place)
-            if recommendation is None:
+            if place is None:
                 raise Exception('could not find place.')
         except Exception as e:
             raise e
 
-        return dict(recommendation)
+        return dict(place)

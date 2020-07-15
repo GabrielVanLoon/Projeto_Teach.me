@@ -6,4 +6,11 @@ class Chat:
         self.name = name 
         self.status = status 
         self.instructor = instructor
+    
+    def __iter__(self):
+        yield 'classname',   self.classname
+        yield 'chat_code',      self.chat_code
+        yield 'name',   self.name
+        yield 'status',       self.status
+        yield 'instructor',  self.instructor
         

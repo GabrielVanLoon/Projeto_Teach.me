@@ -22,9 +22,49 @@ class UserDAO(Connector):
         finally:
             self.close()
 
-    def update(self):
-        return True
+    def update(self, user:User):
+        rows_affected = 0
+        try: 
+            self.connect()
+            query = '''UPDATE usuario 
+                        SET EMAIL = %s, NOME = %s, SOBRENOME = %s, E_INSTRUTOR = %s
+                        WHERE NOME_USUARIO = %s;'''
 
-    def select(self):
-        return True
+            self.cur.execute(query, [user.email, user.name, user.last_name, user.is_instructor, user.username])
+            self.con.commit()
+            
+            rows_affected = self.cur.rowcount
+
+        except Exception as e:
+            print('[userDAO.update]', str(e))
+            raise Exception('fail on user update. Check again later!')
+
+        finally:
+            self.close()
+
+        return rows_affected
+
+    def select(self, user:User):
+        return_user = None
+        try: 
+            self.connect()
+            query = '''SELECT NOME_USUARIO, EMAIL, NOME, SOBRENOME, FOTO, E_INSTRUTOR
+                        FROM usuario 
+                        WHERE NOME_USUARIO = %s LIMIT 1;'''
+
+            self.cur.execute(query, [user.username])
+            self.con.commit()
+
+            result = self.cur.fetchone()
+            if (self.cur.rowcount == 1) and (result is not None):
+                return_user = User(result[0], result[1], None, result[2], result[3], result[4], result[5])
+
+        except Exception as e:
+            print('[userDAO.select]', str(e))
+            raise Exception('fail on user select. Check again later!')
+
+        finally:
+            self.close()
+
+        return return_user
     

@@ -9,3 +9,14 @@ class Place:
         self.complement = complement
         self.city = city
         self.federal_state = federal_state
+
+    def __iter__(self):
+        yield instructor,   instructor
+        yield placename,    placename
+        yield capacity,     capacity
+        yield street,       street
+        yield number,       number
+        yield neighborhood, neighborhood
+        yield complement,   complement
+        yield city,         city
+        yield federal_state, federal_state

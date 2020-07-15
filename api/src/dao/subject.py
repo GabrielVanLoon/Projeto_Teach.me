@@ -27,9 +27,9 @@ class SubjectDAO(Connector):
         try: 
             self.connect()
             query = '''UPDATE disciplina 
-                        SET NOME = %s, DISCIPLINA_PAI %s;'''
+                        SET DISCIPLINA_PAI %s;'''
 
-            self.cur.execute(query, [subject.name, subject.parent_subject])
+            self.cur.execute(query, [subject.parent_subject])
             self.con.commit()
             
             rows_affected = self.cur.rowcount

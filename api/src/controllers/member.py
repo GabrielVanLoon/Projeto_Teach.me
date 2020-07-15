@@ -1,9 +1,9 @@
 from django.http    import JsonResponse
 from rest_framework import status
 
-from src.models.user   import UserModel
+from src.models.member import MemberModel
 
-class UserController:
+class MemberController:
 
     def register(self, request):
         (data, http_status)   = ({ }, status.HTTP_400_BAD_REQUEST)
@@ -13,8 +13,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().register(request.POST)
-            data = { 'message': 'successfully registered user.'}
+            MemberModel().register(request.POST)
+            data = { 'message': 'successfully registered member.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:
@@ -30,8 +30,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().update(request.POST)
-            data = { 'message': 'successfully updated user.'}
+            MemberModel().update(request.POST)
+            data = { 'message': 'successfully updated member.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:
@@ -48,8 +48,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            user = UserModel().search(request.GET)
-            data = { 'user': user }
+            member = MemberModel().search(request.GET)
+            data = { 'member': member }
             http_status = status.HTTP_200_OK
 
         except Exception as e:

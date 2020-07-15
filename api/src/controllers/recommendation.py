@@ -1,9 +1,9 @@
 from django.http    import JsonResponse
 from rest_framework import status
 
-from src.models.user   import UserModel
+from src.models.recommendation import RecommendationModel
 
-class UserController:
+class RecommendationController:
 
     def register(self, request):
         (data, http_status)   = ({ }, status.HTTP_400_BAD_REQUEST)
@@ -13,8 +13,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().register(request.POST)
-            data = { 'message': 'successfully registered user.'}
+            RecommendationModel().register(request.POST)
+            data = { 'message': 'successfully registered recommendation.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:
@@ -30,8 +30,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().update(request.POST)
-            data = { 'message': 'successfully updated user.'}
+            RecommendationModel().update(request.POST)
+            data = { 'message': 'successfully updated recommendation.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:
@@ -48,8 +48,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            user = UserModel().search(request.GET)
-            data = { 'user': user }
+            recommendation = RecommendationModel().search(request.GET)
+            data = { 'recommendation': recommendation }
             http_status = status.HTTP_200_OK
 
         except Exception as e:

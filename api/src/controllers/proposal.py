@@ -1,9 +1,9 @@
 from django.http    import JsonResponse
 from rest_framework import status
 
-from src.models.user   import UserModel
+from src.models.proposal import ProposalModel
 
-class UserController:
+class ProposalController:
 
     def register(self, request):
         (data, http_status)   = ({ }, status.HTTP_400_BAD_REQUEST)
@@ -13,8 +13,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().register(request.POST)
-            data = { 'message': 'successfully registered user.'}
+            ProposalModel().register(request.POST)
+            data = { 'message': 'successfully registered proposal.'}
             http_status = status.HTTP_200_OK
 
         except Exception as e:
@@ -24,19 +24,8 @@ class UserController:
 
     def update(self, request):
         (data, http_status)   = ({ }, status.HTTP_400_BAD_REQUEST)
-        
-        if request.method != 'POST':
-            data = { 'error': 'invalid http method. Use POST instead.'}
-            return JsonResponse(data, status=http_status)
-
-        try:
-            UserModel().update(request.POST)
-            data = { 'message': 'successfully updated user.'}
-            http_status = status.HTTP_200_OK
-
-        except Exception as e:
-            data = { 'error': str(e) }
-
+        # @TODO: Nem perdi tempo fazendo pq maioria dos updates
+        #        que imaginei seriam disparados pelo próprio sistema.
         return JsonResponse(data, status=http_status)
 
 
@@ -48,8 +37,8 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            user = UserModel().search(request.GET)
-            data = { 'user': user }
+            proposal = ProposalModel().search(request.GET)
+            data = { 'proposal': proposal }
             http_status = status.HTTP_200_OK
 
         except Exception as e:

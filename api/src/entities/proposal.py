@@ -9,3 +9,13 @@ class Proposal:
         self.status = status
         self.creation_date = creation_date
         self.full_price = full_price
+
+    def __iter__(self):
+        yield 'id',             self.id
+        yield 'classname',      self.classname
+        yield 'instructor',     self.instructor
+        yield 'subject',        self.subject
+        yield 'code',           self.code
+        yield 'status',         self.status
+        yield 'creation_date',  self.creation_date
+    yield 'full_price',         self.full_price

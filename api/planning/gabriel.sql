@@ -90,3 +90,65 @@
         INNER JOIN aula 'A' ON (A.PROPOSTA = P.ID)
         WHERE A.STATUS = 'FINALIZADA'
         GROUP BY R.ALUNO, R.INSTRUTOR
+
+
+
+--------------------------------------------------------
+-- INSERTS DE TESTE
+--------------------------------------------------------
+
+INSERT INTO usuario VALUES 
+('ana', 'ana@instrutora.com', 'senha456', 'Ana', 'Vitória', '', TRUE),
+('alice', 'alice@instrutora.com', 'senha457', 'Alice', 'dos Santos', '', TRUE),
+('andressa', 'andressa@instrutora.com', 'senha458', 'Andressa', 'Fagundes', '', TRUE),
+('amalia', 'amalia@instrutora.com', 'senha459', 'Amália', 'Rodriges', '', TRUE),
+('bob', 'bob@aluno.com', 'senha460', 'Bob', 'Milon', '', FALSE),
+('carlos', 'carlos@aluno.com', 'senha461', 'Carlos', 'da Silva', '', FALSE),
+('diego', 'diego@aluno.com', 'senha462', 'Diego', 'Hernesto', '', FALSE),
+('enrique', 'enrique@aluno.com', 'senha463', 'Enrique', 'Cavalcante', '', FALSE),
+('felipe', 'felipe@aluno.com', 'senha464', 'Felipe', 'Milos ', '', FALSE),
+('gabriel', 'gabriel@aluno.com', 'senha465', 'Gabriel', 'Santos', '', FALSE);
+
+INSERT INTO instrutor VALUES
+('ana', 'Formada em 2016, dou aulas particulares para universitários desde 2013.', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Bach. Matemática Aplicada.'),
+('alice', 'Formada em 2017, dou aulas particulares para universitários desde 2013.', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Lic. Matemática'),
+('andressa', 'Formada em 2018, dou aulas particulares para universitários desde 2013.', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Bach. Ciências da Computação'),
+('amalia', 'Estou no ICMC desde 2016 e já fui monitora das disciplinas de ...', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Estudante de Estatística');
+
+INSERT INTO disciplina VALUES
+('Línguas',NULL),
+('Inglês','Línguas'),
+('Francês','Línguas'),
+('Alemão','Línguas'),
+('Computação',NULL),
+('P. O. O.','Computação'),
+('Programação Competitiva','Computação'),
+('Banco de Dados','Computação'),
+('Matemática',NULL),
+('Cálculo','Matemática'),
+('Estatística','Matemática'),
+('Geometria Analítica','Matemática');
+
+INSERT INTO oferecimento VALUES
+('ana', 'Inglês', 60.00, 'Teoria Gramatical + Aulas de Conversação'),
+('ana', 'Francês', 60.00, 'Teoria Gramatical + Aulas de Conversação'),
+('ana', 'Geometria Analítica', 80.00, 'Revisão Teórica, Resolução de Exercícios e Teoremas'),
+('ana', 'Cálculo', 80.00, 'Revisão Teórica, Resolução de Exercícios e Teoremas'),
+('alice', 'Inglês', 100.00, 'Ajudo à se preparar para o TOEFL e outras provas.'),
+('alice', 'Cálculo', 75.00, 'Revisão de questões comuns das provas.'),
+('andressa', 'Inglês', 50.00, 'Ajudo à melhorar a conversão por meio de rodas de conversa.'),
+('andressa', 'Francês', 50.00, 'Ajudo à melhorar a conversão por meio de rodas de conversa.'),
+('andressa', 'Alemão', 50.00, 'Ajudo à melhorar a conversão por meio de rodas de conversa.'),
+('amalia', 'Cálculo', 100.00, 'Provas chegando? Ajudo à se preparar para os exames.'),
+('amalia', 'Estatística', 80.00, 'Provas chegando? Ajudo à se preparar para os exames.'),
+('amalia', 'Geometria Analítica', 80.00, 'Provas chegando? Ajudo à se preparar para os exames.');
+
+INSERT INTO local VALUES
+('ana', 'Minha Casa', '3', 'Rua 9 de Julho', '2000', 'Apto. 73', 'Centro', 'São Carlos', 'SP'),
+('ana', 'Biblioteca ICMC', '6', 'Av. Trab. São Carlense', '400', 'USP SÂO CARLOS', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
+('ana', 'Biblioteca Física', '12', 'Av. Trab. São Carlense', '400', '', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
+('alice', 'ICMC - Sala Bloco 3', '20', 'Av. Trab. São Carlense', '400', '', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
+('andressa', 'Biblioteca ICMC', '1', 'Av. Trab. São Carlense', '400', 'USP SÂO CARLOS', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
+('andressa', 'Minha Casa', '1', 'Rua 25 de Março', '222', 'Casa 3', 'Cidade Jardim', 'Araraquara', 'SP'),
+('amalia', 'Biblioteca ICMC', '6', 'Av. Trab. São Carlense', '400', '', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
+('amalia', 'Minha Casa', '3', 'Rua 27', '27', '', 'Jardim São Paulo', 'Rio Claro', 'SP');

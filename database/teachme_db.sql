@@ -29,7 +29,67 @@ CREATE TABLE instrutor(                                 -- Estrutura: OK, Normal
         ON DELETE CASCADE 
         ON UPDATE CASCADE
 );
+
+CREATE TABLE disciplina(                                -- Estrutura: OK, Normalização: TODO
+    NOME            VARCHAR(30),
+    DISCIPLINA_PAI  VARCHAR(30),
     
+    CONSTRAINT PK_DISCIPLINA PRIMARY KEY(NOME),
+    CONSTRAINT FK_DISCIPLINA_DISCIPLINA FOREIGN KEY (DISCIPLINA_PAI)
+        REFERENCES disciplina(NOME)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE oferecimento(                              -- Estrutura: OK, Normalização: TODO
+    INSTRUTOR   VARCHAR(30),
+    DISCIPLINA  VARCHAR(30),                    
+    PRECO_BASE  NUMERIC(6,2) NOT NULL,                    
+    METODOLOGIA VARCHAR(300),
+    
+    CONSTRAINT PK_OFERECIMENTO            PRIMARY KEY (INSTRUTOR, DISCIPLINA),
+    CONSTRAINT FK_OFERECIMENTO_INSTRUTOR  FOREIGN KEY (INSTRUTOR) 
+        REFERENCES instrutor(NOME_USUARIO) 
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FK_OFERECIMENTO_DISCIPLINA FOREIGN KEY (DISCIPLINA) 
+        REFERENCES disciplina(NOME) 
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0.00)
+);
+
+CREATE TABLE local(                         -- Estrutura: OK, Normalização: TODO 
+    INSTRUTOR   VARCHAR(30),
+    NOME        VARCHAR (100),
+    CAPACIDADE  SMALLINT      NOT NULL,
+    RUA         VARCHAR(100)  NOT NULL,
+    NUMERO      SMALLINT      NOT NULL,
+    BAIRRO      VARCHAR(100)  NOT NULL,     
+    COMPLEMENTO VARCHAR(100),
+    CIDADE      VARCHAR(30)   NOT NULL,
+    UF          VARCHAR(2)    NOT NULL,
+
+    CONSTRAINT PK_LOCAL             PRIMARY KEY (INSTRUTOR, NOME),
+    CONSTRAINT FK_LOCAL_INSTRUTOR   FOREIGN KEY (INSTRUTOR) 
+        REFERENCES instrutor(NOME_USUARIO) 
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CK_CAPACIDADE_LOCAL  CHECK (CAPACIDADE > 0)
+);
+
+CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TODO 
+    INSTRUTOR   VARCHAR(30),
+    DIA_SEMANA  CHAR(3),
+    HORARIO     TIME,
+    CONSTRAINT PK_HORARIO           PRIMARY KEY (INSTRUTOR, DIA_SEMANA, HORARIO),
+    CONSTRAINT FK_HORARIO_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
+        REFERENCES instrutor (NOME_USUARIO) 
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CK_DIA_SEMANA  CHECK (DIA_SEMANA in ('DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'))
+);
+
 CREATE TABLE turma(                                     -- Estrutura: OK, Normalização: TODO
     NOME              VARCHAR(30),
     TITULO            VARCHAR(60) NOT NULL,
@@ -78,35 +138,6 @@ CREATE TABLE recomenda(                                 -- Estrutura: OK, Normal
         ON UPDATE CASCADE
 );
 
-CREATE TABLE disciplina(                                -- Estrutura: OK, Normalização: TODO
-    NOME            VARCHAR(30),
-    DISCIPLINA_PAI  VARCHAR(30),
-    
-    CONSTRAINT PK_DISCIPLINA PRIMARY KEY(NOME),
-    CONSTRAINT FK_DISCIPLINA_DISCIPLINA FOREIGN KEY (DISCIPLINA_PAI)
-        REFERENCES disciplina(NOME)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
-);
-
-CREATE TABLE oferecimento(                              -- Estrutura: OK, Normalização: TODO
-    INSTRUTOR   VARCHAR(30),
-    DISCIPLINA  VARCHAR(30),                    
-    PRECO_BASE  NUMERIC(2) NOT NULL,                    
-    METODOLOGIA VARCHAR(300),
-    
-    CONSTRAINT PK_OFERECIMENTO            PRIMARY KEY (INSTRUTOR, DISCIPLINA),
-    CONSTRAINT FK_OFERECIMENTO_INSTRUTOR  FOREIGN KEY (INSTRUTOR) 
-        REFERENCES instrutor(NOME_USUARIO) 
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT FK_OFERECIMENTO_DISCIPLINA FOREIGN KEY (DISCIPLINA) 
-        REFERENCES disciplina(NOME) 
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0.00)
-);
-
 CREATE TABLE proposta(                                  -- Estrutura: @TODO, Normalização: TODO
     ID            SERIAL,                            
     TURMA         VARCHAR(30) NOT NULL,
@@ -115,7 +146,7 @@ CREATE TABLE proposta(                                  -- Estrutura: @TODO, Nor
     CODIGO        SMALLINT    NOT NULL,                 
     STATUS        VARCHAR(16) NOT NULL,
     DATA_CRIACAO  TIMESTAMP   NOT NULL,
-    PRECO_TOTAL   NUMERIC(2)  NOT NULL,                
+    PRECO_TOTAL   NUMERIC(6,2)  NOT NULL,                
 
     CONSTRAINT PK_PROPOSTA              PRIMARY KEY (ID),
     CONSTRAINT SK_PROPOSTA              UNIQUE(TURMA, INSTRUTOR, DISCIPLINA, CODIGO), --SECONDARY KEY (SK)
@@ -147,43 +178,12 @@ CREATE TABLE aceita(                        -- Estrutura: OK, Normalização: TO
         ON UPDATE CASCADE
 );
 
-CREATE TABLE local(                         -- Estrutura: OK, Normalização: TODO 
-    INSTRUTOR   VARCHAR(30),
-    NOME        VARCHAR (100),
-    CAPACIDADE  SMALLINT      NOT NULL,
-    RUA         VARCHAR(100)  NOT NULL,
-    NUMERO      SMALLINT      NOT NULL,
-    BAIRRO      VARCHAR(100)  NOT NULL,     
-    COMPLEMENTO VARCHAR(100),
-    CIDADE      VARCHAR(30)   NOT NULL,
-    UF          VARCHAR(2)    NOT NULL,
-
-    CONSTRAINT PK_LOCAL             PRIMARY KEY (INSTRUTOR, NOME),
-    CONSTRAINT FK_LOCAL_INSTRUTOR   FOREIGN KEY (INSTRUTOR) 
-        REFERENCES instrutor(NOME_USUARIO) 
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT CK_CAPACIDADE_LOCAL  CHECK (CAPACIDADE > 0)
-);
-
-CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TODO 
-    INSTRUTOR   VARCHAR(30),
-    DIA_SEMANA  CHAR(3),
-    HORARIO     TIME,
-    CONSTRAINT PK_HORARIO           PRIMARY KEY (INSTRUTOR, DIA_SEMANA, HORARIO),
-    CONSTRAINT FK_HORARIO_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
-        REFERENCES instrutor (NOME_USUARIO) 
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT CK_DIA_SEMANA  CHECK (DIA_SEMANA in ('DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'))
-);
-
 CREATE TABLE aula(                              -- Estrutura: TODO, Normalização: TODO
     PROPOSTA        SERIAL,                 
     NUMERO          SMALLINT,                   
     INSTRUTOR       VARCHAR(30),
     LOCAL           VARCHAR(100),
-    PRECO_FINAL     NUMERIC(2)  NOT NULL,       
+    PRECO_FINAL     NUMERIC(6,2)  NOT NULL,       
     STATUS          VARCHAR(16) NOT NULL,
     DATA_INICIO     TIMESTAMP   NOT NULL,
     DATA_FIM        TIMESTAMP   NOT NULL,
@@ -257,3 +257,21 @@ CREATE TABLE mensagem(                  -- Estrutura: OK, Normalização: TODO
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+
+
+-- Para resetar: 
+-- DROP TABLE mensagem;
+-- DROP TABLE chat;
+-- DROP TABLE avaliacao_participante;
+-- DROP TABLE aula;
+-- DROP TABLE horario_disponivel;
+-- DROP TABLE local;
+-- DROP TABLE aceita;
+-- DROP TABLE proposta;
+-- DROP TABLE oferecimento;
+-- DROP TABLE disciplina;
+-- DROP TABLE recomenda;
+-- DROP TABLE participante;
+-- DROP TABLE turma;
+-- DROP TABLE instrutor;
+-- DROP TABLE usuario;

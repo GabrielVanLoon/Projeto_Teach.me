@@ -153,6 +153,18 @@ INSERT INTO local VALUES
 ('amalia', 'Biblioteca ICMC', '6', 'Av. Trab. São Carlense', '400', '', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
 ('amalia', 'Minha Casa', '3', 'Rua 27', '27', '', 'Jardim São Paulo', 'Rio Claro', 'SP');
 
+INSERT INTO horario_disponivel VALUES
+('ana', 'SEG', '14:00'),
+('ana', 'SEG', '15:00'),
+('ana', 'SEG', '16:00'),
+('ana', 'SEG', '17:00'),
+('ana', 'SEG', '18:00'),
+('ana', 'SEG', '19:00'),
+('ana', 'QUA', '16:00'),
+('ana', 'QUA', '17:00'),
+('ana', 'QUA', '18:00'),
+('ana', 'QUA', '19:00');
+
 INSERT INTO turma VALUES
 ('ana', '', '', '', 1, 1, 'PARTICULAR'),
 ('alice', '', '', '', 1, 1, 'PARTICULAR'),
@@ -284,3 +296,25 @@ INSERT INTO avaliacao_participante VALUES
 ('diego', 'grupo_linguas', 16, 1, 5),
 ('felipe', 'grupo_linguas', 16, 1, 5),
 ('gabriel', 'grupo_linguas', 16, 1, 5);
+
+INSERT INTO chat VALUES 
+('grupo_linguas', 1, 'Chat Interno @grupo_linguas', 'ATIVO', NULL),
+('grupo_exatas018', 1, 'Chat Interno @grupo_exatas018', 'ATIVO', NULL),
+('grupo_compsofre', 1, 'Chat Interno @grupo_compsofre', 'ATIVO', NULL),
+('grupo_random', 1, 'Chat Interno @grupo_random', 'ATIVO', NULL),
+('grupo_linguas', 2, 'Negociação @grupo_linguas', 'ATIVO', 'ana'),
+('grupo_linguas', 3, 'Negociação @grupo_linguas', 'ATIVO', 'alice'),
+('grupo_linguas', 4, 'Negociação @grupo_linguas', 'ATIVO', 'andressa'),
+('grupo_exatas018', 2, 'Negociação @grupo_compsofre', 'ATIVO', 'ana'),
+('grupo_exatas018', 3, 'Negociação @grupo_compsofre', 'ARQUIVADO', 'alice'),
+('grupo_exatas018', 4, 'Negociação @grupo_compsofre', 'ATIVO', 'amalia'),
+('grupo_compsofre', 2, 'Negociação @grupo_compsofre', 'ATIVO', 'amalia'),
+('grupo_compsofre', 3, 'Negociação @grupo_compsofre', 'ARQUIVADO', 'ana'),
+('grupo_random', 2, 'Negociação @grupo_random', 'ATIVO', 'amalia'),
+('bob', 1, 'Negociação @bot', 'ATIVO', 'ana');
+
+INSERT INTO recomenda VALUES
+('bob', 'ana', 'A Ana é uma instrutora incrível. Foi super atenciosa comigo e minha turma mesmo em momentos de maior dificuldade. Recomendo!!!'),
+('carlos', 'ana', 'Já tive diversas aulas com a Ana e ela sempre foi uma pessoa muito calma e com uma didática incrível!'),
+('diego', 'ana', 'Pessoal, pode confiar na review do pai aqui. Professora T0P e Dedicada!!!'),
+('felipe', 'amalia', 'Me ajudou bastante nas matérias de GA e estatística!');

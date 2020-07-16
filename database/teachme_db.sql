@@ -236,8 +236,8 @@ CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
     CONSTRAINT FK_CHAT_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor (NOME_USUARIO) 
         ON DELETE CASCADE 
-        ON UPDATE CASCADE
-    -- @TODO: lembrar quais eram os status do chat da turma e.e
+        ON UPDATE CASCADE,
+    CONSTRAINT CK_STATUS_CHAT CHECK (STATUS in ('ATIVO', 'ARQUIVADO'))
 );
 
 CREATE TABLE mensagem(                  -- Estrutura: OK, Normalização: TODO

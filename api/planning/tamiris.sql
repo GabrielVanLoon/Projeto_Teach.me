@@ -49,13 +49,14 @@ SELECT AVG(AP.NOTA)
 
 SELECT T.NOME_TURMA
     FROM TURMA 'T'
-    WHERE T.SITUACAO = ATIVA
-
-MIN (Nota) > 3.0
+    JOIN PROPOSTA 'P' ON (T.NOME = P.TURMA)
+    JOIN AULA 'A' ON (P.ID = A.PROPOSTA)
+    WHERE MIN (A.NOTA_INSTRUTOR > 3.0);
 
 -----------------------------------------------------------------------------------
 
 - Instrutores que deram a maior quantidade de aulas em cada estado no último mês. Em casos de empate exibir todos.
     [Médio - Tamiris]
 
-SELECT 
+SELECT I.NOME_USUARIO
+    FROM INSTRUTOR 'I'

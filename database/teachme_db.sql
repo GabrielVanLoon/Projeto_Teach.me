@@ -217,7 +217,8 @@ CREATE TABLE avaliacao_participante(    -- Estrutura: TODO, Normalização: TODO
     CONSTRAINT FK_AVALIACAO_AULA          FOREIGN KEY (PROPOSTA, NUMERO) 
         REFERENCES aula (PROPOSTA, NUMERO)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT CK_NOTA_ALUNO_VALIDA   CHECK (NOTA >= 0 AND NOTA <= 5)
 );
 
 CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO

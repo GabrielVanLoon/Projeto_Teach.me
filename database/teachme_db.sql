@@ -1,10 +1,12 @@
 -- Script:      teachme_db.sql
 -- Descrição:   Script contendo os comandos SQL para a criação das tabelas 
---              do banco de dados Postgresql do projeto Teach.me
+--              do banco de dados Postgresql do projeto Teach.me.
+--              Ao final do script há também uma sequência de DROPS para ser utilizada
+--              caso deseje excluir todas as tabelas sem excluir a base de dados.
 -- Data:        10/06/2020 
 -- Versão:      1.0.0
 
-CREATE TABLE usuario(                                   -- Estrutura: OK, Normalização: TODO
+CREATE TABLE usuario(                                   
     NOME_USUARIO  VARCHAR(30),
     EMAIL         VARCHAR(60) NOT NULL, 
     SENHA         VARCHAR(400) NOT NULL,
@@ -17,7 +19,7 @@ CREATE TABLE usuario(                                   -- Estrutura: OK, Normal
     CONSTRAINT SK_USUARIO UNIQUE (EMAIL)
 );
     
-CREATE TABLE instrutor(                                 -- Estrutura: OK, Normalização: TODO
+CREATE TABLE instrutor(                                 
     NOME_USUARIO  VARCHAR(30),
     RESUMO        VARCHAR(300),
     SOBRE_MIM     VARCHAR(3000),
@@ -30,7 +32,7 @@ CREATE TABLE instrutor(                                 -- Estrutura: OK, Normal
         ON UPDATE CASCADE
 );
 
-CREATE TABLE disciplina(                                -- Estrutura: OK, Normalização: TODO
+CREATE TABLE disciplina(                                
     NOME            VARCHAR(30),
     DISCIPLINA_PAI  VARCHAR(30),
     
@@ -41,7 +43,7 @@ CREATE TABLE disciplina(                                -- Estrutura: OK, Normal
         ON UPDATE CASCADE
 );
 
-CREATE TABLE oferecimento(                              -- Estrutura: OK, Normalização: TODO
+CREATE TABLE oferecimento(                              
     INSTRUTOR   VARCHAR(30),
     DISCIPLINA  VARCHAR(30),                    
     PRECO_BASE  NUMERIC(6,2) NOT NULL,                    
@@ -59,7 +61,7 @@ CREATE TABLE oferecimento(                              -- Estrutura: OK, Normal
     CONSTRAINT CK_PRECO_OFERECIMENTO      CHECK (PRECO_BASE >= 0.00)
 );
 
-CREATE TABLE local(                         -- Estrutura: OK, Normalização: TODO 
+CREATE TABLE local(                         
     INSTRUTOR   VARCHAR(30),
     NOME        VARCHAR (100),
     CAPACIDADE  SMALLINT      NOT NULL,
@@ -78,10 +80,11 @@ CREATE TABLE local(                         -- Estrutura: OK, Normalização: TO
     CONSTRAINT CK_CAPACIDADE_LOCAL  CHECK (CAPACIDADE > 0)
 );
 
-CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TODO 
+CREATE TABLE horario_disponivel(            
     INSTRUTOR   VARCHAR(30),
     DIA_SEMANA  CHAR(3),
     HORARIO     TIME,
+    
     CONSTRAINT PK_HORARIO           PRIMARY KEY (INSTRUTOR, DIA_SEMANA, HORARIO),
     CONSTRAINT FK_HORARIO_INSTRUTOR FOREIGN KEY (INSTRUTOR) 
         REFERENCES instrutor (NOME_USUARIO) 
@@ -90,7 +93,7 @@ CREATE TABLE horario_disponivel(            -- Estrutura: OK Normalização: TOD
     CONSTRAINT CK_DIA_SEMANA  CHECK (DIA_SEMANA in ('DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'))
 );
 
-CREATE TABLE turma(                                     -- Estrutura: OK, Normalização: TODO
+CREATE TABLE turma(                                     
     NOME              VARCHAR(30),
     TITULO            VARCHAR(60) NOT NULL,
     DESCRICAO         VARCHAR(300),
@@ -106,7 +109,7 @@ CREATE TABLE turma(                                     -- Estrutura: OK, Normal
     CONSTRAINT CK_SITUACAO_TURMA  CHECK (SITUACAO in ('PARTICULAR', 'BUSCANDO INSTRUTOR', 'EM AULAS', 'ENCERRADA'))
 );
     
-CREATE TABLE participante(                              -- Estrutura: OK, Normalização: TODO
+CREATE TABLE participante(                              
     ALUNO   VARCHAR(30),
     TURMA   VARCHAR(30),
     E_LIDER BOOLEAN NOT NULL,
@@ -122,7 +125,7 @@ CREATE TABLE participante(                              -- Estrutura: OK, Normal
         ON UPDATE CASCADE
 );
 
-CREATE TABLE recomenda(                                 -- Estrutura: OK, Normalização: TODO
+CREATE TABLE recomenda(                                 
     ALUNO     VARCHAR(30),
     INSTRUTOR VARCHAR(30),
     TEXTO     VARCHAR(300),
@@ -138,7 +141,7 @@ CREATE TABLE recomenda(                                 -- Estrutura: OK, Normal
         ON UPDATE CASCADE
 );
 
-CREATE TABLE proposta(                                  -- Estrutura: @TODO, Normalização: TODO
+CREATE TABLE proposta(                                  
     ID            SERIAL,                            
     TURMA         VARCHAR(30) NOT NULL,
     INSTRUTOR     VARCHAR(30) NOT NULL,
@@ -162,7 +165,7 @@ CREATE TABLE proposta(                                  -- Estrutura: @TODO, Nor
     CONSTRAINT CK_STATUS_PROPOSTA CHECK (STATUS in ('EM APROVAÇÃO', 'RECUSADA', 'APROVADA', 'FINALIZADA'))
 );
 
-CREATE TABLE aceita(                        -- Estrutura: OK, Normalização: TODO 
+CREATE TABLE aceita(                        
     ALUNO     VARCHAR(30),
     TURMA     VARCHAR(30),
     PROPOSTA  SERIAL,                    
@@ -178,7 +181,7 @@ CREATE TABLE aceita(                        -- Estrutura: OK, Normalização: TO
         ON UPDATE CASCADE
 );
 
-CREATE TABLE aula(                              -- Estrutura: TODO, Normalização: TODO
+CREATE TABLE aula(                              
     PROPOSTA        SERIAL,                 
     NUMERO          SMALLINT,                   
     INSTRUTOR       VARCHAR(30),
@@ -202,7 +205,7 @@ CREATE TABLE aula(                              -- Estrutura: TODO, Normalizaç�
     CONSTRAINT CK_STATUS_AULA CHECK (STATUS in ('EM APROVAÇÃO', 'AGENDADA', 'FINALIZADA', 'CANCELADA'))
 );
 
-CREATE TABLE avaliacao_participante(    -- Estrutura: TODO, Normalização: TODO
+CREATE TABLE avaliacao_participante(    
     ALUNO     VARCHAR(30),
     TURMA     VARCHAR(30),
     PROPOSTA  SERIAL,                   
@@ -221,7 +224,7 @@ CREATE TABLE avaliacao_participante(    -- Estrutura: TODO, Normalização: TODO
     CONSTRAINT CK_NOTA_ALUNO_VALIDA   CHECK (NOTA >= 0 AND NOTA <= 5)
 );
 
-CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
+CREATE TABLE chat (                     
     TURMA     VARCHAR(30),
     CODIGO    SERIAL,                
     NOME      VARCHAR(30) NOT NULL,
@@ -240,7 +243,7 @@ CREATE TABLE chat (                     -- Estrutura: TODO, Normalização: TODO
     CONSTRAINT CK_STATUS_CHAT CHECK (STATUS in ('ATIVO', 'ARQUIVADO'))
 );
 
-CREATE TABLE mensagem(                  -- Estrutura: OK, Normalização: TODO
+CREATE TABLE mensagem(                  
     TURMA     VARCHAR(30),
     CODIGO    SERIAL,                
     NUMERO    INTEGER,                  

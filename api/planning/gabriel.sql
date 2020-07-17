@@ -41,6 +41,11 @@
     -- Sobre: Utilizando Sub-Queries para filtrar as propostas e remover a necessidade
     -- de utilizar o WHERE (P.ID IS NULL).
 
+    -- Utiilizando EXPLAIN para verificar a eficiencia. Em ambos os casos há a necessidade de
+    -- realizar uma busca sequencial tanto em turma quanto em proposta. No entanto, na segunda 
+    -- versão o filtro das propostas é aplicado antes da junção e isso minimiza o custo da 
+    -- LEFT JOIN (além de removar o custo da operação (P.ID IS NULL) presente na primeira versão)
+
 
 -- 3) Retorne a quantide de horas que cada instrutor do sistema deu de aula nos últimos 30 dias.
 
@@ -247,7 +252,7 @@ INSERT INTO aula VALUES
 (17, 1, 'ana', 'Biblioteca ICMC', 60, 'FINALIZADA', '2020-07-10 13:00:00', '2020-07-10 17:00:00', NULL),
 (17, 2, 'ana', 'Biblioteca ICMC', 60, 'FINALIZADA', '2020-07-11 13:00:00', '2020-07-11 17:00:00', NULL),
 (18, 1, 'ana', 'Biblioteca ICMC', 80, 'AGENDADA', '23/07/2020 13:00:00', '23/07/2020 17:00:00', NULL),
-(19, 1, 'amalia', 'Minha Casa', 60, 'CANCELADA', '2020-07-15 14:30:00', '2020-07-15 15:30:00', 2),
+(19, 1, 'amalia', 'Minha Casa', 60, 'FINALIZADA', '2020-07-15 14:30:00', '2020-07-15 15:30:00', 2),
 (20, 1, 'amalia', 'Minha Casa', 90, 'AGENDADA', '2020-07-22 14:30:00', '2020-07-22 17:30:00', NULL),
 (21, 1, 'amalia', 'Minha Casa', 60, 'CANCELADA', '2020-07-16 14:30:00', '2020-07-16 15:30:00', NULL),
 (22, 1, 'amalia', 'Minha Casa', 90, 'AGENDADA', '2020-07-22 14:30:00', '2020-07-22 17:30:00', NULL);

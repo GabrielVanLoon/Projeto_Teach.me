@@ -1,54 +1,71 @@
--- Selecionar, para cada turma existente na base de dados, a quantidade de aulas finalizadas.
--- Se uma turma ainda não tem nenhuma aula finalizada, a resposta deve vir com o resultado zero.
---    [Fácil - Junções]
--- Teste: OK
 
-SELECT T.NOME, COUNT(A.NUMERO) AS QUANTIDADE 
-  FROM turma T
-  LEFT JOIN proposta P ON (P.TURMA = T.NOME)
-  LEFT JOIN aula A ON (P.ID = A.PROPOSTA AND A.STATUS = 'FINALIZADA')
-  GROUP BY T.NOME;
+  -- Selecionar, para todas as turmas existentes, a quantidade de aulas já realizadas até 
+  -- o momento. Se uma turma ainda não realizou nenhuma aula o resultado ve ser zero.
 
--- Selecionar as aulas(proposta e numero) que o(um) aluno 'felipe'(específico) participou, mas ainda nao avaliou
---    [Fácil - Alberto]
--- Tentar melhorar segunda parte (eficiente?/diminuir qtt de junções?)
--- Teste:
+  -- 1ª versão: Realiza a busca porém utiliza 2 LEFT JOINS
+  SELECT T.NOME, COUNT(A.NUMERO) AS QUANTIDADE 
+    FROM turma T
+    LEFT JOIN proposta P ON (P.TURMA = T.NOME)
+    LEFT JOIN aula A ON (P.ID = A.PROPOSTA AND A.STATUS = 'FINALIZADA')
+    GROUP BY T.NOME;
 
-SELECT AU.PROPOSTA, AU.NUMERO
-  FROM participante PA
-  INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
-  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  WHERE PA.ALUNO = 'felipe' AND AU.STATUS = 'FINALIZADA'
-EXCEPT
-SELECT AU.PROPOSTA, AU.NUMERO
-  FROM participante PA
-  INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
-  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  INNER JOIN avaliacao_participante AP ON (AP.ALUNO = PA.ALUNO AND AP.TURMA = PA.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
+  -- 2ª Versão: Utilizando primeiro uma junção interna.
+  SELECT T.NOME, COUNT(A.NUMERO)
+    FROM  proposta P
+    INNER JOIN aula A ON  (P.ID = A.PROPOSTA AND A.STATUS = 'FINALIZADA')
+    RIGHT JOIN turma T ON (P.TURMA = T.NOME)
+    GROUP BY T.NOME
 
---Versao 2 (menos junções)
-SELECT AU.PROPOSTA, AU.NUMERO
-  FROM aceita AC
-  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  WHERE AC.ALUNO = 'felipe' AND AU.STATUS = 'FINALIZADA'
-EXCEPT
-SELECT AU.PROPOSTA, AU.NUMERO
-  FROM aceita AC
-  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
+----------------------------------------------------------------------------------------------
 
---Versao 3 (pegando dados de Proposta)
-SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
-  FROM aceita AC
-  INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID)
-  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  WHERE AC.ALUNO = 'felipe' AND AU.STATUS = 'FINALIZADA'
-EXCEPT
-SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
-  FROM aceita AC
-  INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID)
-  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
+-- Dado um aluno no banco, selecionar as aulas que ele já participou mas ainda não avaliou.
+
+  -- 1ª Forma: Utilizando subtração de conjuntos (Aulas Feitas) - (Aulas Avaliadas)
+  SELECT AU.PROPOSTA, AU.NUMERO
+    FROM participante PA
+    INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+    WHERE PA.ALUNO = 'felipe' AND AU.STATUS = 'FINALIZADA'
+  EXCEPT
+  SELECT AU.PROPOSTA, AU.NUMERO
+    FROM participante PA
+    INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+    INNER JOIN avaliacao_participante AP ON (AP.ALUNO = PA.ALUNO AND AP.TURMA = PA.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
+
+  -- 2ª Forma: diminuindo a quantidade de junções necessárias.
+  SELECT AU.PROPOSTA, AU.NUMERO
+    FROM aceita AC
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+    WHERE AC.ALUNO = 'felipe' AND AU.STATUS = 'FINALIZADA'
+  EXCEPT
+  SELECT AU.PROPOSTA, AU.NUMERO
+    FROM aceita AC
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+    INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
+
+  --3ª Forma: idem 2ª firma, porém com JOIN em proposta para buscar os dados.
+  SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
+    FROM aceita AC
+    INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID)
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+    WHERE AC.ALUNO = 'felipe' AND AU.STATUS = 'FINALIZADA'
+  EXCEPT
+  SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
+    FROM aceita AC
+    INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID)
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+    INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
+
+  -- 4ª Forma: Utilizando junções externas para verificar a existencia da avaliação
+  SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
+    FROM aceita AC
+    INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID AND PR.STATUS IN ('APROVADA', 'FINALIZADA'))
+    INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA AND AU.STATUS = 'FINALIZADA')
+    LEFT JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO)
+	WHERE AC.ALUNO = 'felipe' AND AP.NOTA IS NULL 
+
+----------------------------------------------------------------------------------------------
 
 -- Selecionar todos os instrutores que já deram aulas de todas disciplinas filhas de uma disciplina
 --    [Fácil porém com divisão - Alberto]

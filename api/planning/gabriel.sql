@@ -355,7 +355,7 @@ INSERT INTO recomenda VALUES
 
 
 
--- Explicação da Divisão
+-- ESTUDO DO FUNCIONAMENTO DA DIVISAO
 SELECT * 
     FROM R 
     WHERE x not in ( 

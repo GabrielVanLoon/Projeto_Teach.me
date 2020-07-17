@@ -1,97 +1,114 @@
--- Selecionar nome_usuario, nome, nome da disciplina, preço base e metodologia dos instrutores que
+-- 1) Selecionar nome_usuario, nome, nome da disciplina, preço base e metodologia dos instrutores que
 -- realizam aulas em uma cidade, possuem disponibilidade no horário indicado e cujo valor base
--- da disciplina solicitada esteja dentro de um intervalo de preço pré-definido
--- [Fácil porém com bastante junções]
-    SELECT U.NOME_USUARIO, U.NOME, OF.DISCIPLINA, OF.PRECO_BASE, OF.METODOLOGIA
-        FROM oferecimento 'OF'
-        INNER JOIN usuario 'U' ON (OF.INSTRUTOR = U.NOME_USUARIO)
-        INNER JOIN local 'L' ON (U.NOME_USUARIO = OF.INSTRUTOR)
-        INNER JOIN horario_disponivel 'HR' ON (U.NOME_USUARIO = HR.INSTRUTOR)
-        WHERE  OF.DISCIPLINA = 'Cálculo' AND OF.PRECO_BASE > 0.00 AND OF.PRECO_BASE < 50.00
+-- da disciplina solicitada esteja dentro de um intervalo de preço pré-definido.
+--
+
+    SELECT DISTINCT U.NOME_USUARIO, U.NOME, O.DISCIPLINA, O.PRECO_BASE, O.METODOLOGIA -- , L.NOME,  L.CIDADE, L.UF, HR.dia_semana, HR.horario
+        FROM oferecimento O
+        INNER JOIN usuario U ON (O.INSTRUTOR = U.NOME_USUARIO)
+        INNER JOIN local L ON (O.INSTRUTOR = L.INSTRUTOR)
+        INNER JOIN horario_disponivel HR ON (O.INSTRUTOR = HR.INSTRUTOR)
+        WHERE  O.DISCIPLINA = 'Cálculo' -- AND O.PRECO_BASE > 0.00 AND O.PRECO_BASE < 100.00
             AND L.CIDADE = 'São Carlos' AND L.UF = 'SP' 
-            AND HR.DIA_SEMANA = 'SEG' AND HR.HORARIO = '14:30:00'
+            AND HR.DIA_SEMANA = 'SEG' AND HR.HORARIO = '14:00'
+    
+    -- Sobre:: Precisa do distinct pq caso o usuário cadastre multiplos locais com o mesmo 
+    -- par (cidade, uf) o mesmo instrutor é retornado diversas vezes.
+    -- 
+    -- Melhoria: Separar o relacionamento Local em Local,Espaço
+    -- Local  -> Cidade, UF.
+    -- Espaço -> Cidade, UF, Nome, rua, número, complemento, bairro.
 
--- Selecionar, para cada turma existente na base de dados, a quantidade total de propostas
+-- 2) Selecionar, para cada turma existente na base de dados, a quantidade total de propostas
 -- FINALIZADAS ou APROVADAS cujo preço total das aulas foi superior ou igual à R$ 100.00.
--- [Fácil]
-    SELECT P.TURMA, COUNT() 'QUANTIDADE'
-        FROM proposta 'P' 
-        WHERE P.PRECO_TOTAL >= 100.00 AND (P.STATUS = 'FINALIZADA' OR P.STATUS = 'APROVADA')
-        GROUP BY P.TURMA 
 
--- Retorne a quantide de horas que cada instrutor do sistema deu de aula nos últimos 30 dias    
--- [Fácil/Médio - Gabriel] Ref: http://www.sqlines.com/postgresql/how-to/datediff
+    SELECT T.NOME, COUNT(P.ID) QUANTIDADE
+        FROM turma T
+		LEFT JOIN proposta P ON (T.NOME = P.TURMA)
+        WHERE (P.ID IS NULL) 
+			OR (P.PRECO_TOTAL >= 100.00 AND P.STATUS IN ('FINALIZADA','APROVADA'))
+		GROUP BY T.NOME
+    -- Sobre:: Utilizando WHERE com OR para garantir que a seleção não exclua
+    -- as turmas que não possuem proposta que cumprem os requisitos.
 
-    -- 1ª Versão 
-    SELECT P.INSTRUTOR, SUM(D.DURACAO)
-        FROM proposta 'P' 
-        INNER JOIN 
-            (SELECT A.PROPOSTA, DATE_PART('hour', A.DATA_INICIO - A.DATA_FIM) 'DURACAO'
-                FROM aula 'A' 
-                WHERE A.STATUS = 'FINALIZADA' 
-                    AND A.DATA_INICIO >= ('now'::timestamp - '1 month'::interval)) as 'D'
-            ON (P.ID = D.PROPOSTA)
-        GROUP BY P.INSTRUTOR
+    SELECT T.NOME, COUNT(P.ID) QUANTIDADE
+        FROM turma T
+		LEFT JOIN ( SELECT P.ID, P.TURMA
+				FROM PROPOSTA P
+				WHERE P.PRECO_TOTAL >= 100.00 AND P.STATUS IN ('FINALIZADA','APROVADA')
+			) P ON (T.NOME = P.TURMA)
+		GROUP BY T.NOME;
+    -- Sobre: Utilizando Sub-Queries para filtrar as propostas e remover a necessidade
+    -- de utilizar o WHERE (P.ID IS NULL).
 
-    -- 2ª Versão
-    SELECT P.INSTRUTOR, SUM(DATE_PART('hour', A.DATA_INICIO - A.DATA_FIM)) 'HORAS'
-        FROM aula 'A' 
-        INNER JOIN proposta 'P' ON (P.ID = A.PROPOSTA)
+
+-- 3) Retorne a quantide de horas que cada instrutor do sistema deu de aula nos últimos 30 dias.
+
+    SELECT P.INSTRUTOR, SUM(A.DATA_FIM - A.DATA_INICIO)  -- A.PROPOSTA, A.DATA_INICIO, A.DATA_FIM, (A.DATA_FIM - A.DATA_INICIO) DURACAO --   DATE_PART('hour', A.DATA_INICIO - A.DATA_FIM) 'DURACAO'
+        FROM aula A
+        INNER JOIN proposta P ON (A.PROPOSTA = P.ID)
         WHERE A.STATUS = 'FINALIZADA' 
             AND A.DATA_INICIO >= ('now'::timestamp - '1 month'::interval)
-        GROUP BY P.INSTRUTOR
+        GROUP BY P.INSTRUTOR;
+    -- Sobre: O Postgresql possui o sistema de subtração entre datas e intervalos 
+    -- que tornaram a query mais limpa e simples do que eu esperava.
 
--- Retornar o username e o score dos 10 instrutores com a maior média de avaliação na plataforma. 
+-- 4) Retornar o username e o score dos 10 instrutores com a maior média de avaliação na plataforma. 
 -- Em caso de empate o desempate  deve ser feito pela quantidade de aulas dadas.
--- [Médio] 
-    SELECT A.INSTRUTOR, AVG(AP.NOTA) 'SCORE', COUNT(DISTINCT ROW(A.PROPOSTA, A.NUMERO)) 'QTD'
-        FROM aula 'A'
-        INNER JOIN avaliacao_participante 'AP' ON (A.PROPOSTA = AP.PROPOSTA AND A.NUMERO = AP.NUMERO)
+    
+    SELECT A.INSTRUTOR, ROUND(AVG(AP.NOTA), 2) SCORE, COUNT(DISTINCT ROW(A.PROPOSTA, A.NUMERO)) QTD
+        FROM aula A
+        INNER JOIN avaliacao_participante AP ON (A.PROPOSTA = AP.PROPOSTA AND A.NUMERO = AP.NUMERO)
         GROUP BY A.INSTRUTOR 
         ORDER BY SCORE DESC, QTD DESC
         LIMIT 10
+    -- Sobre: O fato da chave primária de aula ser composta aumentou um pouco o custo do
+    -- desempate devido ao fato de ser necessário realizar um DISTINCT.
+    -- 
+    -- Obs: Seria interessante criar uma função para beneficiar o score de usuários com maior quantidade
+    -- de aulas e evitar que novos instrutores ficassem com score 5 logo na primeira avaliação.
 
--- Para alunos que já tiveram ao menos 1 aula realizada, buscar o username do instrutor com o 
--- qual ele teve mais aulas e a quantidade. Em caso de empate exibir todos os resultados.
--- [Médio - Gabriel]
+-- 5) Para alunos que já tiveram ao menos 1 aula realizada, buscar o username do instrutor com  
+-- o qual ele teve mais aulas e a quantidade. Em caso de empate retornar qualquer um dos resultados.
 
     -- 1º Retorna a quantidade de aulas que um aluno teve com cada instrutor em ordem crescente
-    SELECT  AC.ALUNO, AC.INSTRUTOR, COUNT() 'COUNT'
+    SELECT  AC.ALUNO, A.INSTRUTOR, COUNT(*) COUNT
         FROM ACEITA AC 
         INNER JOIN aula A ON (AC.PROPOSTA = A.PROPOSTA)
         WHERE A.STATUS = 'FINALIZADA'
-        GROUP BY AC.ALUNO, AC.INSTRUTOR
-        ORDER BY 'COUNT' DESC
+        GROUP BY AC.ALUNO, A.INSTRUTOR
+        ORDER BY COUNT DESC
 
-
-    -- 2º Reagrupando em usuário, a primeira coluna é utilizada e ficamos com a maior quantidade.
-    SELECT U.NOME_USUARIO 'ALUNO', C.INSTRUTOR, MAX(C.COUNT)
-        FROM usuario 'U'
-        INNER JOIN (
-            SELECT  AC.ALUNO, AC.INSTRUTOR, COUNT(*) 'COUNT'
+    -- 2º Reagrupa os usuários e pega o primeiro
+    SELECT T.ALUNO, (array_agg(T.INSTRUTOR ORDER BY T.COUNT DESC))[1], MAX(T.COUNT) 
+        FROM 
+            ( SELECT  AC.ALUNO, A.INSTRUTOR, COUNT(*) COUNT
                 FROM ACEITA AC 
                 INNER JOIN aula A ON (AC.PROPOSTA = A.PROPOSTA)
                 WHERE A.STATUS = 'FINALIZADA'
-                GROUP BY AC.ALUNO, AC.INSTRUTOR
-                ORDER BY 'COUNT' DESC
-        ) 'C' ON (U.NOME_USUARIO = AC.ALUNO)
-        GROUP BY U.NOME_USUARIO; 
+                GROUP BY AC.ALUNO, A.INSTRUTOR
+                ORDER BY COUNT DESC ) AS T
+        GROUP BY T.ALUNO;
+    -- Sobre: Infelizmente em casos que há o agrupamento de 2 ou mais níveis, o SQL não possui 
+    -- (ou pelo menos não é fácil achar), uma função que filtre apenas os subgrupos com a maior
+    -- quantidade de linhas. Portanto é necessário fazer uma query aninhada para, em seguida, 
+    -- reagrupar os resultados dos alunos utilizando uma função de agregação que exibe os
+    -- instrutores em um array e, então, acessar o primeiro elemento.
 
--- Para cada texto de recomendação de um instrutor, buscar quantas aulas o aluno fez com aquele instrutor
 
--- Para cada recomendação salva no banco, retornar quantas aulas o aluno responsável pela 
+-- 6) Para cada recomendação salva no banco, retornar quantas aulas o aluno responsável pela 
 -- recomendação já realizou com o instrutor em questão.
--- [Médio/Difícil]
             
-    SELECT R.ALUNO, R.INSTRUTOR, COUNT(*)
-        FROM recomenda 'R' 
-        INNER JOIN aceita 'AC' ON (AC.ALUNO = R.ALUNO)
-        INNER JOIN proposta 'P' ON (AC.PROPOSTA = P.ID AND R.INSTRUTOR = P.INSTRUTOR)
-        INNER JOIN aula 'A' ON (A.PROPOSTA = P.ID)
+	SELECT R.ALUNO, R.INSTRUTOR, COUNT(*)
+        FROM recomenda R 
+        INNER JOIN aceita AC ON (R.ALUNO = AC.ALUNO)
+        INNER JOIN proposta P ON (AC.PROPOSTA = P.ID AND R.INSTRUTOR = P.INSTRUTOR)
+        INNER JOIN aula A ON (A.PROPOSTA = P.ID)
         WHERE A.STATUS = 'FINALIZADA'
-        GROUP BY R.ALUNO, R.INSTRUTOR
-
-
+        GROUP BY R.ALUNO, R.INSTRUTOR;
+    -- Sobre: joins um pouco fora do convencional que se aproveitam do fato das chaves serem
+    -- semânticas para serem otimizados e garantirem que apenas as propostas ligados ao mesmo aluno
+    -- e professor de recomenda são contadas.
 
 --------------------------------------------------------
 -- INSERTS DE TESTE
@@ -107,13 +124,15 @@ INSERT INTO usuario VALUES
 ('diego', 'diego@aluno.com', 'senha462', 'Diego', 'Hernesto', '', FALSE),
 ('enrique', 'enrique@aluno.com', 'senha463', 'Enrique', 'Cavalcante', '', FALSE),
 ('felipe', 'felipe@aluno.com', 'senha464', 'Felipe', 'Milos ', '', FALSE),
-('gabriel', 'gabriel@aluno.com', 'senha465', 'Gabriel', 'Santos', '', FALSE);
+('gabriel', 'gabriel@aluno.com', 'senha465', 'Gabriel', 'Santos', '', FALSE),
+('afonso', 'afonso@instrutor.com', 'senha466', 'Afonso ', 'Pai', '', TRUE);
 
 INSERT INTO instrutor VALUES
 ('ana', 'Formada em 2016, dou aulas particulares para universitários desde 2013.', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Bach. Matemática Aplicada.'),
 ('alice', 'Formada em 2017, dou aulas particulares para universitários desde 2013.', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Lic. Matemática'),
 ('andressa', 'Formada em 2018, dou aulas particulares para universitários desde 2013.', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Bach. Ciências da Computação'),
-('amalia', 'Estou no ICMC desde 2016 e já fui monitora das disciplinas de ...', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Estudante de Estatística');
+('amalia', 'Estou no ICMC desde 2016 e já fui monitora das disciplinas de ...', 'Formada em 2016, dou aulas particulares para universitários desde 2013. Já fui monitora das disciplinas de Cálculo 1 (2016.1, 2016.2), Cálculo 2. Possui experiência.... ', 'Estudante de Estatística'),
+('afonso', '', '', '');
 
 INSERT INTO disciplina VALUES
 ('Línguas',NULL),
@@ -141,7 +160,10 @@ INSERT INTO oferecimento VALUES
 ('andressa', 'Alemão', 50.00, 'Ajudo à melhorar a conversão por meio de rodas de conversa.'),
 ('amalia', 'Cálculo', 100.00, 'Provas chegando? Ajudo à se preparar para os exames.'),
 ('amalia', 'Estatística', 80.00, 'Provas chegando? Ajudo à se preparar para os exames.'),
-('amalia', 'Geometria Analítica', 80.00, 'Provas chegando? Ajudo à se preparar para os exames.');
+('amalia', 'Geometria Analítica', 80.00, 'Provas chegando? Ajudo à se preparar para os exames.'),
+('afonso', 'P. O. O.', 120, 'Aulas virtuais com resolução de atividades e levantamento teórico.'),
+('afonso', 'Programação Competitiva', 300, 'Aulas virtuais com resolução de atividades e levantamento teórico.'),
+('afonso', 'Banco de Dados', 70, 'Aulas virtuais com resolução de atividades e levantamento teórico.');
 
 INSERT INTO local VALUES
 ('ana', 'Minha Casa', '3', 'Rua 9 de Julho', '2000', 'Apto. 73', 'Centro', 'São Carlos', 'SP'),
@@ -225,6 +247,8 @@ INSERT INTO aula VALUES
 (17, 1, 'ana', 'Biblioteca ICMC', 60, 'FINALIZADA', '2020-07-10 13:00:00', '2020-07-10 17:00:00', NULL),
 (17, 2, 'ana', 'Biblioteca ICMC', 60, 'FINALIZADA', '2020-07-11 13:00:00', '2020-07-11 17:00:00', NULL),
 (18, 1, 'ana', 'Biblioteca ICMC', 80, 'AGENDADA', '23/07/2020 13:00:00', '23/07/2020 17:00:00', NULL),
+(19, 1, 'amalia', 'Minha Casa', 60, 'CANCELADA', '2020-07-15 14:30:00', '2020-07-15 15:30:00', 2),
+(20, 1, 'amalia', 'Minha Casa', 90, 'AGENDADA', '2020-07-22 14:30:00', '2020-07-22 17:30:00', NULL),
 (21, 1, 'amalia', 'Minha Casa', 60, 'CANCELADA', '2020-07-16 14:30:00', '2020-07-16 15:30:00', NULL),
 (22, 1, 'amalia', 'Minha Casa', 90, 'AGENDADA', '2020-07-22 14:30:00', '2020-07-22 17:30:00', NULL);
 
@@ -313,8 +337,79 @@ INSERT INTO chat VALUES
 ('grupo_random', 2, 'Negociação @grupo_random', 'ATIVO', 'amalia'),
 ('bob', 1, 'Negociação @bot', 'ATIVO', 'ana');
 
+INSERT INTO mensagem VALUES 
+('grupo_linguas', 2, 1, 'bob', '2020-03-14 12:30:00', 'Mensagem antes da proposta'),
+('grupo_linguas', 2, 2, 'bob', '2020-03-16 12:30:00', 'Mensagem depois da primeira proposta');
+		
+
 INSERT INTO recomenda VALUES
 ('bob', 'ana', 'A Ana é uma instrutora incrível. Foi super atenciosa comigo e minha turma mesmo em momentos de maior dificuldade. Recomendo!!!'),
 ('carlos', 'ana', 'Já tive diversas aulas com a Ana e ela sempre foi uma pessoa muito calma e com uma didática incrível!'),
 ('diego', 'ana', 'Pessoal, pode confiar na review do pai aqui. Professora T0P e Dedicada!!!'),
-('felipe', 'amalia', 'Me ajudou bastante nas matérias de GA e estatística!');
+('bob', 'alice', 'Uma ótima professora de inglês. Me ensinou sotaque britânico!');
+
+
+
+-- Explicação da Divisão
+SELECT * 
+    FROM R 
+    WHERE x not in ( 
+        SELECT x FROM (
+            (SELECT x , y 
+                    FROM (select y from S) as p 
+                    CROSS JOIN (select distinct x from R) as sp )
+            EXCEPT 
+            (SELECT x , y FROM R) 
+        )  AS r 
+    ); 
+
+
+
+
+SELECT O.INSTRUTOR
+    FROM oferecimento O
+    WHERE O.INSTRUTOR not in ( 
+        SELECT resto.INSTRUTOR FROM (
+            -- Todas combinações possíveis dos Instrutores com TODAS disciplinas filhas de 'Computação'
+            (SELECT sp.INSTRUTOR , p.DISCIPLINA 
+                    FROM (select D.NOME DISCIPLINA from disciplina D WHERE D.DISCIPLINA_PAI = 'Computação') as p 
+                    CROSS JOIN (select distinct O.INSTRUTOR from oferecimento O) as sp
+            )
+            EXCEPT -- Operação MINUS de conjuntos
+            -- Combinações existentes de instrutores e disciplina 
+            (SELECT O.INSTRUTOR , O.DISCIPLINA FROM oferecimento O, disciplina D WHERE (O.DISCIPLINA = D.NOME AND D.DISCIPLINA_PAI = 'Computação')) 
+        )  AS resto 
+    ); 
+
+
+
+ R(x,y) / S(y) = R(x)
+
+R(x,y)      S(y)        Resultado Esperado
+ A  1       1           A
+ A  2       2           
+ A  3       3
+ B  1
+
+(R(x) CROSS S(y))
+A 1
+A 2 
+A 3
+B 1
+B 2
+B 3 
+
+(R(x) CROSS S(y)) MINUS (R(x))
+A 1
+A 2
+A 3
+B 1
+
+R(x,y) tal que x not in (R(x) CROSS S(y)) MINUS (R(x))
+B 2 
+B 3
+
+Extrai X vira: 
+B 
+B
+

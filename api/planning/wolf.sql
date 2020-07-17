@@ -14,7 +14,7 @@
     FROM  proposta P
     INNER JOIN aula A ON  (P.ID = A.PROPOSTA AND A.STATUS = 'FINALIZADA')
     RIGHT JOIN turma T ON (P.TURMA = T.NOME)
-    GROUP BY T.NOME
+    GROUP BY T.NOME;
 
 ----------------------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@
     INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
     INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
 
-  --3ª Forma: idem 2ª firma, porém com JOIN em proposta para buscar os dados.
+  --3ª Forma: idem 2ª forma, porém com JOIN em proposta para buscar os dados.
   SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
     FROM aceita AC
     INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID)
@@ -63,13 +63,12 @@
     INNER JOIN proposta PR ON (AC.PROPOSTA = PR.ID AND PR.STATUS IN ('APROVADA', 'FINALIZADA'))
     INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA AND AU.STATUS = 'FINALIZADA')
     LEFT JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO)
-	WHERE AC.ALUNO = 'felipe' AND AP.NOTA IS NULL 
+	WHERE AC.ALUNO = 'felipe' AND AP.NOTA IS NULL; 
 
 ----------------------------------------------------------------------------------------------
 
 -- Selecionar todos os instrutores que já deram aulas de todas disciplinas filhas de uma disciplina
---    [Fácil porém com divisão - Alberto]
--- Teste: OK
+
 SELECT DISTINCT O.INSTRUTOR
     FROM oferecimento O
     WHERE O.INSTRUTOR not in ( 
@@ -85,11 +84,13 @@ SELECT DISTINCT O.INSTRUTOR
         )  AS resto 
     ); 
 
--- Selecionar todos os instrutores que um aluno já teve aula e avaliou, mas ainda não o recomendou
---    [Médio - Junções - Alberto]
--- Tentar mehorar primeira parte (muitas junções)
--- Teste:
+----------------------------------------------------------------------------------------------    
 
+-- Dado um aluno no banco, selecionar os instrutores cujas aulas foram avaliadas pelo aluno,
+-- mas não foram recomendados pelo mesmo.
+
+-- 1ª Forma: Utilizando subtração de conjuntos (Instrutores que deram aula) - (Instrutores recomendados)
+-- ERRO: Seleciona dados incorretos
 SELECT I.NOME_USUARIO
   FROM participante PA
   INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
@@ -103,15 +104,30 @@ SELECT I.NOME_USUARIO
   INNER JOIN recomenda RE ON (RE.ALUNO = PA.ALUNO)
   INNER JOIN instrutor I ON (RE.INSTRUTOR = I.NOME_USUARIO);
 
--- Retornar a média de mensagens trocadas entre instrutor e lider ou aluno até a primeira proposta
---    [Médio - Alberto]
+-- 2ª Forma: Utilizando junções externas para verificar a existencia da recomendação
+-- OBS: Seleciona instrutores que o aluno já recomendou uma vez, mas deu aula para o mesmo mais vezes.
+SELECT DISTINCT I.NOME_USUARIO
+  FROM participante PA
+  INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
+  INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
+  INNER JOIN avaliacao_participante AP ON (AP.ALUNO = PA.ALUNO AND AP.TURMA = PA.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO)
+  INNER JOIN instrutor I ON (AU.INSTRUTOR = I.NOME_USUARIO)
+  LEFT JOIN recomenda RE ON (RE.ALUNO = PA.ALUNO)
+  WHERE PA.ALUNO = 'enrique' AND RE.TEXTO IS NULL;
 
--- PRIMEIRA DATA DE INTERAÇÃO COM INSTRUTOR DE CADA TURMA
-SELECT P.TURMA, P.INSTRUTOR, MIN(P.DATA_CRIACAO)--COUNT(M.NUMERO) AS QTD_MENSAGENS
+----------------------------------------------------------------------------------------------    
+
+-- Exibir a média de mensagens trocadas entre instrutor e lider de turma
+-- até a realização da primeira proposta.
+
+-- Consulta Interna 1: Retorna a data da primeira proposta criada para cada conjunto
+-- de turma e professor
+SELECT P.TURMA, P.INSTRUTOR, MIN(P.DATA_CRIACAO)
   FROM proposta P
   GROUP BY P.TURMA, P.INSTRUTOR;
   
--- TODAS MENSAGENS ENVIADAS ANTES DA CRACAO DE PROPOSTA
+-- Consulta Interna 2: Retorna todas as mensagens enviadas antes da criação
+-- da primeira proposta.
 SELECT M.TURMA, M.CODIGO, M.NUMERO, C.INSTRUTOR, M.CONTEUDO
   FROM chat C
   INNER JOIN (SELECT P.TURMA, P.INSTRUTOR, MIN(P.DATA_CRIACAO)
@@ -119,8 +135,9 @@ SELECT M.TURMA, M.CODIGO, M.NUMERO, C.INSTRUTOR, M.CONTEUDO
     GROUP BY P.TURMA, P.INSTRUTOR) P ON (P.TURMA = C.TURMA AND P.INSTRUTOR = C.INSTRUTOR)
   INNER JOIN mensagem M ON (C.TURMA = M.TURMA AND C.CODIGO = M.CODIGO)
   WHERE C.INSTRUTOR IS NOT NULL AND M.DATA_ENVIO <= P.MIN;
-  
---CONTAGEM DE MENSAGENS 
+
+-- Consulta Interna 2.1: Retorna a quantidade de mensagens enviadas antes da
+-- criação da primeira proposta, agrupado por turma e instrutor  
 SELECT P.TURMA, P.INSTRUTOR, COUNT(*)
   FROM chat C
   INNER JOIN (SELECT P.TURMA, P.INSTRUTOR, MIN(P.DATA_CRIACAO)
@@ -130,7 +147,8 @@ SELECT P.TURMA, P.INSTRUTOR, COUNT(*)
   WHERE C.INSTRUTOR IS NOT NULL AND M.DATA_ENVIO <= P.MIN
   GROUP BY P.TURMA, P.INSTRUTOR;
   
---MEDIA DE MENSAGENS ENVIADAS ANTES DA PRIMEIRA PROPOSTA
+-- Consulta Externa: Retorna a média de mensagens enviadas antes da
+-- criação da primeira proposta.
 SELECT AVG(CONTAGEM.COUNT) AS MSG_ANTES_PROPOSTA
   FROM (SELECT P.TURMA, P.INSTRUTOR, COUNT(*)
     FROM chat C

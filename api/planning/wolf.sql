@@ -50,6 +50,24 @@ SELECT PR.TURMA, PR.INSTRUTOR, PR.DISCIPLINA, AU.NUMERO AS NUMERO_AULA
   INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
   INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO);
 
+-- Selecionar todos os instrutores que já deram aulas de todas disciplinas filhas de uma disciplina
+--    [Fácil porém com divisão - Alberto]
+-- Teste: OK
+SELECT DISTINCT O.INSTRUTOR
+    FROM oferecimento O
+    WHERE O.INSTRUTOR not in ( 
+        SELECT resto.INSTRUTOR FROM (
+            -- Todas combinações possíveis dos Instrutores com TODAS disciplinas filhas de 'Computação'
+            (SELECT sp.INSTRUTOR , p.DISCIPLINA 
+                    FROM (select D.NOME DISCIPLINA from disciplina D WHERE D.DISCIPLINA_PAI = 'Computação') as p 
+                    CROSS JOIN (select distinct O.INSTRUTOR from oferecimento O) as sp
+            )
+            EXCEPT -- Operação MINUS de conjuntos
+            -- Combinações existentes de instrutores e disciplina 
+            (SELECT O.INSTRUTOR , O.DISCIPLINA FROM oferecimento O, disciplina D WHERE (O.DISCIPLINA = D.NOME AND D.DISCIPLINA_PAI = 'Computação')) 
+        )  AS resto 
+    ); 
+
 -- Selecionar todos os instrutores que um aluno já teve aula e avaliou, mas ainda não o recomendou
 --    [Médio - Junções - Alberto]
 -- Tentar mehorar primeira parte (muitas junções)

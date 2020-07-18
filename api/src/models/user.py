@@ -4,18 +4,20 @@ import re
 from src.libs.validations import *
 from src.entities.user import User
 from src.entities.class_ import Class 
+from src.entities.instructor import Instructor 
 from src.dao.user import UserDAO
 from src.dao.class_ import ClassDAO
+from src.dao.instructor import InstructorDAO
 
 class UserModel:
 
     def register(self, args:QueryDict = None):
-        user = None
-
+        user      = None
+        instrutor = None
         # 1º Pegando os parâmetros de interesse
         try: 
             user = User(args.get('username', '').strip(), args.get('email', '').strip(), args.get('password', '').strip(), 
-                            args.get('name', '').strip(), args.get('last_name', '').strip(), None, False)
+                            args.get('name', '').strip(), args.get('last_name', '').strip(), None, args.get('is_instructor', 'False').lower())
         except Exception as e:
             print('[userModel.register]', str(e))
             raise Exception('invalid arguments.')
@@ -29,10 +31,21 @@ class UserModel:
             raise Exception('invalid password parameter.')
         if (not is_alphabetic(user.name, with_spaces=True)) or (not is_alphabetic(user.last_name, with_spaces=True)):
             raise Exception('invalid name and last name parameters')
+
+        #Tratando o caso de Usuario ser instrutor --
+        
+        if(user.is_instructor == 'true'):
+            user.is_instructor = True
+            instructor = Instructor(user.username, args.get('abstract', '').strip(), '', args.get('degree', '').strip())
+        else:
+            user.is_instructor = False
         
         # 3º Realizando o registro
+        # Se usuario for instrutor, o registra como um --
         try:
             UserDAO().insert(user)
+            if(user.is_instructor):
+                InstructorDAO().insert(instructor)
         except Exception as e:
             raise e
         

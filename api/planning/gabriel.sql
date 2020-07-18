@@ -353,7 +353,15 @@ INSERT INTO recomenda VALUES
 ('diego', 'ana', 'Pessoal, pode confiar na review do pai aqui. Professora T0P e Dedicada!!!'),
 ('bob', 'alice', 'Uma ótima professora de inglês. Me ensinou sotaque britânico!');
 
-
+INSERT INTO mensagem VALUES 
+('grupo_linguas', 4, 1, 'bob', '2020-07-03 12:22:00', 'Boa tarde Andressa, tudo bem?'),
+('grupo_linguas', 4, 2, 'bob', '2020-07-03 12:23:00', 'Gostaria de saber se vc poderia dar um desconto pra aula de Ingles, já que temos uma turma com 6 integrantes'),
+('grupo_linguas', 4, 3, 'andressa', '2020-07-03 12:24:00', 'Boa tarde Bob, consigo deixar o preço individual em 45.00.'),
+('grupo_linguas', 4, 4, 'bob', '2020-07-03 12:25:00', 'Obrigado. Esse desconto já ajuda.'),
+('grupo_linguas', 4, 5, 'bob', '2020-07-03 12:26:00', 'Quando podemos começar nossas aulas?'),
+('grupo_linguas', 4, 6, 'andressa', '2020-07-03 12:27:00', 'Por mim, já pode ser semana que vem.'),
+('grupo_linguas', 4, 7, 'bob', '2020-07-03 12:28:00', 'Uma integrante do grupo não pode, podemos começar na próxima semana?'),
+('grupo_linguas', 4, 8, 'andressa', '2020-07-03 12:29:00', 'Claro!');
 
 -- ESTUDO DO FUNCIONAMENTO DA DIVISAO
 SELECT * 

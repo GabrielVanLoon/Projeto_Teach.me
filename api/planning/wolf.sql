@@ -105,15 +105,12 @@ SELECT I.NOME_USUARIO
   INNER JOIN instrutor I ON (RE.INSTRUTOR = I.NOME_USUARIO);
 
 -- 2ª Forma: Utilizando junções externas para verificar a existencia da recomendação
--- OBS: Seleciona instrutores que o aluno já recomendou uma vez, mas deu aula para o mesmo mais vezes.
-SELECT DISTINCT I.NOME_USUARIO
-  FROM participante PA
-  INNER JOIN aceita AC ON (PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
+SELECT DISTINCT AU.INSTRUTOR
+  FROM aceita AC
   INNER JOIN aula AU ON (AU.PROPOSTA = AC.PROPOSTA)
-  INNER JOIN avaliacao_participante AP ON (AP.ALUNO = PA.ALUNO AND AP.TURMA = PA.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO)
-  INNER JOIN instrutor I ON (AU.INSTRUTOR = I.NOME_USUARIO)
-  LEFT JOIN recomenda RE ON (RE.ALUNO = PA.ALUNO)
-  WHERE PA.ALUNO = 'enrique' AND RE.TEXTO IS NULL;
+  INNER JOIN avaliacao_participante AP ON (AP.ALUNO = AC.ALUNO AND AP.TURMA = AC.TURMA AND AP.PROPOSTA = AU.PROPOSTA AND AP.NUMERO = AU.NUMERO)
+  LEFT JOIN recomenda RE ON (RE.ALUNO = AC.ALUNO AND RE.INSTRUTOR = AU.INSTRUTOR)
+  WHERE AC.ALUNO = 'enrique' AND RE.ALUNO IS NULL;
 
 ----------------------------------------------------------------------------------------------    
 

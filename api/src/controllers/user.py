@@ -63,11 +63,16 @@ class UserController:
             data = { 'error': 'invalid http method. Use POST instead.'}
             return JsonResponse(data, status=http_status)
         try:
-            # UserModel().register(request.POST)
-            data = { 
-                'message': 'successfully logged in.',
-                'username': request.POST.get('username', '')
-            }
+            user = UserModel().login(request.POST)
+            if(user is not None):
+                data = { 
+                    'message': 'successfully logged in.',
+                    'username': user.username,
+                    'name' : user.name,
+                    'last_name' : user.last_name,
+                    'email' : user.email,
+                    'is_instructor' : user.is_instructor
+                }
             http_status = status.HTTP_200_OK
         except Exception as e:
             data = { 'error': str(e) }

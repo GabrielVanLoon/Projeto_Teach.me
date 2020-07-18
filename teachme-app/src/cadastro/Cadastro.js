@@ -1,105 +1,185 @@
 import React from 'react';
+import API from "../utils/API";
+import { useState } from "react";
 import './Cadastro.css';
 
-import { Router, Link } from "@reach/router"
+import { Router, Link, redirectTo} from "@reach/router"
 
 function Cadastro() {
-  return (
-    <main id="page-cadastro" class="body-card">
-        <h1>Cadastro</h1>
-        <form id="form-cadastro">
-            <fieldset>
-                <legend>Dados pessoais</legend>
 
-                <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" id="nome" name="nome"/>
-                </div>
+    // Estados: valores atuais do formulário
+    const [nome, setNome]           = useState(""); 
+    const [sobrenome, setSobrenome]  = useState(""); 
+    const [email, setEmail]         = useState(""); 
+    const [username, setUsername]   = useState(""); 
+    const [senha, setSenha]         = useState(""); 
+    const [repeteSenha, setRepeteSenha] = useState(""); 
+    const [ehInstrutor, setEhInstrutor] = useState(false); 
 
-                <div class="form-group">
-                    <label for="sobrenome">Sobrenome</label>
-                    <input type="text" id="sobrenome" name="sobrenome"/>
-                </div>
+    const [formacao, setFormacao] = useState(""); 
+    const [resumo, setResumo] = useState(""); 
 
-                <div class="form-line">
-                    <div class="form-group">
-                        <label for="cidade">Cidade</label>
-                        <input type="text" id="cidade" name="cidade"/>
-                    </div>
-            
+    const [cadastroRealizado, setCadastroRealizado] = useState(false);
 
-                    <div class="form-group">
-                        <label for="uf">UF</label>
-                        <select id="uf" name="uf">
-                            <option value="SP">São Paulo</option>
-                            <option value="RJ">Rio de Janeiro</option>
-                        </select>
-                    </div>
-                </div>
+    function validarCampos(){
+        if(!email.match(/^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$/)){
+            alert('E-mail inválido!')
+            return false
+        } 
+        if(!username.match(/^[a-zA-Z0-9-_]{1,}$/)){
+            alert('Username inválido!')
+            return false
+        }
+        if(senha != repeteSenha){
+            alert('Senha e Repete Senha não coincidem')
+            return false
+        }
+        return true;
+    }
 
-                <div class="form-group">
-                    <label for='dt-nascimento'>Data de nascimento</label>
-                    <input type="date" id="dt-nascimento" name="dt-nascimento"/>
-                </div>
+    function enviarDados(){
+        let data = `name=${nome}&last_name=${sobrenome}&email=${email}&username=${username}&password=${senha}`
+        data += `&is_instructor=${ehInstrutor}&degree=${formacao}&abstract=${resumo}`
 
-            </fieldset>
-            
-            <fieldset>
-                <legend>Dados de acesso</legend>
-                
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="mail" id="email" name="email"/>
-                </div>
+        API.post('register', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+        .then(response => {
+          console.log(`Olá: ${response.data.username}`)
+          setCadastroRealizado(true)
+        })
+        .catch(error => {
+            console.log(error.response)
+        });
+    }
 
-                <div class="form-group">
-                    <label for="username">Nome de usuário</label>
-                    <input type="text" id="username" name="username"/>
-                </div>
+    // handlerCadastro
+    const handleSubmit = async (evt) => {
+        evt.preventDefault()
+         
+        // Validação 
+        if(!validarCampos())
+            return;
 
-                <div class="form-group">
-                    <label for='password'>Senha</label>
-                    <input type="password" id="password" name="password"/>
-                </div>
+        // validando o username
+        let data = `username=${username}`
+        API.post('check-username', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+        .then(response => {
+            enviarDados()
+        }) 
+        .catch(error => {
+            alert('O Username já está em uso.')
+        });
 
-                <div class="form-group">
-                    <label for='password-repeat'>Repetir Senha</label>
-                    <input type="password" id="password-repeat" name="password-repeat"/>
-                </div>
+    } 
 
-                <div>
-                    <input type="checkbox" id="instrutor" name="instrutor"/>
-                    <label for='instrutor'><small>Quero ser um instrutor Teach.me</small></label>
-                </div>
-
-                <p class="btn-line">
-                    <button type="button" class="btn btn-inverse" name="btn-cadastro-proximo">Próximo</button>
-                    <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
-                </p>
-            </fieldset>
-
-            <fieldset>
-                <legend>Dados de instrutor</legend>
-
-                <div class="form-group">
-                    <label for="formacao">Formação</label>
-                    <input type="text" id="formacao" name="formacao"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="sobre-mim">Sobre mim</label>
-                    <textarea id="sobre-mim" name="sobre-mim"></textarea>
-                </div>
-
-                <p class="btn-line">
-                    <button type="button" class="btn btn-inverse" name="btn-cadastro-voltar">Voltar</button>
-                    <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
-                </p>
-            </fieldset>
-        </form>
+    function renderForm(){
+        return (
+            <main id="page-cadastro" class="body-card">
+                <h1>Cadastro</h1>
+                <form id="form-cadastro" onSubmit={handleSubmit}>
+                    <fieldset>
+                        <legend>Dados pessoais</legend>
         
-    </main>
-  );
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome"  maxLength={60} required
+                                 value={nome} onChange={e => setNome(e.target.value)}/>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="sobrenome">Sobrenome</label>
+                            <input type="text" id="sobrenome" name="sobrenome" maxLength={60} required
+                                 value={sobrenome} onChange={e => setSobrenome(e.target.value)}/>
+                        </div>
+        
+                    </fieldset>
+                    
+                    <fieldset>
+                        <legend>Dados de acesso</legend>
+                        
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" maxLength={60} required
+                                 value={email} onChange={e => setEmail(e.target.value)} />
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="username">Nome de usuário</label>
+                            <input type="text" id="username" name="username" minLength={2} maxLength={30} required
+                                value={username} onChange={e => setUsername(e.target.value)}/>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for='password'>Senha</label>
+                            <input type="password" id="password" name="password" minLength={8} required
+                                value={senha} onChange={e => setSenha(e.target.value)}/>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for='password-repeat'>Repetir Senha</label>
+                            <input type="password" id="password-repeat" name="password-repeat" minLength={8} required
+                                value={repeteSenha} onChange={e => setRepeteSenha(e.target.value)}/>
+                        </div>
+        
+                        <div>
+                            <input type="checkbox" id="instrutor" name="instrutor"
+                                onChange={e => setEhInstrutor(e.target.checked)}/>
+                            <label for='instrutor'><small>Quero ser um instrutor Teach.me</small></label>
+                        </div>
+        
+                        { ehInstrutor == false &&
+                            <p class="btn-line">
+                                {/* <button type="button" class="btn btn-inverse" name="btn-cadastro-proximo">Próximo</button> */}
+                                <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
+                            </p>
+                        }   
+        
+                    </fieldset>
+                    
+                    { ehInstrutor == true &&
+        
+                        <fieldset>
+                            <legend>Dados de instrutor</legend>
+        
+                            <div class="form-group">
+                                <label for="formacao">Formação</label>
+                                <input type="text" id="formacao" name="formacao" maxLength={100} required
+                                     value={formacao} onChange={e => setFormacao(e.target.value)}/>
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="resumo">Resumo Sobre mim</label>
+                                <textarea id="resumo" name="resumo" maxLength={300}
+                                 value={resumo} onChange={e => setResumo(e.target.value)}></textarea>
+                            </div>
+        
+                            <p class="btn-line">
+                                {/* <button type="button" class="btn btn-inverse" name="btn-cadastro-voltar">Voltar</button> */}
+                                <button type="submit" class="btn" name="btn-cadastro">Finalizar Cadastro</button>
+                            </p>
+                        </fieldset>
+                    }
+        
+                </form>
+                
+            </main>
+          );
+    }
+
+    function renderCadastrado(){
+        return (
+            <main id="page-cadastro" class="body-card">
+                <h1>Cadastro</h1>
+                <h2>Cadastro realizado com sucesso!!!</h2>
+            </main>
+          );
+    }
+
+    if (cadastroRealizado){
+        return renderCadastrado();
+    } else {
+        return renderForm();
+    }
+    
 }
 
 export default Cadastro;

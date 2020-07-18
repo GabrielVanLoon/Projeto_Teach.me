@@ -3,7 +3,9 @@ import re
 
 from src.libs.validations import *
 from src.entities.user import User
+from src.entities.class_ import Class 
 from src.dao.user import UserDAO
+from src.dao.class_ import ClassDAO
 
 class UserModel:
 
@@ -31,6 +33,13 @@ class UserModel:
         # 3º Realizando o registro
         try:
             UserDAO().insert(user)
+        except Exception as e:
+            raise e
+        
+        # 4º Se registrou como usuário, então pode registrar como turma particular
+        temp_class = Class(user.username, '', '', '', 1, 1, 'PARTICULAR')
+        try:
+            ClassDAO().insert(temp_class)
         except Exception as e:
             raise e
 
@@ -84,3 +93,28 @@ class UserModel:
             raise e
 
         return dict(user)
+
+    def check_username(self, args:QueryDict = None):
+        user = None
+
+        # 1º Extraindo parâmetros de interesse
+        try: 
+            user = User(username = args.get('username', '').strip())
+        except Exception as e:
+            print('[userModel.search]', str(e))
+            raise Exception('invalid arguments.')
+
+        # 2º Validando os parâmetros    
+        if (user.username == '') or (len(user.username) < 2) or (not is_username(user.username)):
+            raise Exception('invalid username parameter.')
+
+        # 3º Buscando o usuario
+        temp_class = Class(user.username)
+        try:
+            return_user  = UserDAO().select(user)
+            return_class = ClassDAO().select(temp_class) 
+
+            if (return_user is not None) or (return_class is not None):
+                raise Exception('username already in use.')
+        except Exception as e:
+            raise e

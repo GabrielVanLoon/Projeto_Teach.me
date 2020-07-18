@@ -3,7 +3,7 @@ import API from "../utils/API";
 import { useState } from "react";
 import './Login.css';
 
-import { Router, Link } from "@reach/router"
+import { Router, Link, redirectTo } from "@reach/router"
 
 function Login() {
   
@@ -11,23 +11,17 @@ function Login() {
   const [username, setUsername] = useState(""); 
   const [senha, setSenha] = useState(""); 
 
-
   const handleSubmit = (evt) => {
       evt.preventDefault();
       console.log(`Submitting Name ${username} Senha ${senha}`)
 
-
       let data = `username=${username}&password=${senha}`
-
+ 
       API.post('login', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
-      // API.post('login', data, )
       .then(response => {
         console.log('SUCESSO')
-        
         console.log(response)
-        
         console.log(`Olá: ${response.data.username}`)
-
       })
       .catch(error => {
           console.log('ERRO')
@@ -35,6 +29,7 @@ function Login() {
       });
   }
 
+  
   return (
     <main id="page-login" class="body-card">
         <h1 class="text-center">Bem vindo ao <span id="text-name">Teach.me</span></h1>

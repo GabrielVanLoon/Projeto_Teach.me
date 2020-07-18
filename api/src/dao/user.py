@@ -68,3 +68,29 @@ class UserDAO(Connector):
 
         return return_user
     
+    def check_username(self, user:User):
+
+        try: 
+            self.connect()
+            query = '''SELECT NOME_USUARIO
+                        FROM usuario
+                        WHERE NOME_USUARIO = %s LIMIT 1
+                        UNION 
+                        SELECT NOME 
+                        FROM turma T
+                        WHERE T.NOME = %s LIMIT 1;'''
+
+            self.cur.execute(query, [user.username, user.username])
+            self.con.commit()
+
+            result = self.cur.fetchone()
+            rowcount = self.cur.rowcount
+            self.close()
+            if (self.cur.rowcount == 1) and (result is not None):
+                return True
+            return False
+
+        except Exception as e:
+            print('[userDAO.select]', str(e))
+            raise Exception('fail on user select. Check again later!')
+ 

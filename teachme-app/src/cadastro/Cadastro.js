@@ -97,7 +97,7 @@ function Cadastro() {
                         <div class="form-group">
                             <label for="nome">Nome</label>
                             <input type="text" id="nome" name="nome"  maxLength={60} required
-                                 value={nome} onChange={e => setNome(e.target.value) }/>
+                                 value={nome} onChange={e => setNome(e.target.value)}/>
                         </div>
         
                         <div class="form-group">

@@ -1,6 +1,6 @@
 import React from 'react';
 import API from "../utils/API";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import './Cadastro.css';
 
 import { Router, Link, redirectTo} from "@reach/router"
@@ -21,17 +21,31 @@ function Cadastro() {
 
     const [cadastroRealizado, setCadastroRealizado] = useState(false);
 
+    const emailInput    = useRef(null);
+    const usernameInput = useRef(null);
+    const senhaInput    = useRef(null);
+
     function validarCampos(){
+        emailInput.current.style.borderColor = null
+        usernameInput.current.style.borderColor = null
+        senhaInput.current.style.borderColor = null
+
         if(!email.match(/^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$/)){
-            alert('E-mail inválido!')
+            alert("E-mail com formato inválido.")
+            emailInput.current.focus()
+            // emailInput.current.setCustomValidity("E-mail com formato inválido.");
             return false
         } 
         if(!username.match(/^[a-zA-Z0-9-_]{1,}$/)){
-            alert('Username inválido!')
+            alert("Username com caractéres inválidos.")
+            usernameInput.current.focus()
+            // usernameInput.current.setCustomValidity("Username com caractéres inválidos.");
             return false
         }
         if(senha != repeteSenha){
-            alert('Senha e Repete Senha não coincidem')
+            alert("As senhas não coincidem.")
+            senhaInput.current.focus()
+            // senhaInput.current.setCustomValidity("As senhas não coincidem");
             return false
         }
         return true;
@@ -66,9 +80,10 @@ function Cadastro() {
             enviarDados()
         }) 
         .catch(error => {
-            alert('O Username já está em uso.')
+            alert("O username já está em uso.")
+            usernameInput.current.focus()
+            // usernameInput.current.setCustomValidity("O username já está em uso.");
         });
-
     } 
 
     function renderForm(){
@@ -82,7 +97,7 @@ function Cadastro() {
                         <div class="form-group">
                             <label for="nome">Nome</label>
                             <input type="text" id="nome" name="nome"  maxLength={60} required
-                                 value={nome} onChange={e => setNome(e.target.value)}/>
+                                 value={nome} onChange={e => setNome(e.target.value) }/>
                         </div>
         
                         <div class="form-group">
@@ -99,19 +114,19 @@ function Cadastro() {
                         <div class="form-group">
                             <label for="email">E-mail</label>
                             <input type="email" id="email" name="email" maxLength={60} required
-                                 value={email} onChange={e => setEmail(e.target.value)} />
+                                 ref={emailInput} value={email} onChange={e => setEmail(e.target.value)} />
                         </div>
         
                         <div class="form-group">
                             <label for="username">Nome de usuário</label>
                             <input type="text" id="username" name="username" minLength={2} maxLength={30} required
-                                value={username} onChange={e => setUsername(e.target.value)}/>
+                                ref={usernameInput} value={username} onChange={e => setUsername(e.target.value)}/>
                         </div>
         
                         <div class="form-group">
                             <label for='password'>Senha</label>
                             <input type="password" id="password" name="password" minLength={8} required
-                                value={senha} onChange={e => setSenha(e.target.value)}/>
+                                ref={senhaInput} value={senha} onChange={e => setSenha(e.target.value)}/>
                         </div>
         
                         <div class="form-group">

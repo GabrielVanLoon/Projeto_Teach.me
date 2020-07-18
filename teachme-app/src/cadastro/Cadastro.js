@@ -183,8 +183,10 @@ function Cadastro() {
     function renderCadastrado(){
         return (
             <main id="page-cadastro" class="body-card">
-                <h1>Cadastro</h1>
-                <h2>Cadastro realizado com sucesso!!!</h2>
+                <h1>Cadastro Realizado!!!</h1>
+                <h2>Agora você já pode desfrutar das operações do nosso aplicativo!</h2>
+                <Link to="/login" className="btn" style={{ 'margin-right': '20px' }}>Fazer Login</Link>
+                <Link to="/" className="btn btn-inverse">Voltar</Link>
             </main>
           );
     }

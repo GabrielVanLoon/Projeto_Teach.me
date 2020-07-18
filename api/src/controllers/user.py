@@ -65,7 +65,10 @@ class UserController:
             return JsonResponse(data, status=http_status)
         try:
             # UserModel().register(request.POST)
-            data = { 'message': 'successfully registered user.'}
+            data = { 
+                'message': 'successfully logged in.',
+                'username': request.POST.get('username', '')
+            }
             http_status = status.HTTP_200_OK
         except Exception as e:
             data = { 'error': str(e) }

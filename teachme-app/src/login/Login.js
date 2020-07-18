@@ -16,15 +16,18 @@ function Login() {
       evt.preventDefault();
       console.log(`Submitting Name ${username} Senha ${senha}`)
 
-      let data = { 
-        'username': username,
-        'password': senha
-      }
 
-      API.get('login', data)
+      let data = `username=${username}&password=${senha}`
+
+      API.post('login', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+      // API.post('login', data, )
       .then(response => {
         console.log('SUCESSO')
+        
         console.log(response)
+        
+        console.log(`Olá: ${response.data.username}`)
+
       })
       .catch(error => {
           console.log('ERRO')

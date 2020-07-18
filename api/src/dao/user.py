@@ -67,6 +67,30 @@ class UserDAO(Connector):
             self.close()
 
         return return_user
+
+    def login(self, user:User):
+        return_user = None
+        try: 
+            self.connect()
+            query = '''SELECT NOME_USUARIO, EMAIL, NOME, SOBRENOME, E_INSTRUTOR
+                        FROM usuario
+                        WHERE NOME_USUARIO = %s AND SENHA = %s LIMIT 1;''' #OR EMAIL = %s AND SENHA = %s
+
+            self.cur.execute(query, [user.username, user.password])
+            self.con.commit()
+
+            result = self.cur.fetchone()
+            if (self.cur.rowcount == 1) and (result is not None):
+                return_user = User(result[0], result[1], None, result[2], result[3], None, result[4])
+
+        except Exception as e:
+            print('[userDAO.select]', str(e))
+            raise Exception('fail on user select. Check again later!')
+
+        finally:
+            self.close()
+
+        return return_user
     
     def check_username(self, user:User):
 

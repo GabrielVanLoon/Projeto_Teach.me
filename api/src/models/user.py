@@ -101,11 +101,39 @@ class UserModel:
         try:
             user = UserDAO().select(user)
             if user is None:
-                raise Exception('couldn\'t  not find user by username.')
+                raise Exception('could not find user by username.')
         except Exception as e:
             raise e
 
         return dict(user)
+
+    def login(self, args:QueryDict = None):
+        user = None
+
+        # 1º Extraindo parâmetros de interesse
+        try: 
+            user = User(username = args.get('username', '').strip(), password = args.get('password', ''))
+        except Exception as e:
+            print('[userModel.search]', str(e))
+            raise Exception('invalid arguments.')
+
+         # 2º Validando os parâmetros    
+        #if ((user.username == '') or (len(user.username) < 2)) and (not is_username(user.username)) or (not is_valid_mail(user.username))):
+        if (user.username == '') or (len(user.username) < 2) or (not is_username(user.username)):
+            raise Exception('invalid username parameter.')
+        if (user.password == '') or (len(user.password) < 8):
+            raise Exception('invalid password parameter.')
+
+        # 3º Buscando o usuario
+        try:
+            user = UserDAO().login(user)
+            if user is None:
+                raise Exception('invalid username or password.')
+        except Exception as e:
+            raise e
+
+        return user
+
 
     def check_username(self, args:QueryDict = None):
         user = None

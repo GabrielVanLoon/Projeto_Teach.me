@@ -18,17 +18,16 @@ function MeuPerfil() {
   const [username, setUsername]   = useState(localStorage.getItem('username'));  
   const [ehInstrutor, setEhInstrutor] = useState(localStorage.getItem('is_instructor')); 
 
-
-
   // handlerCadastro
   const handleSubmit = async (evt) => {
       evt.preventDefault()
 
       // validando o username
       let data = `name=${nome}&last_name=${sobrenome}&username=${username}`
-      API.post('check-username', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+      API.post('user/update', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
       .then(response => {
-          // SUCESSO
+        localStorage.setItem('name',     response.data.name)
+        localStorage.setItem('last_name', response.data.last_name)
       }) 
       .catch(error => {
           alert("O username já está em uso.")
@@ -58,7 +57,6 @@ function MeuPerfil() {
                      value={username} disabled />
               </div>
  
-
               <div class="form-group">
                   <label for="nome">Nome</label>
                   <input type="text" id="nome" name="nome"  maxLength={60} required

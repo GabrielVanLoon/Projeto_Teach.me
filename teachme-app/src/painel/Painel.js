@@ -7,6 +7,9 @@ import { Router, Link , navigate } from "@reach/router"
 
 function Painel() {
     
+    if(!localStorage.getItem('username')){
+        navigate(`/login`)
+    }
 
     return (
         <main id="page-painel" class="body-card">

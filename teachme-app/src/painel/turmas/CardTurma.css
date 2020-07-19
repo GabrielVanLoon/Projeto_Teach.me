@@ -22,9 +22,18 @@
     margin-right: 10px;
 }
 
-.card-turma .turma-header a{
+.card-turma .turma-header a {
     /* color: #333; */
     color: #0D47A1;
+}
+
+.card-turma .turma-header a:hover{
+    text-decoration: none;
+}
+
+.card-turma .turma-header a i {
+    margin-left: 10px;
+    color: goldenrod
 }
 
 .card-turma .turma-header p {

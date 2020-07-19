@@ -66,7 +66,7 @@ class ClassController:
         try:
             n_rows, classes_dict = ClassModel().get_classes(request.POST)
             data = {
-                'message': '% classes found'.format(n_rows),
+                'message': '{} classes found'.format(n_rows),
                 'rows': n_rows,
                 'results': classes_dict,
             }

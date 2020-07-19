@@ -3,22 +3,19 @@ import API from "../../utils/API";
 import { useState, useRef, useEffect } from "react";
 import './MeuPerfil.css';
 
-
 import { Router, Link, navigate } from "@reach/router"
 
 function MeuPerfil() {
   
-  useEffect(async () => {
-      if(localStorage.getItem('username') == ''){
-          navigate(`login`)
-      }
-  }, []);
+    if(!localStorage.getItem('username')){
+        navigate(`/login`)
+    }
 
-  const [nome, setNome]           = useState(localStorage.getItem('name')); 
-  const [sobrenome, setSobrenome]  = useState(localStorage.getItem('last_name')); 
-  const [email, setEmail]         = useState(localStorage.getItem('email')); 
-  const [username, setUsername]   = useState(localStorage.getItem('username'));  
-  const [ehInstrutor, setEhInstrutor] = useState(localStorage.getItem('is_instructor')); 
+    const [nome, setNome]           = useState(localStorage.getItem('name')); 
+    const [sobrenome, setSobrenome]  = useState(localStorage.getItem('last_name')); 
+    const [email, setEmail]         = useState(localStorage.getItem('email')); 
+    const [username, setUsername]   = useState(localStorage.getItem('username'));  
+    const [ehInstrutor, setEhInstrutor] = useState(localStorage.getItem('is_instructor')); 
 
   // handlerCadastro
   const handleSubmit = async (evt) => {

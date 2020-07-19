@@ -88,22 +88,27 @@ class ClassModel:
         n_rows = 0
         classes = []
         classes_dict = []
+        
+        username = args.get('username', '').strip()
+        # 2º Validando os parâmetros    
+        if (username == '') or (len(username) < 2) or (not is_username(username)):
+            raise Exception('invalid username parameter.')
 
         try:
-            n_rows, classes = ClassDAO().get_classes(args.get('username', '').strip(), args.get('situation', '').strip())
+            n_rows, classes = ClassDAO().get_classes( username, args.get('situation', '').strip())
         except Exception as e:
             print('[classModel.search]', str(e))
             raise Exception('invalid arguments.')
 
         for c in classes:
             dict_c = {
-                'username':c[0],
+                'classname':c[0],
                 'title':c[1],
                 'description':c[2],
-                'members quantity':c[3],
-                'max members':c[4],
+                'members_quantity':c[3],
+                'max_members':c[4],
                 'situation':c[5],
-                'is leader':c[6],
+                'is_leader':c[6],
             }
             classes_dict.append(dict_c)
 

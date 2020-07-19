@@ -1,9 +1,48 @@
 import React from 'react';
+import API from "../../utils/API";
+import { useState, useRef, useEffect } from "react";
 import './MinhasTurmas.css';
+
+import { Router, Link , navigate } from "@reach/router"
 
 import CardTurma from './CardTurma'
 
 function MinhasTurmas(props) {
+
+    if(!localStorage.getItem('username')){
+        navigate(`/login`)
+    }
+
+    const [status, setStatus] = useState(''); 
+    const [resultados, setResultados]         = useState([]); 
+    const [nroResultados, setNroResultados]   = useState(0);
+
+    function buscarResultados(){
+        let data = `username=${localStorage.getItem('username')}&situation=${status}`
+
+        API.post('my-classes', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+        .then(response => {
+            setNroResultados(response.data.rows)
+            setResultados(response.data.results)
+        })
+        .catch(error => {
+            alert('Erro de Conexão!')
+        });
+    }
+
+    useEffect(() => {
+        buscarResultados()
+    }, [status]);
+
+
+    function renderCard(item){
+        return (
+            <CardTurma nome={item.classname} titulo={item.title} descricao={item.description} 
+                qtdMembros={item.members_quantity} maxMembros={item.max_members} situacao={item.situation} 
+                ehLider={item.is_leader}/>
+        )
+    }
+
     return (
         <main id="page-minhas-turmas" class="body-card">
             <h1>Minhas Turmas</h1>
@@ -11,11 +50,12 @@ function MinhasTurmas(props) {
             { !props.painelInstrutor && 
                 <section class="filtros">
                     <label for="filtro-status">Filtrar status </label>
-                    <select id="filtro-status" name="filtro-status">
-                        <option selected>Mostrar todas</option>
-                        <option>Procurando Instrutor</option>
-                        <option>Com aulas em curso</option>
-                        <option>Removidas</option>
+                    <select id="filtro-status" name="filtro-status"
+                        value={status} onChange={e => setStatus(e.target.value)}>
+                        <option vaue=''>Mostrar todas</option>
+                        <option value='BUSCANDO INSTRUTOR'>Buscando Instrutor</option>
+                        <option value='EM AULAS'>Com aulas em curso</option>
+                        <option value='ENCERRADA'>Arquivadas</option>
                     </select>
                 </section> 
             }
@@ -23,18 +63,18 @@ function MinhasTurmas(props) {
             { props.painelInstrutor && 
                 <section class="filtros">
                     <label for="filtro-status">Filtrar status </label>
-                    <select id="filtro-status" name="filtro-status">
-                        <option selected>Mostrar todas</option>
-                        <option>Propostas em andamento</option>
-                        <option>Com aulas em curso</option>
+                    <select id="filtro-status" name="filtro-status"
+                        value={status} onChange={e => setStatus(e.target.value)}>
+                        <option vaue=''>Mostrar todas</option>
+                        <option value='BUSCANDO INSTRUTOR'>Buscando Instrutor</option>
+                        <option value='EM AULAS'>Com aulas em curso</option>
+                        <option value='ENCERRADA'>Arquivadas</option>
                     </select>
                 </section> 
             }
 
             <section class="turmas">
-                <CardTurma/>
-                <CardTurma/>
-                <CardTurma/>
+                { resultados.map( renderCard ) }
             </section>
 
             { !props.painelInstrutor && 

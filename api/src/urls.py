@@ -21,8 +21,8 @@ from src.controllers.class_ import ClassController
 
 
 urlpatterns = [
-    path('', ClassController().register),
-    path('user/register',  UserController().register),
-    path('user/update',    UserController().update),
-    path('user/',          UserController().search),
+    path('api/login', UserController().login),
+    path('api/check-username',     UserController().check_username),
+    path('api/register',  UserController().register),
+    
 ]

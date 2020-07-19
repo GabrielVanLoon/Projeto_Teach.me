@@ -17,7 +17,8 @@ function Header(props) {
       </div>
       <div class="sign-in">
           <Link to="/login" className="btn">Entrar</Link>
-          <small>Ainda não possui conta? <Link to="/criar-conta">Clique aqui.</Link></small>
+          <small>Ainda não possui conta? <Link to="/criar-conta">Clique aqui. </Link></small>
+          <small> Usuario atual: { localStorage.getItem('username') || 'Nenhum '}</small>
       </div>
     </header>
   );

@@ -22,9 +22,10 @@ from src.controllers.instructor import InstructorController
 
 
 urlpatterns = [
-    path('api/login', UserController().login),
-    path('api/check-username',     UserController().check_username),
-    path('api/register',  UserController().register),
-    path('api/instructors',  InstructorController().get_instructors),
+    path('api/login', 		UserController().login),
+    path('api/check-username', UserController().check_username),
+    path('api/register',  	UserController().register),
+    path('api/instructors',  	InstructorController().get_instructors),
+    path('api/my-classes',  	ClassController().get_classes),
     
 ]

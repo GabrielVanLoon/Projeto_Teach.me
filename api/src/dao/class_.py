@@ -67,3 +67,33 @@ class ClassDAO(Connector):
             self.close()
 
         return return_class
+
+    def get_classes(self, username='', situation=''):
+        n_rows = 0
+        result = []
+        parameters = [username]
+        try: 
+            self.connect()
+            query = '''SELECT T.NOME, T.TITULO, T.DESCRICAO, T.QTD_PARTICIPANTES, T.MAX_PARTICIPANTES, T.SITUACAO, P.E_LIDER
+                        FROM turma T
+                        INNER JOIN participante P ON (T.NOME = P.TURMA)
+                        WHERE P.ALUNO = %s'''
+            if (situation != ''):
+                query += ' AND T.SITUACAO = %s'
+                parameters.append(situation)
+            query += ';'
+
+            self.cur.execute(query, parameters)
+            self.con.commit()
+
+            result = self.cur.fetchall()
+            n_rows = self.cur.rowcount
+
+        except Exception as e:
+            print('[ClassDAO.select]', str(e))
+            raise Exception('fail on class select. Check again later!')
+
+        finally:
+            self.close()
+
+        return n_rows, result

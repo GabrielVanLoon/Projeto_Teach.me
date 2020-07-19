@@ -19,6 +19,8 @@ from django.urls    import path
 from src.controllers.user import UserController
 from src.controllers.class_ import ClassController
 from src.controllers.instructor import InstructorController
+from src.controllers.offer import OfferController
+from src.controllers.proposal import ProposalController
 
 
 urlpatterns = [
@@ -27,6 +29,8 @@ urlpatterns = [
     path('api/register',  	UserController().register),
     path('api/instructors',  	InstructorController().get_instructors),
     path('api/my-classes',  	ClassController().get_classes),
+    path('api/proposals',  	ProposalController().get_proposals),
+    
     path('api/class/register',  ClassController().register),
     path('api/user/update',  UserController().update),
 ]

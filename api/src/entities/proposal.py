@@ -18,4 +18,4 @@ class Proposal:
         yield 'code',           self.code
         yield 'status',         self.status
         yield 'creation_date',  self.creation_date
-    yield 'full_price',         self.full_price
+        yield 'full_price',         self.full_price

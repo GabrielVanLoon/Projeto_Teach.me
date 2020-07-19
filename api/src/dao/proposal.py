@@ -115,3 +115,37 @@ class ProposalDAO(Connector):
             self.close()
 
         return return_obj    
+
+    def select_by_student(self, student:str, status:str = ''):
+        return_obj = []
+        n_rows     = 0
+
+        try: 
+            self.connect()
+            query = '''SELECT P.ID, P.TURMA, P.INSTRUTOR, P.DISCIPLINA, P.CODIGO, P.STATUS, TO_CHAR(P.DATA_CRIACAO:: DATE, 'dd/mm/yyyy'), P.PRECO_TOTAL,
+                                A.NUMERO, A.LOCAL, A.STATUS, A.PRECO_FINAL, TO_CHAR(A.DATA_INICIO:: DATE, 'dd/mm/yyyy hh:mm') ,   (AC.ALUNO IS NULL) ACEITO
+                        FROM proposta P
+                        INNER JOIN aula A ON (P.ID = A.PROPOSTA)
+                        INNER JOIN participante PA ON (P.TURMA = PA.TURMA)
+                        LEFT JOIN  aceita AC ON (P.ID = AC.PROPOSTA AND PA.ALUNO = AC.ALUNO AND PA.TURMA = AC.TURMA)
+                        WHERE PA.ALUNO = %s'''
+
+            if (status != ''):
+                query += ''' AND P.STATUS = %s'''
+                self.cur.execute(query, [student, status])
+            else :
+                self.cur.execute(query, [student])
+
+            self.con.commit()
+
+            return_obj  = self.cur.fetchall()
+            n_rows      = self.cur.rowcount
+
+        except Exception as e:
+            print('[proposalDAO.select_by_student]', str(e))
+            raise Exception('fail on proposal select. Check again later!')
+
+        finally:
+            self.close()
+
+        return (n_rows, return_obj)   

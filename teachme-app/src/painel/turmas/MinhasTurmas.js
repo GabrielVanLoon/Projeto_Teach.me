@@ -119,6 +119,7 @@ function MinhasTurmas(props) {
 
             { !props.painelInstrutor && 
                 <section class="criar-turma">
+                    <h2>Criar nova turma</h2>
                     <form onSubmit={handleSubmit}>
 
                         <div class="form-line">

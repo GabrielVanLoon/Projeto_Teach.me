@@ -17,6 +17,19 @@ function CardProposta(props) {
         setCollapseState( !collapseState );
     }
 
+    function renderAula(item){
+        return (
+            <tr>
+                <td>#{item.lesson_number}</td>
+                <td>{item.start}</td>
+                <td>{item.place}</td>
+                <td>R$ {item.full_price}</td>
+                <td>{item.status}</td>
+            </tr>
+        )
+    }
+
+
     return (
     <article class="card-proposta">
         <table class="dados-propostas">
@@ -37,11 +50,11 @@ function CardProposta(props) {
             </thead>
             <tbody>
                 <tr class="row">
-                    <td>#001</td>
-                    <td>@Calc3_Federson019</td>
-                    <td>@JoaoSilva013</td>
-                    <td>Cálculo</td>
-                    <td>Em votação</td>
+                <td>#{props.codigo}</td>
+                    <td>@{props.turma}</td>
+                    <td>@{props.instrutor}</td>
+                    <td>{props.disciplina}</td>
+                    <td>{props.status}</td>
                 </tr>
             </tbody>
         </table>
@@ -58,27 +71,7 @@ function CardProposta(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#01</td>
-                        <td>27/05/20 14:00</td>
-                        <td>Biblioteca ICMC</td>
-                        <td>R$ 50,00</td>
-                        <td>Finalizada</td>
-                    </tr>
-                    <tr>
-                        <td>#02</td>
-                        <td>27/05/20 14:00</td>
-                        <td>Biblioteca Física</td>
-                        <td>R$ 50,00</td>
-                        <td>Cancelada</td>
-                    </tr>
-                    <tr>
-                        <td>#03</td>
-                        <td>27/05/20 14:00</td>
-                        <td>Bloco 3 - ICMC</td>
-                        <td>R$ 50,00</td>
-                        <td>Agendada</td>
-                    </tr>
+                    { props.aulas.map( renderAula ) }
                 </tbody>
             </table>
         </div>
@@ -86,11 +79,20 @@ function CardProposta(props) {
         <table class="iteracoes">
                 <tbody>
                     <tr>
-                        <td>
-                            <button class="btn btn-success"><i class="fa-fw fas fa-check"></i> Aceitar Proposta</button>
-                            <button class="btn btn-danger"><i class="fa-fw fas fa-times"></i> Recusar Proposta</button>
-                            <button class="btn"><i class="fa-fw fas fa-share"></i> Ver Turma</button>
-                        </td>
+                        { (props.status == 'EM APROVAÇÃO' && !props.aceito) &&
+                            <td>
+                                <button class="btn btn-success"><i class="fa-fw fas fa-check"></i> Aceitar Proposta</button>
+                                <button class="btn btn-danger"><i class="fa-fw fas fa-times"></i> Recusar Proposta</button>
+                                <button class="btn"><i class="fa-fw fas fa-share"></i> Ver Turma</button>
+                            </td>
+                        }
+
+                        { !(props.status == 'EM APROVAÇÃO' && !props.aceito) &&
+                            <td>
+                                <button class="btn"><i class="fa-fw fas fa-share"></i> Ver Turma</button>
+                            </td>
+                        }
+
                     </tr>
                 </tbody>
             </table>

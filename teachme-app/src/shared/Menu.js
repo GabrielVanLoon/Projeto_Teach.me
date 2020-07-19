@@ -33,14 +33,14 @@ function Menu(props) {
                     </ul>
                 </nav>
 
-                <nav>
+                {/* <nav>
                     <li><Link to="/painel-instrutor" onClick={closeMenu}><i class="fa-fw fas fa-graduation-cap"/> Painel Instrutor</Link></li>
                     <ul>
                         <li><Link to="/painel-instrutor/horarios-e-locais" onClick={closeMenu}>Horários e Locais</Link></li>
                         <li><Link to="/painel-instrutor/oferecimentos" onClick={closeMenu}>Meus Oferecimentos</Link></li>
                         <li><Link to="/painel-instrutor/minhas-turmas" onClick={closeMenu}>Minhas Turmas</Link></li>
                     </ul>
-                </nav>
+                </nav> */}
                 
             </div>
 

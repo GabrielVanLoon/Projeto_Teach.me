@@ -45,3 +45,24 @@ class ProposalController:
             data = { 'error': str(e) }
 
         return JsonResponse(data, status=http_status)
+
+    def get_proposals(self, request):
+        (data, http_status)   = ({ }, status.HTTP_400_BAD_REQUEST)
+        
+        if request.method != 'POST':
+            data = { 'error': 'invalid http method. Use GET instead.'}
+            return JsonResponse(data, status=http_status)
+
+        try:
+            n_rows, proposals = ProposalModel().get_proposals(request.POST)
+            data = { 
+                'message': '{} proposal(s) found'.format(n_rows),
+                'rows': n_rows,
+                'proposals': proposals,
+                }
+            http_status = status.HTTP_200_OK
+
+        except Exception as e:
+            data = { 'error': str(e) }
+
+        return JsonResponse(data, status=http_status)

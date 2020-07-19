@@ -1,6 +1,17 @@
 import React from 'react'
 import './CardTurma.css';
 
+// "id": 10,
+// "classname": "grupo_linguas",
+// "instructor": "ana",
+// "subject": "Inglês",
+// "code": 1,
+// "status": "RECUSADA",
+// "creation_date": "2020-03-15T12:30:00",
+// "full_price": "100.00",
+// "accept": true,
+// "lessons":
+
 function CardTurma(props){
     return(
         <article class="card-turma">

@@ -12,12 +12,12 @@ class Lesson:
         self.instructor_rate = instructor_rate
 
     def __iter__(self):
-        yield proposal,         proposal 
-        yield lesson_number,    lesson_number 
-        yield instructor,       instructor 
-        yield place,            place 
-        yield full_price,       full_price 
-        yield status,           status 
-        yield start,            start 
-        yield end,              end 
-        yield instructor_rate,  instructor_rate
+        yield 'proposal',         self.proposal 
+        yield 'lesson_number',    self.lesson_number 
+        yield 'instructor',       self.instructor 
+        yield 'place',            self.place 
+        yield 'full_price',       self.full_price 
+        yield 'status',           self.status 
+        yield 'start',            self.start 
+        yield 'end',              self.end 
+        yield 'instructor_rate',  self.instructor_rate

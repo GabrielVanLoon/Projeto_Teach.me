@@ -18,11 +18,13 @@ from django.urls    import path
 
 from src.controllers.user import UserController
 from src.controllers.class_ import ClassController
+from src.controllers.instructor import InstructorController
 
 
 urlpatterns = [
     path('api/login', UserController().login),
     path('api/check-username',     UserController().check_username),
     path('api/register',  UserController().register),
+    path('api/instructors',  InstructorController().get_instructors),
     
 ]

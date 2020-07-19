@@ -67,4 +67,31 @@ class InstructorDAO(Connector):
             self.close()
 
         return return_obj
+
+    def get_instructors(self, subject='', city='', state='', weekday='', time='', max_price=''):
+        n_rows = 0
+        result = []
+        try: 
+            self.connect()
+            query = '''SELECT DISTINCT U.NOME_USUARIO, U.NOME, U.SOBRENOME, I.RESUMO, O.DISCIPLINA, O.PRECO_BASE
+                        FROM oferecimento O
+                        INNER JOIN usuario U ON (O.INSTRUTOR = U.NOME_USUARIO)
+                        INNER JOIN instrutor I ON (O.INSTRUTOR = I.NOME_USUARIO)
+                        INNER JOIN local L ON (O.INSTRUTOR = L.INSTRUTOR)
+                        INNER JOIN horario_disponivel HR ON (O.INSTRUTOR = HR.INSTRUTOR);
+                        '''
+
+            self.cur.execute(query, [])
+            self.con.commit()
+
+            result = self.cur.fetchall()
+            n_rows = self.cur.rowcount
+            
+        except Exception as e:
+            print('[instructorDAO.select]', str(e))
+            raise Exception('fail on instructor select. Check again later!')
+
+        finally:
+            self.close()
     
+        return n_rows, result

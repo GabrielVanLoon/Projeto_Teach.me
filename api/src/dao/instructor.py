@@ -71,6 +71,7 @@ class InstructorDAO(Connector):
     def get_instructors(self, subject='', city='', state='', weekday='', time='', max_price=''):
         n_rows = 0
         result = []
+        parameters = []
         try: 
             self.connect()
             query = '''SELECT DISTINCT U.NOME_USUARIO, U.NOME, U.SOBRENOME, I.RESUMO, O.DISCIPLINA, O.PRECO_BASE
@@ -78,10 +79,45 @@ class InstructorDAO(Connector):
                         INNER JOIN usuario U ON (O.INSTRUTOR = U.NOME_USUARIO)
                         INNER JOIN instrutor I ON (O.INSTRUTOR = I.NOME_USUARIO)
                         INNER JOIN local L ON (O.INSTRUTOR = L.INSTRUTOR)
-                        INNER JOIN horario_disponivel HR ON (O.INSTRUTOR = HR.INSTRUTOR);
+                        INNER JOIN horario_disponivel HR ON (O.INSTRUTOR = HR.INSTRUTOR)
                         '''
+            if (subject != '') or (state != '') or (weekday != '') or (time != '') or (max_price != ''):
+                query += ' WHERE'
+                if (subject != ''):
+                    query += ' O.DISCIPLINA = %s'
+                    parameters.append(subject)
+                
+                if (state != ''):
+                    if parameters:
+                        query += ' AND'
+                    query += ' L.UF = %s'
+                    parameters.append(state)
+                    if (city != ''):
+                        query += ' AND L.CIDADE = %s'
+                        parameters.append(city)
+                
+                if (weekday != ''):
+                    if parameters:
+                        query += ' AND'
+                    query += ' HR.DIA_SEMANA = %s'
+                    parameters.append(weekday)
+                
+                if (time != ''):
+                    if parameters:
+                        query += ' AND'
+                    query += ' HR.HORARIO = %s'
+                    parameters.append(time)
 
-            self.cur.execute(query, [])
+                if (max_price != ''):
+                    if parameters:
+                        query += ' AND'
+                    query += ' O.PRECO_BASE <= %s'
+                    parameters.append(max_price)
+                
+                query += ';'
+                
+
+            self.cur.execute(query, parameters)
             self.con.commit()
 
             result = self.cur.fetchall()

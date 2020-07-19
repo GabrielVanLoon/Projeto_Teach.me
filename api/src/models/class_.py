@@ -83,3 +83,28 @@ class ClassModel:
             raise e
 
         return dict(class_)
+
+    def get_classes(self, args:QueryDict = None):
+        n_rows = 0
+        classes = []
+        classes_dict = []
+
+        try:
+            n_rows, classes = ClassDAO().get_classes(args.get('username', '').strip(), args.get('situation', '').strip())
+        except Exception as e:
+            print('[classModel.search]', str(e))
+            raise Exception('invalid arguments.')
+
+        for c in classes:
+            dict_c = {
+                'username':c[0],
+                'title':c[1],
+                'description':c[2],
+                'members quantity':c[3],
+                'max members':c[4],
+                'situation':c[5],
+                'is leader':c[6],
+            }
+            classes_dict.append(dict_c)
+
+        return n_rows, classes_dict

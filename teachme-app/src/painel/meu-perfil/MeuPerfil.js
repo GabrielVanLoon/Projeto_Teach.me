@@ -27,11 +27,10 @@ function MeuPerfil() {
       .then(response => {
         localStorage.setItem('name',     response.data.name)
         localStorage.setItem('last_name', response.data.last_name)
+        window.location.reload(false);
       }) 
       .catch(error => {
-          alert("O username já está em uso.")
-          // usernameInput.current.focus()
-          // ERRO
+          alert("Ocorreu um erro. Tente novamente mais tarde!")
       });
   } 
 

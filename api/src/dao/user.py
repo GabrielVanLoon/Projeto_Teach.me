@@ -27,10 +27,10 @@ class UserDAO(Connector):
         try: 
             self.connect()
             query = '''UPDATE usuario 
-                        SET EMAIL = %s, NOME = %s, SOBRENOME = %s, E_INSTRUTOR = %s
+                        SET NOME = %s, SOBRENOME = %s
                         WHERE NOME_USUARIO = %s;'''
 
-            self.cur.execute(query, [user.email, user.name, user.last_name, user.is_instructor, user.username])
+            self.cur.execute(query, [user.name, user.last_name, user.username])
             self.con.commit()
             
             rows_affected = self.cur.rowcount

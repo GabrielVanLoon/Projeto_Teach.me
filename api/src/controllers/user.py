@@ -30,8 +30,13 @@ class UserController:
             return JsonResponse(data, status=http_status)
 
         try:
-            UserModel().update(request.POST)
-            data = { 'message': 'successfully updated user.'}
+            user = UserModel().update(request.POST)
+            data = { 
+                'message': 'successfully updated user.',
+                'username': user.username,
+                'name': user.name,
+                'last_name': user.last_name
+            }
             http_status = status.HTTP_200_OK
 
         except Exception as e:

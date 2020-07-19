@@ -28,5 +28,5 @@ urlpatterns = [
     path('api/instructors',  	InstructorController().get_instructors),
     path('api/my-classes',  	ClassController().get_classes),
     path('api/class/register',  ClassController().register),
-    
+    path('api/user/update',  UserController().update),
 ]

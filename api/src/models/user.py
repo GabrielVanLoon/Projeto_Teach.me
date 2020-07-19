@@ -59,9 +59,10 @@ class UserModel:
         return None
 
     def update(self, args:QueryDict = None):
+        user = None
         # 1º Extraindo parâmetros de interesse
         try: 
-            user = User(args.get('username', '').strip(), args.get('email', '').strip(), None, 
+            user = User(args.get('username', '').strip(), '', None, 
                             args.get('name', '').strip(), args.get('last_name', '').strip(), None, False)
         except Exception as e:
             print('[userModel.update]', str(e))
@@ -70,8 +71,6 @@ class UserModel:
         # 2º Validando os parâmetros    
         if (user.username == '') or (len(user.username) < 2) or (not is_username(user.username)):
             raise Exception('invalid username parameter.')
-        if not is_valid_mail(user.email):
-            raise Exception('invalid email parameter.')
         if (not is_alphabetic(user.name, with_spaces=True)) or (not is_alphabetic(user.last_name, with_spaces=True)):
             raise Exception('invalid name and last name parameters')
         
@@ -82,6 +81,8 @@ class UserModel:
                 raise Exception('user not found. Please check if the username param is valid!')
         except Exception as e:
             raise e
+
+        return user
 
     def search(self, args:QueryDict = None):
         user = None

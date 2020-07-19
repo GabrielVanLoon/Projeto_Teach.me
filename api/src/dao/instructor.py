@@ -74,13 +74,25 @@ class InstructorDAO(Connector):
         parameters = []
         try: 
             self.connect()
-            query = '''SELECT DISTINCT U.NOME_USUARIO, U.NOME, U.SOBRENOME, I.RESUMO, O.DISCIPLINA, O.PRECO_BASE
-                        FROM oferecimento O
-                        INNER JOIN usuario U ON (O.INSTRUTOR = U.NOME_USUARIO)
-                        INNER JOIN instrutor I ON (O.INSTRUTOR = I.NOME_USUARIO)
-                        INNER JOIN local L ON (O.INSTRUTOR = L.INSTRUTOR)
-                        INNER JOIN horario_disponivel HR ON (O.INSTRUTOR = HR.INSTRUTOR)
-                        '''
+
+            # Montando as colunas: 
+            query =  ''' SELECT DISTINCT U.NOME_USUARIO, U.NOME, U.SOBRENOME, I.RESUMO, '''
+            query += " O.DISCIPLINA, O.PRECO_BASE" if (subject != '') else " '', '' "
+
+            # Joins obrigatórios:
+            query += ''' FROM oferecimento O
+                            INNER JOIN usuario U ON (O.INSTRUTOR = U.NOME_USUARIO)
+                            INNER JOIN instrutor I ON (O.INSTRUTOR = I.NOME_USUARIO) '''
+
+            # Joins opcionais
+            if (state != ''):
+                query += ''' INNER JOIN local L ON (O.INSTRUTOR = L.INSTRUTOR) '''
+
+            if (weekday != '') or (time != ''):
+                query += ''' INNER JOIN horario_disponivel HR ON (O.INSTRUTOR = HR.INSTRUTOR) '''
+            
+
+            # Montando a clausura Where baseada nos parâmetros
             if (subject != '') or (state != '') or (weekday != '') or (time != '') or (max_price != ''):
                 query += ' WHERE'
                 if (subject != ''):

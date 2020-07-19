@@ -1,37 +1,45 @@
 import React from 'react';
 import API from "../utils/API";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import './Buscar.css';
-
-const instrutores = [
-    {
-        nome:      'Maria Joaquina',
-        descricao: 'Quisque ac imperdiet dui, quis scelerisque lacus. Vivamus in tortor nunc. Etiam iaculis ut purus sit amet malesuada. Vivamus at odio laoreet, ultrices tellus eu, accumsan sapien. Duis sodales libero quam.',
-        preco:     '79,99' 
-    }, 
-    {
-        nome:      'Maria Joaquina',
-        descricao: 'Lorem ipsum dolor sit amet veriquas',
-        preco:     '79,99' 
-    }, 
-    {
-        nome:      'Maria Joaquina',
-        descricao: 'Lorem ipsum dolor sit amet veriquas',
-        preco:     '79,99' 
-    }, 
-]
 
 
 function Buscar() {
     
     const [mostrarFiltro, setMostrarFiltro] = useState(false); 
 
-    const [disciplina, setDisciplina]   = useState(""); 
-    const [cidade,      setCidade]      = useState(""); 
-    const [uf, setUF]                   = useState(""); 
-    const [semana, setSemana]             = useState(""); 
-    const [horario, setHorario]         = useState(""); 
+    const [disciplina, setDisciplina] = useState(""); 
+    const [cidade,      setCidade]    = useState(""); 
+    const [uf, setUF]                 = useState(""); 
+    const [semana, setSemana]         = useState(""); 
+    const [horario, setHorario]       = useState(""); 
     const [precoMax, setPrecoMax]     = useState(""); 
+
+    const [resultados, setResultados]         = useState([]); 
+    const [nroResultados, setNroResultados]   = useState(0);
+
+    useEffect(async () => {
+        buscarResultados()
+    }, []);
+
+    function buscarResultados(){
+        let data = `subject=${disciplina}&state=${uf}&city=${cidade}`
+        data += `&weekday=${semana}&time=${horario}&max_price=${precoMax}`
+
+        API.post('instructors', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+        .then(response => {
+            setNroResultados(response.data.rows)
+            setResultados(response.data.results)
+        })
+        .catch(error => {
+            alert('Erro de Conexão!')
+        });
+    }
+
+    const handleSubmit = async (evt) => {
+        evt.preventDefault()
+        buscarResultados()
+    } 
 
     function cardInstrutor(item){
         return(
@@ -40,9 +48,24 @@ function Buscar() {
                     <img src="https://oficinadainteligencia.com.br/wp-content/uploads/2019/07/opulent-profile-square-06.jpg"/>
                 </div>
                 <div class="info">
-                    <h3>{ item.nome }</h3>
-                    <p>{ item.descricao }</p>
-                    <p class="price"><span>Preço: R$ { item.preco }/aula</span><a href="#" class="btn">Ver perfil</a></p>
+                    <h3>{ item.name } { item.last_name }</h3>
+                    <h4>{ item.degree }</h4>
+                    <p>{  item.abstract }</p>
+                      
+                    { item.subject == '' && 
+                        <p class="price"> 
+                            <span> Aulas à partir de R$ { item.base_price }</span>
+                            <a href="" title={item.username} class="btn">Ver perfil</a>
+                        </p>
+                    }
+
+                    { item.subject != '' && 
+                        <p class="price"> 
+                            <span> Aulas de { item.subject }: R$ { item.base_price }/Aula</span>
+                            <a href="" title={item.username}  class="btn">Ver perfil</a>
+                        </p>
+                    }
+
                 </div>
             </article>
         );
@@ -52,7 +75,7 @@ function Buscar() {
         <main id="page-buscar-instrutor" class="body-card">
             <h1>Buscar Instrutores</h1>
             <section class="formulario">
-                <form> 
+                <form onSubmit={handleSubmit}> 
                     
                     <div class="form-group">
                         <label for="disciplina">Disciplina</label>
@@ -172,8 +195,8 @@ function Buscar() {
 
             
             <section class="resultados">
-                <h2>Resultados</h2>
-                { instrutores.map( cardInstrutor ) }
+                <h3> { nroResultados} instrutores encontrados </h3>
+                { resultados.map( cardInstrutor ) }
 
             </section>
         </main>

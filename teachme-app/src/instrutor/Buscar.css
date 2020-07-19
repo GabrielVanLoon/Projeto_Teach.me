@@ -6,7 +6,7 @@
 
 /* Formulário de Busca */
     #page-buscar-instrutor section.formulario{
-        margin-bottom: 40px;
+        margin-bottom: 0px;
     }
 
     #page-buscar-instrutor section.formulario form {
@@ -66,6 +66,9 @@
         padding: 20px;
     }
 
+    #page-buscar-instrutor .resultados article .info p { 
+        min-height: 50px;
+    }
 
     #page-buscar-instrutor .resultados article .info .price {
         display: flex;
@@ -79,4 +82,10 @@
 
     #page-buscar-instrutor .resultados article .info h3 {
         margin: 0;
+    }
+    #page-buscar-instrutor .resultados article .info h4 {
+        margin-bottom: 0;
+        margin-top: 5px;
+        font-weight: normal;
+        color: #666;
     }

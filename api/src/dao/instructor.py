@@ -76,8 +76,9 @@ class InstructorDAO(Connector):
             self.connect()
 
             # Montando as colunas: 
-            query =  ''' SELECT DISTINCT U.NOME_USUARIO, U.NOME, U.SOBRENOME, I.RESUMO, '''
-            query += " O.DISCIPLINA, O.PRECO_BASE" if (subject != '') else " '', '' "
+            query =  ''' SELECT DISTINCT ON (U.NOME_USUARIO) 
+                            U.NOME_USUARIO, U.NOME, U.SOBRENOME, I.FORMACAO, I.RESUMO,  '''
+            query += " O.DISCIPLINA, O.PRECO_BASE" if (subject != '') else " '', O.PRECO_BASE "
 
             # Joins obrigatórios:
             query += ''' FROM oferecimento O
@@ -126,7 +127,7 @@ class InstructorDAO(Connector):
                     query += ' O.PRECO_BASE <= %s'
                     parameters.append(max_price)
                 
-                query += ';'
+            query += ' ORDER BY U.NOME_USUARIO ASC, O.PRECO_BASE ASC;'
                 
 
             self.cur.execute(query, parameters)

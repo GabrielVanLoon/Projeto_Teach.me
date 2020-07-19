@@ -66,7 +66,7 @@ class InstructorController:
         try:
             n_rows, instructors_dict = InstructorModel().get_instructors(request.POST)
             data = { 
-                'message': '% instructors found'.format(n_rows),
+                'message': '{} instructor(s) found'.format(n_rows),
                 'rows': n_rows,
                 'results': instructors_dict,
             } 

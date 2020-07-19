@@ -95,10 +95,11 @@ class InstructorModel:
             dict_r = {
                 'username':r[0],
                 'name':r[1],
-                'last name':r[2],
-                'abstract':r[3],
+                'last_name':r[2],
+                'degree': r[3],
+                'abstract':r[4],
                 'subject':args.get('subject', '').strip(),
-                'base_price':r[5],
+                'base_price':r[6],
             }
             instructors_dict.append(dict_r)
 

@@ -73,3 +73,33 @@ class InstructorModel:
             raise e
 
         return dict(instructor)
+
+    def get_instructors(self, args:QueryDict = None):
+        n_rows = 0
+        instructors = []
+        instructors_dict = []
+
+        # 1º Extraindo parâmetros de interesse
+
+        max_price = args.get('max_price', '').strip()
+        max_price = float(max_price) if (is_numeric(max_price)) else ''
+
+        try: 
+            n_rows, instructors = InstructorDAO().get_instructors(args.get('subject', '').strip(), args.get('city', '').strip(), 
+                            args.get('state', '').strip(), args.get('weekday', '').strip(), args.get('time', '').strip(), max_price)
+        except Exception as e:
+            print('[instructorModel.search]', str(e))
+            raise Exception('invalid arguments.')
+
+        for r in instructors:
+            dict_r = {
+                'username':r[0],
+                'name':r[1],
+                'last name':r[2],
+                'abstract':r[3],
+                'subject':args.get('subject', '').strip(),
+                'base_price':r[5],
+            }
+            instructors_dict.append(dict_r)
+
+        return n_rows, instructors_dict

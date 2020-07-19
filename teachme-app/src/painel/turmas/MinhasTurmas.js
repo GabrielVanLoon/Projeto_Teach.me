@@ -13,6 +13,12 @@ function MinhasTurmas(props) {
         navigate(`/login`)
     }
 
+    const [titulo, setTitulo] = useState(''); 
+    const [classname, setClassname] = useState(''); 
+    const [maxParticipantes, setMaxParticipantes] = useState(10); 
+    const [descricao, setDescricao]= useState(''); 
+
+
     const [status, setStatus] = useState(''); 
     const [resultados, setResultados]         = useState([]); 
     const [nroResultados, setNroResultados]   = useState(0);
@@ -34,6 +40,40 @@ function MinhasTurmas(props) {
         buscarResultados()
     }, [status]);
 
+
+    // handlerCadastro
+    function enviarDados(){
+        let data = `username=${localStorage.getItem('username')}&classname=${classname}&title=${titulo}`
+        data += `&max_members=${maxParticipantes}&description=${descricao}`
+
+        API.post('class/register', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+        .then(response => {
+            window.location.reload(false);
+        })
+        .catch(error => {
+            alert('Ocorreu um erro ao cadastrar a turma. Tente novamente mais tarde!')
+        });
+    }
+
+
+    const handleSubmit = async (evt) => {
+        evt.preventDefault()
+            
+        if(!classname.match(/^[a-zA-Z0-9-_]{1,}$/)){
+            alert("Classname com caractéres inválidos.")
+            return false
+        }
+
+        // validando o username
+        let data = `username=${classname}`
+        API.post('check-username', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+        .then(response => {
+            enviarDados()
+        }) 
+        .catch(error => {
+            alert("O classname já está em uso.")
+        });
+    } 
 
     function renderCard(item){
         return (
@@ -79,22 +119,34 @@ function MinhasTurmas(props) {
 
             { !props.painelInstrutor && 
                 <section class="criar-turma">
-                    <form>
+                    <form onSubmit={handleSubmit}>
+
                         <div class="form-line">
                             <div class="form-group">
                                 <label for="titulo">Título da turma</label>
-                                <input type="text" id="titulo" name="titulo"/>    
+                                <input type="text" id="titulo" name="titulo" minLength={2} maxLength={60} required
+                                    value={titulo} onChange={e => setTitulo(e.target.value)} />    
+                            </div>
+                        </div>
+
+                        <div class="form-line">
+                            <div class="form-group">
+                                <label for="classname">@Classname</label>
+                                <input type="text" id="classname" name="classname" minLength={2} maxLength={30} required 
+                                    value={classname} onChange={e => setClassname(e.target.value)}/>    
                             </div>
 
                             <div class="form-group">
                                 <label for="max_participantes">Limite de participantes</label>
-                                <input type="number" id="max_participantes" name="max_participantes"  min="2" max="30"/>
+                                <input type="number" id="max_participantes" name="max_participantes"  min="2" max="30" required
+                                    value={maxParticipantes} onChange={e => setMaxParticipantes(e.target.value)}/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="descricao">Descrição da turma</label>
-                            <textarea id="descricao" name="descricao"></textarea>
+                            <textarea id="descricao" name="descricao" maxLength={300}
+                                value={descricao} onChange={e => setDescricao(e.target.value)}></textarea>
                         </div>
 
                         <div class="form-group">

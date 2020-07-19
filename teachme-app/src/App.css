@@ -113,6 +113,10 @@
     
     .form-line > * {
         flex-grow: 1;
+    }  
+
+    .form-group textarea { 
+        resize: none;
     }
 
 /* Body Wrapper */

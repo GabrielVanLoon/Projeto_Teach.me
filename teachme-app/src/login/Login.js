@@ -38,8 +38,8 @@ function Login() {
       localStorage.setItem('last_name', response.data.last_name)
       localStorage.setItem('email', response.data.email)
       localStorage.setItem('is_instructor', response.data.is_instructor)
-      navigate(`/painel`)
-      // window.location.reload(false);
+      // navigate(`/painel`)
+      window.location.reload(false);
     })
     .catch(error => {
       usernameInput.current.focus()

@@ -17,7 +17,7 @@ function CardTurma(props){
                 </div>
             </div>
             <div class="turma-body">
-                <p>{props.descricao}</p>
+                <p>{props.descricao || 'Nenhuma descrição disponível.'}</p>
             </div>
         </article>
     );

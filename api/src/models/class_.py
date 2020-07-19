@@ -3,26 +3,30 @@ import re
 
 from src.libs.validations import *
 from src.entities.class_ import Class
+from src.entities.member import Member
 from src.dao.class_ import ClassDAO
+from src.dao.member import MemberDAO
 
 
 class ClassModel:
 
     def register(self, args:QueryDict = None):
-        class_ = None
-        
+        class_   = None
         # 1º Pegando os parâmetros de interesse
         try:
             class_ = Class(args.get('classname', '').strip(), args.get('title', '').strip(), args.get('description', '').strip(),
-            None, 1, args.get('max_members', '').strip(), args.get('situation', '').strip())
+            None, 1, args.get('max_members', '').strip(), 'BUSCANDO INSTRUTOR')
+            member = Member(args.get('username', '').strip(), args.get('classname', '').strip(), True)
+        
         except:
             raise Exception('invalid arguments.')
         
         # 2º Validando inputs
-        # @TODO: Checar se classname ja existe ou se existe um username igual a classname
+        if (member.student == '') or (len(member.student) < 2) or (not is_username(member.student)):
+            raise Exception('invalid classname parameter')
         if (class_.classname == '') or (len(class_.classname) < 2) or (not is_classname(class_.classname)):
             raise Exception('invalid classname parameter')
-        if class_.title == '':
+        if class_.title == '' or (len(class_.title) < 2):
             raise Exception('invalid title parameter')
         if (not is_integer(class_.max_members)) or (int(class_.max_members) < 0) or (int(class_.max_members) > 50):
             raise Exception('invalid max number of members parameter')
@@ -30,6 +34,7 @@ class ClassModel:
         # 3º Realizando o registro
         try:
             ClassDAO().insert(class_)
+            MemberDAO().insert(member)
         except Exception as e:
             raise e
 

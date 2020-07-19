@@ -18,10 +18,6 @@ function Buscar() {
     const [resultados, setResultados]         = useState([]); 
     const [nroResultados, setNroResultados]   = useState(0);
 
-    useEffect(async () => {
-        buscarResultados()
-    }, []);
-
     function buscarResultados(){
         let data = `subject=${disciplina}&state=${uf}&city=${cidade}`
         data += `&weekday=${semana}&time=${horario}&max_price=${precoMax}`

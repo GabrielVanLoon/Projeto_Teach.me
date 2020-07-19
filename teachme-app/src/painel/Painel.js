@@ -1,15 +1,12 @@
 import React from 'react';
 import API from "../utils/API";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import './Painel.css';
 
 import { Router, Link , navigate } from "@reach/router"
 
 function Painel() {
     
-    if(!localStorage.getItem('username')){
-        navigate(`/login`)
-    }
 
     return (
         <main id="page-painel" class="body-card">

@@ -1,6 +1,6 @@
 import React from 'react';
 import API from "../../utils/API";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import './MeuPerfil.css';
 
 
@@ -8,9 +8,11 @@ import { Router, Link, navigate } from "@reach/router"
 
 function MeuPerfil() {
   
-  if(!localStorage.getItem('username')){
-    navigate(`/login`)
-  }
+  useEffect(async () => {
+      if(localStorage.getItem('username') == ''){
+          navigate(`login`)
+      }
+  }, []);
 
   const [nome, setNome]           = useState(localStorage.getItem('name')); 
   const [sobrenome, setSobrenome]  = useState(localStorage.getItem('last_name')); 

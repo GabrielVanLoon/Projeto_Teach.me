@@ -3,7 +3,7 @@ import API from "../utils/API";
 import { useState, useRef } from "react";
 import './Login.css';
 
-import { Router, Link, redirectTo } from "@reach/router"
+import { Router, Link, navigate } from "@reach/router"
 
 function Login() {
   
@@ -31,10 +31,15 @@ function Login() {
   function enviarDados(){
     let data = `username=${username}&password=${senha}`
 
-    API.post('user', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
+    API.post('login', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }} )
     .then(response => {
-      localStorage.setItem('username', response.data.user.username)
-      window.location.reload(false);
+      localStorage.setItem('username', response.data.username)
+      localStorage.setItem('name',     response.data.name)
+      localStorage.setItem('last_name', response.data.last_name)
+      localStorage.setItem('email', response.data.email)
+      localStorage.setItem('is_instructor', response.data.is_instructor)
+      navigate(`/painel`)
+      // window.location.reload(false);
     })
     .catch(error => {
       usernameInput.current.focus()

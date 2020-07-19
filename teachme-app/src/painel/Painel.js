@@ -1,13 +1,20 @@
 import React from 'react';
+import API from "../utils/API";
+import { useState, useRef } from "react";
 import './Painel.css';
 
-import { Router, Link } from "@reach/router"
+import { Router, Link , navigate } from "@reach/router"
 
 function Painel() {
+    
+    if(!localStorage.getItem('username')){
+        navigate(`/login`)
+    }
+
     return (
         <main id="page-painel" class="body-card">
             <hgroup>
-                <h4>Olá NOME_USUÁRIO,</h4>
+                <h4>Olá { localStorage.getItem('name') } { localStorage.getItem('last_name') },</h4>
                 <h1>Seja bem vindo ao Teach.me</h1>
             </hgroup>
 

@@ -67,7 +67,11 @@ INSERT INTO local (INSTRUTOR, NOME, CAPACIDADE, RUA, NUMERO, BAIRRO, COMPLEMENTO
 ('andressa', 'Biblioteca ICMC', '1', 'Av. Trab. São Carlense', '400', 'USP SÂO CARLOS', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
 ('andressa', 'Minha Casa', '1', 'Rua 25 de Março', '222', 'Casa 3', 'Cidade Jardim', 'Araraquara', 'SP'),
 ('amalia', 'Biblioteca ICMC', '6', 'Av. Trab. São Carlense', '400', '', 'Parque Arnold Schimidt', 'São Carlos', 'SP'),
-('amalia', 'Minha Casa', '3', 'Rua 27', '27', '', 'Jardim São Paulo', 'Rio Claro', 'SP');
+('amalia', 'Minha Casa', '3', 'Rua 27', '27', '', 'Jardim São Paulo', 'Rio Claro', 'SP'),
+('ana', 'Minha Casa 2', '3', 'Av. Cônego Ramiro Leite', '7000', '', 'Centro', 'Januária', 'MG'),
+('alice', 'Minha Casa', '5', 'R. Visc. do Rio Branco', '150', '', 'Santa Terezinha', 'Alagoinhas', 'BA'),
+('andressa', 'Minha Casa 2', '1', 'Av. Cônego Ramiro Leite', '5090', 'Apto. 13', 'Centro', 'Januária', 'MG'),
+('amalia', 'Minha Casa 2', '3', 'Av. Cônego Ramiro Leite', '4000', '', 'Centro', 'Januária', 'MG'),;
 
 
 INSERT INTO horario_disponivel (INSTRUTOR, DIA_SEMANA, HORARIO) VALUES
@@ -126,9 +130,9 @@ INSERT INTO proposta (ID, TURMA, INSTRUTOR, DISCIPLINA, CODIGO, STATUS, DATA_CRI
 (16, 'grupo_linguas', 'andressa', 'Alemão', 1, 'APROVADA', '2020-07-03 12:30:00', 80),
 (17, 'grupo_exatas018', 'ana', 'Geometria Analítica', 1, 'FINALIZADA', '2020-07-06 12:30:00', 120),
 (18, 'grupo_exatas018', 'ana', 'Cálculo', 2, 'APROVADA', '2020-07-06 14:30:00', 80),
-(19, 'grupo_exatas018', 'amalia', 'Estatística', 1, 'APROVADA', '2020-07-06 14:30:00', 60),
+(19, 'grupo_exatas018', 'amalia', 'Estatística', 1, 'FINALIZADA', '2020-07-06 14:30:00', 60),
 (20, 'grupo_exatas018', 'amalia', 'Geometria Analítica', 2, 'APROVADA', '2020-07-07 14:30:00', 90),
-(21, 'grupo_compsofre', 'amalia', 'Estatística', 1, 'APROVADA', '2020-07-16 14:30:00', 60),
+(21, 'grupo_compsofre', 'amalia', 'Estatística', 1, 'FINALIZADA', '2020-07-16 14:30:00', 60),
 (22, 'grupo_compsofre', 'amalia', 'Geometria Analítica', 2, 'APROVADA', '2020-07-16 14:30:00', 90);
 
 
@@ -241,11 +245,20 @@ INSERT INTO chat (TURMA, CODIGO, NOME, STATUS, INSTRUTOR) VALUES
 
 INSERT INTO mensagem (TURMA, CODIGO, NUMERO, USUARIO, DATA_ENVIO, CONTEUDO) VALUES 
 ('grupo_linguas', 2, 1, 'bob', '2020-03-14 12:30:00', 'Mensagem antes da proposta'),
-('grupo_linguas', 2, 2, 'bob', '2020-03-16 12:30:00', 'Mensagem depois da primeira proposta');
+('grupo_linguas', 2, 2, 'bob', '2020-03-16 12:30:00', 'Mensagem depois da primeira proposta'),
+('grupo_linguas', 4, 1, 'bob', '2020-07-03 12:22:00', 'Boa tarde Andressa, tudo bem?'),
+('grupo_linguas', 4, 2, 'bob', '2020-07-03 12:23:00', 'Gostaria de saber se vc poderia dar um desconto pra aula de Ingles, já que temos uma turma com 6 integrantes'),
+('grupo_linguas', 4, 3, 'andressa', '2020-07-03 12:24:00', 'Boa tarde Bob, consigo deixar o preço individual em 45.00.'),
+('grupo_linguas', 4, 4, 'bob', '2020-07-03 12:25:00', 'Obrigado. Esse desconto já ajuda.'),
+('grupo_linguas', 4, 5, 'bob', '2020-07-03 12:26:00', 'Quando podemos começar nossas aulas?'),
+('grupo_linguas', 4, 6, 'andressa', '2020-07-03 12:27:00', 'Por mim, já pode ser semana que vem.'),
+('grupo_linguas', 4, 7, 'bob', '2020-07-03 12:28:00', 'Uma integrante do grupo não pode, podemos começar na próxima semana?'),
+('grupo_linguas', 4, 8, 'andressa', '2020-07-03 12:29:00', 'Claro!'),;
 		
 
 INSERT INTO recomenda (ALUNO, INSTRUTOR, TEXTO) VALUES
 ('bob', 'ana', 'A Ana é uma instrutora incrível. Foi super atenciosa comigo e minha turma mesmo em momentos de maior dificuldade. Recomendo!!!'),
 ('carlos', 'ana', 'Já tive diversas aulas com a Ana e ela sempre foi uma pessoa muito calma e com uma didática incrível!'),
 ('diego', 'ana', 'Pessoal, pode confiar na review do pai aqui. Professora T0P e Dedicada!!!'),
+('felipe', 'amalia', 'Me ajudou bastante nas matérias de GA e estatística!'),
 ('bob', 'alice', 'Uma ótima professora de inglês. Me ensinou sotaque britânico!');

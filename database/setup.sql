@@ -7,14 +7,14 @@
 -- Se for fazer via terminal:
 -- $ sudo -i -u postgres
 
--- 1º - CRIANDO A BASE DE DADOS
+-- CRIANDO A BASE DE DADOS
 DROP DATABASE IF EXISTS teachme_db;
 DROP USER IF EXISTS teachme_user;
 
 CREATE DATABASE teachme_db
     WITH ENCODING 'UTF8';
 
--- 3º CRIANDO O USUÁRIO E DEFININDO PRIVILÉGIOS
+-- CRIANDO O USUÁRIO E DEFININDO PRIVILÉGIOS
 CREATE USER teachme_user WITH PASSWORD 'Th3Cl4ws0fW1nt3rSubV3RtTh3wEak';
 GRANT ALL PRIVILEGES ON DATABASE teachme_db TO teachme_user;
 

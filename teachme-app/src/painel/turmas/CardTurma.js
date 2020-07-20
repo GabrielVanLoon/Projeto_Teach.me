@@ -16,7 +16,8 @@ function CardTurma(props){
     return(
         <article class="card-turma">
             <div class="turma-header">
-                <img src="https://oficinadainteligencia.com.br/wp-content/uploads/2019/07/opulent-profile-square-06.jpg"/>
+                {/* <img src="https://oficinadainteligencia.com.br/wp-content/uploads/2019/07/opulent-profile-square-06.jpg"/> */}
+                <img src={process.env.PUBLIC_URL + '/images/instrutora_teachme.jpg'} />
                 <div class="title">
                     <h3>
                         <a href="#"> 

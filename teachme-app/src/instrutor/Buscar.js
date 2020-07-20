@@ -41,7 +41,8 @@ function Buscar() {
         return(
             <article>
                 <div class="picture">
-                    <img src="https://oficinadainteligencia.com.br/wp-content/uploads/2019/07/opulent-profile-square-06.jpg"/>
+                    {/* <img src="https://oficinadainteligencia.com.br/wp-content/uploads/2019/07/opulent-profile-square-06.jpg"/> */}
+                    <img src={process.env.PUBLIC_URL + '/images/instrutora_teachme.jpg'} />
                 </div>
                 <div class="info">
                     <h3>{ item.name } { item.last_name }</h3>

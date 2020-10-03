@@ -49,6 +49,9 @@ package.json  ​- Lista de dependências do projeto
 ```
 
 ## Autores do Projeto
+
 Alberto Neves
+
 Gabriel Van Loon
+
 Tamiris Tinelli
